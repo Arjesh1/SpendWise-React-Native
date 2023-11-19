@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Expense Tracker!</Text>
+    <>
       <StatusBar style="auto" />
-    </View>
+      <Text>Expense Tracker!</Text>
+    </>
   );
 }
 
