@@ -14,7 +14,6 @@ function ExpensesOverview() {
     <ButtomTab.Navigator>
       <ButtomTab.Screen name='RecentExpenses' component={RecentExpenses}/>
       <ButtomTab.Screen name='AllExpenses' component={AllExpenses}/>
-
     </ButtomTab.Navigator>
   )
 }
@@ -25,7 +24,7 @@ export default function App() {
       <StatusBar style="auto" />
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='ExpensesOverview' component={ExpensesOverview}/>
+          <Stack.Screen name='ExpensesOverview' component={ExpensesOverview} options={{headerShown: false}}/>
           <Stack.Screen name='ManageExpense' component={ManageExpenses}/>
         </Stack.Navigator>
       </NavigationContainer>

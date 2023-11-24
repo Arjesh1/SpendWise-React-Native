@@ -4,7 +4,7 @@ const RecentExpenses = () => {
   return (
     <View>
         <Text>
-            RecentExpenses
+            Recent Expenses
         </Text>
     </View>
   )
