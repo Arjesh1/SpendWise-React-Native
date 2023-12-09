@@ -12,11 +12,11 @@ const ButtomTab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
+    <>
       <StatusBar style="light" />
       <NavigationContainer>
         <ButtomTab.Navigator screenOptions={{
-          tabBarStyle: { backgroundColor: '#020617' },
+          tabBarStyle: { backgroundColor: '#020617', justifyContent:'flex-end', alignItems: 'flex-end' },
           headerShown: false,
           tabBarActiveTintColor: GlobalStyles.colors.primary700,
         }}  >
@@ -36,13 +36,14 @@ export default function App() {
       </NavigationContainer>
       
       
-    </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: GlobalStyles.colors.primary600
   },
 })
 

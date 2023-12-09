@@ -2,6 +2,7 @@ import { Text, View, StyleSheet } from "react-native"
 import TransactionHeader from "../components/Transactions/TransactionHeader"
 import { GlobalStyles } from "../constants/styles"
 import TransactionChart from "../components/Transactions/TransactionChart"
+import HomeTransactions from "../components/Transactions/HomeTransactions"
 
 
 const Dashboard = () => {
@@ -13,8 +14,8 @@ const Dashboard = () => {
         </Text>
       </View>
       <TransactionHeader/>
-
       <TransactionChart/>
+      <HomeTransactions/>
     </View>
   )
 }
@@ -24,8 +25,7 @@ export default Dashboard
 const styles = StyleSheet.create({
   dashboardContainer:{
     flex: 1,
-    paddingTop: 20,
-    paddingHorizontal: 15,
+    paddingTop: 18,
     backgroundColor: GlobalStyles.colors.primary600
   },
   greetingContainer:{
