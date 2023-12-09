@@ -13,24 +13,24 @@ const ButtomTab = createBottomTabNavigator();
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <NavigationContainer>
         <ButtomTab.Navigator screenOptions={{
           tabBarStyle: { backgroundColor: '#020617' },
           headerShown: false,
-          tabBarActiveTintColor: GlobalStyles.colors.mainColor,
+          tabBarActiveTintColor: GlobalStyles.colors.primary700,
         }}  >
           <ButtomTab.Screen name='Dashboard' component={Dashboard} options={{
             tabBarLabel: 'Home',
-            tabBarIcon: ({ focused }) => <FontAwesome name="home" color={focused ? GlobalStyles.colors.mainColor : 'white'} size={26} />,
+            tabBarIcon: ({ focused }) => <FontAwesome name="home" color={focused ? GlobalStyles.colors.primary700 : 'white'} size={26} />,
           }} />
           <ButtomTab.Screen name='Transactions' component={AllExpenses} options={{
             tabBarLabel: 'Transactions',
-            tabBarIcon: ({ focused }) => <FontAwesome name="list" color={focused ? GlobalStyles.colors.mainColor : 'white'} size={26} />,
+            tabBarIcon: ({ focused }) => <FontAwesome name="list" color={focused ? GlobalStyles.colors.primary700 : 'white'} size={26} />,
           }} />
           <ButtomTab.Screen name='Profile' component={AllExpenses} options={{
             tabBarLabel: 'Profile',
-            tabBarIcon: ({ focused }) => <FontAwesome name="user" color={focused ? GlobalStyles.colors.mainColor : 'white'} size={26} />,
+            tabBarIcon: ({ focused }) => <FontAwesome name="user" color={focused ? GlobalStyles.colors.primary700 : 'white'} size={26} />,
           }} />
         </ ButtomTab.Navigator>
       </NavigationContainer>
