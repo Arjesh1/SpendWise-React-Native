@@ -4,9 +4,6 @@ import { FlatList } from 'react-native'
 const TransactionList = () => {
     return (
         <FlatList />
-
-
-
     )
 }
 

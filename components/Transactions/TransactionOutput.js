@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import TransactionList from './TransactionList'
 import TransactionSummary from './TransactionSummary'
 
-const TransactionOutput = ({ item }) => {
+const TransactionOutput = ({ transactions }) => {
     return (
         <View>
             <TransactionList />
