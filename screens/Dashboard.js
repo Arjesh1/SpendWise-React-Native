@@ -1,8 +1,8 @@
 import { Text, View, StyleSheet } from "react-native"
-import TransactionHeader from "../components/Transactions/TransactionHeader"
 import { GlobalStyles } from "../constants/styles"
-import TransactionChart from "../components/Transactions/TransactionChart"
-import HomeTransactions from "../components/Transactions/HomeTransactions"
+import TransactionHeader from "../components/common/TransactionHeader"
+import TransactionChart from "../components/home/TransactionChart"
+import HomeTransactions from "../components/home/HomeTransactions"
 
 
 const Dashboard = () => {
@@ -10,8 +10,9 @@ const Dashboard = () => {
     <View style={styles.dashboardContainer}>
       <View style={styles.greetingContainer}>
         <Text style={styles.greetingText}>
-          Welcome back, <Text style={styles.userName}>Arjesh</Text>
+          Welcome back, 
         </Text>
+        <Text style={styles.userName}>Arjesh</Text>
       </View>
       <TransactionHeader/>
       <TransactionChart/>
@@ -38,8 +39,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic'
   },
   userName:{
-    fontSize: 30,
-    fontWeight: 'bold'
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: 'white',
+    fontStyle: 'italic'
 
   }
 })
