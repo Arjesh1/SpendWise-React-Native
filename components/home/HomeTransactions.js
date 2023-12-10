@@ -10,7 +10,9 @@ const HomeTransactions = () => {
         <Text style={styles.headertext}>Recent</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
-        <TransactionDetailBanner/>
+        <TransactionDetailBanner type="income" category="Shopping" />
+        <TransactionDetailBanner type="expenses" category="Travel" />
+        <TransactionDetailBanner type="expenses" category="Food" />
         </ScrollView>
     </View>
   )
