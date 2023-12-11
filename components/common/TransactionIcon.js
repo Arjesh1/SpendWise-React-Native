@@ -37,7 +37,7 @@ const TransactionIcon = ({type, category}) => {
   return (
     <>
       <View style={type === 'income' ?styles.incomeIconContainer :styles.expensesIconContainer}>
-        <FontAwesome name={type === 'income' ? 'money': icon} color={type === 'income' ? GlobalStyles.colors.primary500 : GlobalStyles.colors.error500} size={30} />
+        <FontAwesome name={type === 'income' ? 'money': icon} color={type === 'income' ? GlobalStyles.colors.primary500 : GlobalStyles.colors.error500} size={31} />
         </View>
     </>
   )
