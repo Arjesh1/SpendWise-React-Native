@@ -3,18 +3,18 @@ import TransactionIcon from "./TransactionIcon"
 import { StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/styles"
 
-const TransactionDetailBanner = ({type, category}) => {
+const TransactionDetailBanner = ({ type, category, description, amount }) => {
   return (
     <View style={styles.bannerContainer}>
         <View style={styles.iconContainer}>
-              <TransactionIcon type={type} category={category}/>
+              <TransactionIcon type={type} category={category} description={description}/>
         </View>
         <View style={styles.transactionDetailContainer}>
-              <Text style={styles.description}> Woolworth</Text>
-              <Text style={styles.category}> Shopping</Text>
+              <Text style={styles.description}> {description}</Text>
+              {category ? <Text style={styles.category}> {category}</Text> :null}
         </View>
         <View style={styles.amountDetailContainer}>
-              <Text style={styles.amount}> $500</Text>
+              <Text style={styles.amount}> ${amount}</Text>
         </View>
         
     </View>
@@ -32,11 +32,10 @@ const styles=StyleSheet.create({
         marginVertical: 8,
     },
     iconContainer:{
-        
-
+        width: "13%"
     },
     transactionDetailContainer:{
-        flex: 5
+        width: "60%"
 
     },
     description:{
@@ -50,11 +49,11 @@ const styles=StyleSheet.create({
     },
 
     amountDetailContainer:{
-        
+        width: "28%"
 
     },
     amount:{
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold'
 
     }

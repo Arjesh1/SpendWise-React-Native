@@ -10,9 +10,13 @@ const HomeTransactions = () => {
         <Text style={styles.headertext}>Recent</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
-        <TransactionDetailBanner type="income" category="Shopping" />
-        <TransactionDetailBanner type="expenses" category="Travel" />
-        <TransactionDetailBanner type="expenses" category="Food" />
+        <TransactionDetailBanner type="income"  description="Salary" amount="100" />
+        <TransactionDetailBanner type="expenses" category="Travel" description="Fuel" amount="200" />
+        <TransactionDetailBanner type="expenses" category="Food" description="Mc Donald's" amount="25" />
+        <TransactionDetailBanner type="expenses" category="Grocery"  description="Grocery" amount="1000" />
+        <TransactionDetailBanner type="expenses" category="Shopping" description="Mc Donald's" amount="25" />
+        <TransactionDetailBanner type="expenses" category="House" description="Mc Donald's" amount="25" />
+        <TransactionDetailBanner type="expenses" category="Other" description="Mc Donald's" amount="25" />
         </ScrollView>
     </View>
   )
@@ -42,6 +46,7 @@ const styles = StyleSheet.create({
   transactionLists:{
     padding: 8,
     gap: 5,
+    marginBottom:5
   },
 
 
