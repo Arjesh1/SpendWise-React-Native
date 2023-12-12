@@ -11,7 +11,7 @@ const TransactionDetailBanner = ({ type, category, description, amount }) => {
         </View>
         <View style={styles.transactionDetailContainer}>
               <Text style={styles.description}> {description}</Text>
-              {category ? <Text style={styles.category}> {category}</Text> :null}
+              <Text style={styles.category}> {type === 'income'?"Income":category}</Text>
         </View>
         <View style={styles.amountDetailContainer}>
               <Text style={styles.amount}> ${amount}</Text>

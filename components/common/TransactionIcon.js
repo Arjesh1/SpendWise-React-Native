@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 
 const TransactionIcon = ({type, category}) => {
-  console.log(category)
   const [icon, setIcon] = useState()
 
   useEffect(()=>{
@@ -37,7 +36,9 @@ const TransactionIcon = ({type, category}) => {
   return (
     <>
       <View style={type === 'income' ?styles.incomeIconContainer :styles.expensesIconContainer}>
-        <FontAwesome name={type === 'income' ? 'money': icon.name} color={type === 'income' ? GlobalStyles.colors.primary500 : GlobalStyles.colors.error500} size={ icon.size? icon.size: 31} />
+        {icon && icon.size && icon.name ?
+          <FontAwesome name={type === 'income' ? 'money' : icon.name} color={type === 'income' ? GlobalStyles.colors.primary500 : GlobalStyles.colors.error500} size={icon.size ? icon.size : 31} />
+        :null}
         </View>
     </>
   )
