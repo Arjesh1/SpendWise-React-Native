@@ -7,12 +7,14 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles } from './constants/styles';
 import Dashboard from './screens/Dashboard';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Provider } from "react-redux";
+import store from './reduxStore/store';
 
 const ButtomTab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <>
+    <Provider store={store}>
       <StatusBar style="light" />
       <NavigationContainer>
         <ButtomTab.Navigator screenOptions={{
@@ -34,9 +36,7 @@ export default function App() {
           }} />
         </ ButtomTab.Navigator>
       </NavigationContainer>
-      
-      
-    </>
+    </Provider>
   );
 }
 

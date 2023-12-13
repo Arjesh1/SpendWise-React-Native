@@ -3,9 +3,12 @@ import { GlobalStyles } from "../constants/styles"
 import TransactionHeader from "../components/common/TransactionHeader"
 import TransactionChart from "../components/home/TransactionChart"
 import HomeTransactions from "../components/home/HomeTransactions"
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Dashboard = () => {
+  const { showTransactionModal } = useSelector(state => state.system)
+  const dispatch = useDispatch()
   return (
     <View style={styles.dashboardContainer}>
       
