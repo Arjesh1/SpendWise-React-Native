@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 import TransactionDetailBanner from '../common/TransactionDetailBanner'
-import Foundation from 'react-native-vector-icons/Foundation'
+import Feather from 'react-native-vector-icons/Feather'
 
 const HomeTransactions = ({ name }) => {
   return (
@@ -21,7 +21,7 @@ const HomeTransactions = ({ name }) => {
         </ScrollView>
         <Pressable style={styles.addContainer}>
         <View style={styles.addButton}>
-          <Foundation name='plus' color='white' size= {31} />
+          <Feather name='plus-circle' color='white' size= {31} />
         </View>
 
         </Pressable>
@@ -60,17 +60,21 @@ const styles = StyleSheet.create({
   },
   addContainer:{
     position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: 'red'
+    bottom: 15,
+    right: 8,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   addButton:{
-    backgroundColor: GlobalStyles.colors.primary400,
-    width: "30%",
-    // aspectRatio: 4/4,
-    padding: 15,
-    borderRadius: 20
+    backgroundColor: GlobalStyles.colors.primary500,
+    flex: 1,
+    padding: 8,
+    aspectRatio: 4/4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 99,
+  
   },
 
 
