@@ -16,6 +16,6 @@ const systemSlice = createSlice({
 
 const { reducer, actions } = systemSlice;
 
-export const { showTransactionModal } = actions;
+export const { setShowTransactionModal } = actions;
 
 export default reducer;
