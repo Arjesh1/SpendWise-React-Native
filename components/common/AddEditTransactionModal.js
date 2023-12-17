@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const AddEditTransactionModal = () => {
     const { showTransactionModal } = useSelector(state => state.system)
@@ -11,10 +12,12 @@ const AddEditTransactionModal = () => {
         dispatch(setShowTransactionModal(!showTransactionModal));
       }}>
         <View style={styles.modalContainer}>
-          <Text>Hlkmkmd</Text>
+          <View style={styles.closeModal}>
           <Pressable onPress={() => dispatch(setShowTransactionModal(!showTransactionModal))}>
-            <Text> Close</Text>
+            <AntDesign name='close' size={30} color='black'/>
           </Pressable>
+          </View>
+          
         </View>
       </Modal>
       
@@ -30,7 +33,11 @@ const styles = StyleSheet.create({
     marginTop: '30%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    paddingHorizontal: 15,
+    padding: 15,
   },
+
+  closeModal:{
+    alignItems: 'flex-end'
+  }
  
 })
