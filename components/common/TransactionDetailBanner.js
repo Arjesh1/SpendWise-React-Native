@@ -1,23 +1,28 @@
-import { Text, View } from "react-native"
+import { Pressable, Text, View } from "react-native"
 import TransactionIcon from "./TransactionIcon"
 import { StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/styles"
 
-const TransactionDetailBanner = ({ type, category, description, amount }) => {
+const TransactionDetailBanner = ({ type, category, description, amount, onPress }) => {
+    // const handleOnPress=() =>{
+    //     console.log('pressed')
+    //     onPress()
+    // }
   return (
-    <View style={styles.bannerContainer}>
-        <View style={styles.iconContainer}>
+    //   <Pressable onPress={handleOnPress}>
+      <View style={styles.bannerContainer}>
+         <View style={styles.iconContainer}>
               <TransactionIcon type={type} category={category} description={description}/>
-        </View>
-        <View style={styles.transactionDetailContainer}>
+         </View>
+         <View style={styles.transactionDetailContainer}>
               <Text style={styles.description}> {description}</Text>
               <Text style={styles.category}> {type === 'income'?"Income":category}</Text>
-        </View>
-        <View style={styles.amountDetailContainer}>
+         </View>
+         <View style={styles.amountDetailContainer}>
               <Text style={styles.amount}> ${amount}</Text>
-        </View>
-        
-    </View>
+         </View>
+       </View>
+    //   </Pressable>
     
   )
 }

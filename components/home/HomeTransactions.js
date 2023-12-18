@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 import TransactionDetailBanner from '../common/TransactionDetailBanner'
@@ -9,20 +9,23 @@ import AddEditTransactionModal from '../common/AddEditTransactionModal'
 import Data from '../../constants/data.json'
 
 const HomeTransactions = ({ name }) => {
+  const [modalHeader, setModalHeader] = useState()
   const dispatch = useDispatch()
   return (
     <>
-    <AddEditTransactionModal/>
+      <AddEditTransactionModal headerName={modalHeader}/>
      <View style={styles.HomeTransactionContainer}>
       <View style={styles.homeHeader}>
         <Text style={styles.headertext}>{name}</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
           {Data.map((item)=>(
-            <TransactionDetailBanner key={item.id} type={item.type} description={item.name} amount={item.amount} category= {item.category}/>
+            <Pressable onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Edit')}>
+              <TransactionDetailBanner key={item.id} type={item.type} description={item.name} amount={item.amount} category={item.category} />
+            </Pressable>
           ))}
         </ScrollView>
-        <Pressable style={styles.addContainer} onPress={()=> dispatch(setShowTransactionModal(true))}>
+        <Pressable style={styles.addContainer} onPress={()=> dispatch(setShowTransactionModal(true)) && setModalHeader('Add')}>
         <View style={styles.addButton}>
           <Feather name='plus-circle' color='white' size= {31} />
         </View>
