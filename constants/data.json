@@ -1,140 +1,140 @@
 [{
   "id": 1,
-  "name": "Lid Coffeecup 12oz D9542b",
-  "amount": "$16.29",
+  "name": "Lid",
+  "amount": "16.29",
   "type": "income",
   "date": "11/20/2023",
   "category": "Other"
 }, {
   "id": 2,
-  "name": "Pasta - Fusili Tri - Coloured",
-  "amount": "$60.77",
+  "name": "Pasta",
+  "amount": "60.77",
   "type": "income",
   "date": "11/24/2023",
   "category": "Travel"
 }, {
   "id": 3,
-  "name": "Pasta - Bauletti, Chicken White",
-  "amount": "$15.84",
+  "name": "Pasta",
+  "amount": "15.84",
   "type": "expenses",
   "date": "11/12/2023",
   "category": "Other"
 }, {
   "id": 4,
-  "name": "Pepper - Scotch Bonnet",
-  "amount": "$64.97",
+  "name": "Pepper",
+  "amount": "64.97",
   "type": "expenses",
   "date": "11/4/2023",
   "category": "Grocery"
 }, {
   "id": 5,
-  "name": "Sage - Ground",
-  "amount": "$80.96",
+  "name": "Sage",
+  "amount": "80.96",
   "type": "expenses",
   "date": "11/3/2023",
   "category": "Shopping"
 }, {
   "id": 6,
-  "name": "Port - 74 Brights",
-  "amount": "$53.37",
+  "name": "Port",
+  "amount": "53.37",
   "type": "income",
   "date": "11/20/2023",
   "category": "Food"
 }, {
   "id": 7,
   "name": "Mace Ground",
-  "amount": "$67.08",
+  "amount": "67.08",
   "type": "expenses",
   "date": "11/16/2023",
   "category": "Other"
 }, {
   "id": 8,
-  "name": "Kiwi Gold Zespri",
-  "amount": "$13.96",
+  "name": "Kiwi",
+  "amount": "13.96",
   "type": "income",
   "date": "11/6/2023",
   "category": "Grocery"
 }, {
   "id": 9,
-  "name": "Beef - Rib Roast, Capless",
-  "amount": "$16.21",
+  "name": "Beef",
+  "amount": "16.21",
   "type": "expenses",
   "date": "11/2/2023",
   "category": "House"
 }, {
   "id": 10,
-  "name": "Syrup - Golden, Lyles",
-  "amount": "$88.70",
+  "name": "Syrup",
+  "amount": "88.70",
   "type": "income",
   "date": "11/12/2023",
   "category": "Grocery"
 }, {
   "id": 11,
   "name": "Nacho Chips",
-  "amount": "$3.99",
+  "amount": "3.99",
   "type": "income",
   "date": "11/3/2023",
   "category": "Grocery"
 }, {
   "id": 12,
-  "name": "Basil - Dry, Rubbed",
-  "amount": "$3.20",
+  "name": "Basil",
+  "amount": "3.20",
   "type": "income",
   "date": "11/17/2023",
   "category": "Food"
 }, {
   "id": 13,
-  "name": "Peppercorns - Pink",
-  "amount": "$33.28",
+  "name": "Peppercorns",
+  "amount": "33.28",
   "type": "expenses",
   "date": "11/10/2023",
   "category": "Grocery"
 }, {
   "id": 14,
-  "name": "Chocolate - Pistoles, Lactee, Milk",
-  "amount": "$22.73",
+  "name": "Chocolate",
+  "amount": "22.73",
   "type": "income",
   "date": "11/15/2023",
   "category": "Grocery"
 }, {
   "id": 15,
-  "name": "Soho Lychee Liqueur",
-  "amount": "$62.12",
+  "name": "Soho",
+  "amount": "62.12",
   "type": "income",
   "date": "11/17/2023",
   "category": "Food"
 }, {
   "id": 16,
   "name": "Dikon",
-  "amount": "$85.41",
+  "amount": "85.41",
   "type": "income",
   "date": "11/21/2023",
   "category": "House"
 }, {
   "id": 17,
-  "name": "Doilies - 10, Paper",
-  "amount": "$66.05",
+  "name": "Doilies",
+  "amount": "66.05",
   "type": "expenses",
   "date": "11/1/2023",
   "category": "Food"
 }, {
   "id": 18,
-  "name": "Wine - Chateau Timberlay",
-  "amount": "$8.48",
+  "name": "Wine",
+  "amount": "8.48",
   "type": "income",
   "date": "11/14/2023",
   "category": "Shopping"
 }, {
   "id": 19,
-  "name": "Container - Hngd Cll Blk 7x7x3",
-  "amount": "$82.55",
+  "name": "Container",
+  "amount": "82.55",
   "type": "income",
   "date": "11/7/2023",
   "category": "Food"
 }, {
   "id": 20,
-  "name": "Pastry - Choclate Baked",
-  "amount": "$34.46",
+  "name": "Pastry",
+  "amount": "34.46",
   "type": "expenses",
   "date": "11/14/2023",
   "category": "House"

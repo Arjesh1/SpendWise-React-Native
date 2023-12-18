@@ -6,6 +6,7 @@ import Feather from 'react-native-vector-icons/Feather'
 import { useDispatch } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AddEditTransactionModal from '../common/AddEditTransactionModal'
+import Data from '../../constants/data.json'
 
 const HomeTransactions = ({ name }) => {
   const dispatch = useDispatch()
@@ -17,13 +18,9 @@ const HomeTransactions = ({ name }) => {
         <Text style={styles.headertext}>{name}</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
-        <TransactionDetailBanner type="income"  description="Salary" amount="100" />
-        <TransactionDetailBanner type="expenses" category="Travel" description="Fuel" amount="200" />
-        <TransactionDetailBanner type="expenses" category="Food" description="Mc Donald's" amount="25" />
-        <TransactionDetailBanner type="expenses" category="Grocery"  description="Grocery" amount="1000" />
-        <TransactionDetailBanner type="expenses" category="Shopping" description="Mc Donald's" amount="25" />
-        <TransactionDetailBanner type="expenses" category="House" description="Mc Donald's" amount="25" />
-        <TransactionDetailBanner type="expenses" category="Other" description="Mc Donald's" amount="25" />
+          {Data.map((item)=>(
+            <TransactionDetailBanner key={item.id} type={item.type} description={item.name} amount={item.amount} category= {item.category}/>
+          ))}
         </ScrollView>
         <Pressable style={styles.addContainer} onPress={()=> dispatch(setShowTransactionModal(true))}>
         <View style={styles.addButton}>

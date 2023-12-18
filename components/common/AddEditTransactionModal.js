@@ -17,7 +17,6 @@ const AddEditTransactionModal = () => {
             <AntDesign name='close' size={30} color='black'/>
           </Pressable>
           </View>
-          
         </View>
       </Modal>
       
@@ -38,6 +37,6 @@ const styles = StyleSheet.create({
 
   closeModal:{
     alignItems: 'flex-end'
-  }
+  },
  
 })
