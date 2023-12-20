@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 import TransactionDetailBanner from '../common/TransactionDetailBanner'
@@ -13,7 +13,12 @@ const HomeTransactions = ({ name }) => {
   const [editValue, setEditValue] = useState()
   const dispatch = useDispatch()
 
-  console.log(editValue)
+    const handleOnEditTransaction = (item) => {
+      dispatch(setShowTransactionModal(true))
+      setModalHeader('Edit')
+      setEditValue(item)
+    }
+
   return (
     <>
       <AddEditTransactionModal headerName={modalHeader} selectedValue= {editValue}/>
@@ -23,9 +28,7 @@ const HomeTransactions = ({ name }) => {
       </View>
         <ScrollView style={styles.transactionLists}>
           {Data.map((item)=>(
-            <Pressable onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Edit') && setEditValue(item)}>
-              <TransactionDetailBanner key={item.id} type={item.type} description={item.name} amount={item.amount} category={item.category} />
-            </Pressable>
+            <TransactionDetailBanner key={item.id} item={item} onPress={()=> handleOnEditTransaction(item)}/>
           ))}
         </ScrollView>
         <Pressable style={styles.addContainer} onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Add')}>

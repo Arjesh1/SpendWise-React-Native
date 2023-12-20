@@ -30,6 +30,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete"/>
           :null}
           </View>
+        <Text>{selectedValue? selectedValue.name:"kkk"}</Text>
         </View>
       </Modal>
       
