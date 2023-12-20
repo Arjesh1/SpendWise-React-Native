@@ -10,22 +10,25 @@ import Data from '../../constants/data.json'
 
 const HomeTransactions = ({ name }) => {
   const [modalHeader, setModalHeader] = useState()
+  const [editValue, setEditValue] = useState()
   const dispatch = useDispatch()
+
+  console.log(editValue)
   return (
     <>
-      <AddEditTransactionModal headerName={modalHeader}/>
+      <AddEditTransactionModal headerName={modalHeader} selectedValue= {editValue}/>
      <View style={styles.HomeTransactionContainer}>
       <View style={styles.homeHeader}>
         <Text style={styles.headertext}>{name}</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
           {Data.map((item)=>(
-            <Pressable onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Edit')}>
+            <Pressable onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Edit') && setEditValue(item)}>
               <TransactionDetailBanner key={item.id} type={item.type} description={item.name} amount={item.amount} category={item.category} />
             </Pressable>
           ))}
         </ScrollView>
-        <Pressable style={styles.addContainer} onPress={()=> dispatch(setShowTransactionModal(true)) && setModalHeader('Add')}>
+        <Pressable style={styles.addContainer} onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Add')}>
         <View style={styles.addButton}>
           <Feather name='plus-circle' color='white' size= {31} />
         </View>

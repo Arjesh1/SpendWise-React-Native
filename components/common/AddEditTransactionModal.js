@@ -1,13 +1,14 @@
 import React from 'react'
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Button, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { GlobalStyles } from '../../constants/styles'
 
-const AddEditTransactionModal = ({headerName}) => {
+const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
     const dispatch = useDispatch()
+
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
         dispatch(setShowTransactionModal(!showTransactionModal));
@@ -23,9 +24,12 @@ const AddEditTransactionModal = ({headerName}) => {
               <AntDesign name='close' size={30} color='black' />
             </Pressable>
           </View>
-            
           </View>
-          
+          <View>
+          {headerName === "Edit"? 
+            <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete"/>
+          :null}
+          </View>
         </View>
       </Modal>
       
