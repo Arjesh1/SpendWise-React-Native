@@ -16,13 +16,12 @@ const HomeTransactions = ({ name, transactionLimit }) => {
   const dispatch = useDispatch()
   const sortedTransaction = [...transactionData].sort((a, b) => b.timestamp - a.timestamp )
   useEffect(()=>{
-    if (transactionLimit === true) {
+    if (transactionLimit) {
       setDisplayTransaction(sortedTransaction.slice(1, 11))
     } else {
       setDisplayTransaction(sortedTransaction)
     }
-  },[])
-  
+  }, [transactionLimit, transactionData])
  
     const handleOnEditTransaction = (item) => {
       dispatch(setShowTransactionModal(true))

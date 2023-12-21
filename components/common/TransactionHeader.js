@@ -1,7 +1,15 @@
 import { Text, View, StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/styles"
+import { useSelector } from "react-redux"
 
 const TransactionHeader = () => {
+  const {transactionData} = useSelector(state => state.transaction)
+  const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item)=> {
+    return total + +item.amount
+  }, 0))
+  const totalExpenses = Math.floor(transactionData?.filter((item) => item.type === 'expenses').reduce((total, item) => {
+    return total + +item.amount
+  }, 0))
   return (<>
   <View style={styles.greetingContainer}>
         <Text style={styles.greetingText}>
@@ -11,11 +19,11 @@ const TransactionHeader = () => {
     <View style={styles.transactionHeaderContainer}>
       <View style={styles.transactionBody}>
         <Text style={styles.transactionType}>Income: </Text>
-        <Text style={styles.transactionAmountIncome}>$500</Text>
+        <Text style={styles.transactionAmountIncome}>${totalIncome}</Text>
       </View>
       <View style={styles.transactionBody}>
         <Text style={styles.transactionType}>Expenses: </Text>
-        <Text style={styles.transactionAmountExpenses}>$100</Text>
+        <Text style={styles.transactionAmountExpenses}>${totalExpenses}</Text>
       </View>
 
     </View>

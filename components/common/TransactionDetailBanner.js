@@ -4,8 +4,8 @@ import { StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/styles"
 
 const TransactionDetailBanner = ({ item, onPress }) => {
-    const { type, category, amount, name } = item
-    const handleOnPress=(item) =>{
+    const { type, category, amount, name, timestamp } = item
+    const handleOnPress=(item) => {
        onPress(item)
     }
   return (
@@ -16,7 +16,7 @@ const TransactionDetailBanner = ({ item, onPress }) => {
          </View>
          <View style={styles.transactionDetailContainer}>
               <Text style={styles.description}> {name}</Text>
-              <Text style={styles.category}> {type === 'income'?"Income":category}</Text>
+              <Text style={styles.category}>{new Date(timestamp).toDateString()}</Text>
          </View>
          <View style={styles.amountDetailContainer}>
               <Text style={styles.amount}> ${amount}</Text>
@@ -48,8 +48,8 @@ const styles=StyleSheet.create({
     },
     category:{
         fontWeight: '500',
-        color: GlobalStyles.colors.gray500
-
+        color: GlobalStyles.colors.gray500,
+        paddingLeft: 6
     },
 
     amountDetailContainer:{
