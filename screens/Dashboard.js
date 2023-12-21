@@ -4,14 +4,18 @@ import TransactionHeader from "../components/common/TransactionHeader"
 import TransactionChart from "../components/home/TransactionChart"
 import HomeTransactions from "../components/home/HomeTransactions"
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react"
+import { setTransactionData } from "../reduxStore/transactionSlice"
+import Data from '../constants/data.json'
 
 
 const Dashboard = () => {
-  const { showTransactionModal } = useSelector(state => state.system)
   const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(setTransactionData(Data))
+  }, [Data])
   return (
     <View style={styles.dashboardContainer}>
-      
       <TransactionHeader/>
       <TransactionChart/>
       <HomeTransactions name="Recent Transactions"/>

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 import TransactionDetailBanner from '../common/TransactionDetailBanner'
 import Feather from 'react-native-vector-icons/Feather'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AddEditTransactionModal from '../common/AddEditTransactionModal'
 import Data from '../../constants/data.json'
@@ -12,6 +12,7 @@ const HomeTransactions = ({ name }) => {
   const [modalHeader, setModalHeader] = useState()
   const [editValue, setEditValue] = useState()
   const dispatch = useDispatch()
+  const {transactionData} = useSelector((state) => state.transaction)
 
     const handleOnEditTransaction = (item) => {
       dispatch(setShowTransactionModal(true))
@@ -27,7 +28,7 @@ const HomeTransactions = ({ name }) => {
         <Text style={styles.headertext}>{name}</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
-          {Data.map((item)=>(
+          {transactionData.map((item)=>(
             <TransactionDetailBanner key={item.id} item={item} onPress={()=> handleOnEditTransaction(item)}/>
           ))}
         </ScrollView>
