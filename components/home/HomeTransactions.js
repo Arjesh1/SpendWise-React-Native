@@ -13,6 +13,7 @@ const HomeTransactions = ({ name }) => {
   const [editValue, setEditValue] = useState()
   const dispatch = useDispatch()
   const {transactionData} = useSelector((state) => state.transaction)
+ 
 
     const handleOnEditTransaction = (item) => {
       dispatch(setShowTransactionModal(true))
@@ -36,9 +37,7 @@ const HomeTransactions = ({ name }) => {
         <View style={styles.addButton}>
           <Feather name='plus-circle' color='white' size= {31} />
         </View>
-
         </Pressable>
-
      </View>
     </>
   )
@@ -47,14 +46,14 @@ const HomeTransactions = ({ name }) => {
 export default HomeTransactions
 
 const styles = StyleSheet.create({
-    HomeTransactionContainer:{
-      marginTop: 8,
-        backgroundColor: GlobalStyles.colors.white,
-        flex: 1,
-        borderTopLeftRadius: 50,
-        borderTopRightRadius: 50,
-        paddingHorizontal: 10,
-    },
+  HomeTransactionContainer:{
+    marginTop: 8,
+    backgroundColor: GlobalStyles.colors.white,
+    flex: 1,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    paddingHorizontal: 10,
+  },
   homeHeader:{
     justifyContent: 'center',
     alignItems: 'center',
@@ -79,7 +78,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-
   addButton:{
     backgroundColor: GlobalStyles.colors.primary500,
     flex: 1,
@@ -88,8 +86,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 99,
-  
   },
-
-
 })

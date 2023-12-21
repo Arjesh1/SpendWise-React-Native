@@ -4,10 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { GlobalStyles } from '../../constants/styles'
+import { setTransactionData } from '../../reduxStore/transactionSlice'
 
 const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
+    const {transactionData} = useSelector(state=>state.transaction)
     const dispatch = useDispatch()
+    const handle0nDeleteTransaction = (selectedValue)=>{
+      const restItem = transactionData.filter((item) => item.id !== selectedValue.id)
+      dispatch(setTransactionData(restItem))
+      dispatch(setShowTransactionModal(false))
+    }
 
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
@@ -27,7 +34,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
           <View>
           {headerName === "Edit"? 
-            <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete"/>
+            <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={()=>handle0nDeleteTransaction(selectedValue)}/>
           :null}
           </View>
         <Text>{selectedValue? selectedValue.name:"kkk"}</Text>
