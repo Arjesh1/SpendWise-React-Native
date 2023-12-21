@@ -18,7 +18,7 @@ const Dashboard = () => {
     <View style={styles.dashboardContainer}>
       <TransactionHeader/>
       <TransactionChart/>
-      <HomeTransactions name="Recent Transactions"/>
+      <HomeTransactions name="Recent Transactions" transactionLimit={true}/>
     </View>
   )
 }

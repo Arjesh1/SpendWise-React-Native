@@ -37,7 +37,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={()=>handle0nDeleteTransaction(selectedValue)}/>
           :null}
           </View>
-        <Text>{selectedValue? selectedValue.name:"kkk"}</Text>
+        <Text>{selectedValue ? new Date(selectedValue.timestamp).toDateString() :"kkk"}</Text>
         </View>
       </Modal>
       

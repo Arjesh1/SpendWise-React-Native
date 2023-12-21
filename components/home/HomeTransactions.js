@@ -8,13 +8,22 @@ import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AddEditTransactionModal from '../common/AddEditTransactionModal'
 import Data from '../../constants/data.json'
 
-const HomeTransactions = ({ name }) => {
+const HomeTransactions = ({ name, transactionLimit }) => {
   const [modalHeader, setModalHeader] = useState()
   const [editValue, setEditValue] = useState()
+  const [displayTransaction, setDisplayTransaction] = useState()
+  const { transactionData } = useSelector((state) => state.transaction)
   const dispatch = useDispatch()
-  const {transactionData} = useSelector((state) => state.transaction)
+  const sortedTransaction = [...transactionData].sort((a, b) => b.timestamp - a.timestamp )
+  useEffect(()=>{
+    if (transactionLimit === true) {
+      setDisplayTransaction(sortedTransaction.slice(1, 11))
+    } else {
+      setDisplayTransaction(sortedTransaction)
+    }
+  },[])
+  
  
-
     const handleOnEditTransaction = (item) => {
       dispatch(setShowTransactionModal(true))
       setModalHeader('Edit')
@@ -29,9 +38,9 @@ const HomeTransactions = ({ name }) => {
         <Text style={styles.headertext}>{name}</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
-          {transactionData.map((item)=>(
+          {displayTransaction !== undefined ? displayTransaction.map((item)=>(
             <TransactionDetailBanner key={item.id} item={item} onPress={()=> handleOnEditTransaction(item)}/>
-          ))}
+          )): null}
         </ScrollView>
         <Pressable style={styles.addContainer} onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Add')}>
         <View style={styles.addButton}>

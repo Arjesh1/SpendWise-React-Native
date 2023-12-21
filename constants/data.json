@@ -1,141 +1,162 @@
-[{
-  "id": 1,
-  "name": "Lid",
-  "amount": "16.29",
-  "type": "income",
-  "date": "11/20/2023",
-  "category": "Other"
-}, {
-  "id": 2,
-  "name": "Pasta",
-  "amount": "60.77",
-  "type": "income",
-  "date": "11/24/2023",
-  "category": "Travel"
-}, {
-  "id": 3,
-  "name": "Pasta",
-  "amount": "15.84",
-  "type": "expenses",
-  "date": "11/12/2023",
-  "category": "Other"
-}, {
-  "id": 4,
-  "name": "Pepper",
-  "amount": "64.97",
-  "type": "expenses",
-  "date": "11/4/2023",
-  "category": "Grocery"
-}, {
-  "id": 5,
-  "name": "Sage",
-  "amount": "80.96",
-  "type": "expenses",
-  "date": "11/3/2023",
-  "category": "Shopping"
-}, {
-  "id": 6,
-  "name": "Port",
-  "amount": "53.37",
-  "type": "income",
-  "date": "11/20/2023",
-  "category": "Food"
-}, {
-  "id": 7,
-  "name": "Mace Ground",
-  "amount": "67.08",
-  "type": "expenses",
-  "date": "11/16/2023",
-  "category": "Other"
-}, {
-  "id": 8,
-  "name": "Kiwi",
-  "amount": "13.96",
-  "type": "income",
-  "date": "11/6/2023",
-  "category": "Grocery"
-}, {
-  "id": 9,
-  "name": "Beef",
-  "amount": "16.21",
-  "type": "expenses",
-  "date": "11/2/2023",
-  "category": "House"
-}, {
-  "id": 10,
-  "name": "Syrup",
-  "amount": "88.70",
-  "type": "income",
-  "date": "11/12/2023",
-  "category": "Grocery"
-}, {
-  "id": 11,
-  "name": "Nacho Chips",
-  "amount": "3.99",
-  "type": "income",
-  "date": "11/3/2023",
-  "category": "Grocery"
-}, {
-  "id": 12,
-  "name": "Basil",
-  "amount": "3.20",
-  "type": "income",
-  "date": "11/17/2023",
-  "category": "Food"
-}, {
-  "id": 13,
-  "name": "Peppercorns",
-  "amount": "33.28",
-  "type": "expenses",
-  "date": "11/10/2023",
-  "category": "Grocery"
-}, {
-  "id": 14,
-  "name": "Chocolate",
-  "amount": "22.73",
-  "type": "income",
-  "date": "11/15/2023",
-  "category": "Grocery"
-}, {
-  "id": 15,
-  "name": "Soho",
-  "amount": "62.12",
-  "type": "income",
-  "date": "11/17/2023",
-  "category": "Food"
-}, {
-  "id": 16,
-  "name": "Dikon",
-  "amount": "85.41",
-  "type": "income",
-  "date": "11/21/2023",
-  "category": "House"
-}, {
-  "id": 17,
-  "name": "Doilies",
-  "amount": "66.05",
-  "type": "expenses",
-  "date": "11/1/2023",
-  "category": "Food"
-}, {
-  "id": 18,
-  "name": "Wine",
-  "amount": "8.48",
-  "type": "income",
-  "date": "11/14/2023",
-  "category": "Shopping"
-}, {
-  "id": 19,
-  "name": "Container",
-  "amount": "82.55",
-  "type": "income",
-  "date": "11/7/2023",
-  "category": "Food"
-}, {
-  "id": 20,
-  "name": "Pastry",
-  "amount": "34.46",
-  "type": "expenses",
-  "date": "11/14/2023",
-  "category": "House"
-}]
+[
+  {
+    "id": 1,
+    "name": "Lid",
+    "amount": "16.29",
+    "type": "income",
+    "timestamp": 1663756800000,  
+    "category": "Other"
+  },
+  {
+    "id": 2,
+    "name": "Pasta",
+    "amount": "60.77",
+    "type": "income",
+    "timestamp": 1664092800000,  
+    "category": "Travel"
+  },
+  {
+    "id": 3,
+    "name": "Pasta",
+    "amount": "15.84",
+    "type": "expenses",
+    "timestamp": 1665648000000,  
+    "category": "Other"
+  },
+  {
+    "id": 4,
+    "name": "Pepper",
+    "amount": "64.97",
+    "type": "expenses",
+    "timestamp": 1662345600000,  
+    "category": "Grocery"
+  },
+  {
+    "id": 5,
+    "name": "Sage",
+    "amount": "80.96",
+    "type": "expenses",
+    "timestamp": 1662259200000,  
+    "category": "Shopping"
+  },
+  {
+    "id": 6,
+    "name": "Port",
+    "amount": "53.37",
+    "type": "income",
+    "timestamp": 1663756800000,  
+    "category": "Food"
+  },
+  {
+    "id": 7,
+    "name": "Mace Ground",
+    "amount": "67.08",
+    "type": "expenses",
+    "timestamp": 1663401600000,  
+    "category": "Other"
+  },
+  {
+    "id": 8,
+    "name": "Kiwi",
+    "amount": "13.96",
+    "type": "income",
+    "timestamp": 1662537600000,  
+    "category": "Grocery"
+  },
+  {
+    "id": 9,
+    "name": "Beef",
+    "amount": "16.21",
+    "type": "expenses",
+    "timestamp": 1662268800000, 
+    "category": "House"
+  },
+  {
+    "id": 10,
+    "name": "Syrup",
+    "amount": "88.70",
+    "type": "income",
+    "timestamp": 1665648000000,  
+    "category": "Grocery"
+  },
+  {
+    "id": 11,
+    "name": "Nacho Chips",
+    "amount": "3.99",
+    "type": "income",
+    "timestamp": 1662259200000, 
+    "category": "Grocery"
+  },
+  {
+    "id": 12,
+    "name": "Basil",
+    "amount": "3.20",
+    "type": "income",
+    "timestamp": 1663564800000, 
+    "category": "Food"
+  },
+  {
+    "id": 13,
+    "name": "Peppercorns",
+    "amount": "33.28",
+    "type": "expenses",
+    "timestamp": 1662912000000,  
+    "category": "Grocery"
+  },
+  {
+    "id": 14,
+    "name": "Chocolate",
+    "amount": "22.73",
+    "type": "income",
+    "timestamp": 1663483200000,  
+    "category": "Grocery"
+  },
+  {
+    "id": 15,
+    "name": "Soho",
+    "amount": "62.12",
+    "type": "income",
+    "timestamp": 1663564800000,  
+    "category": "Food"
+  },
+  {
+    "id": 16,
+    "name": "Dikon",
+    "amount": "85.41",
+    "type": "income",
+    "timestamp": 1663833600000,  
+    "category": "House"
+  },
+  {
+    "id": 17,
+    "name": "Doilies",
+    "amount": "66.05",
+    "type": "expenses",
+    "timestamp": 1662144000000,  
+    "category": "Food"
+  },
+  {
+    "id": 18,
+    "name": "Wine",
+    "amount": "8.48",
+    "type": "income",
+    "timestamp": 1663392000000,  
+    "category": "Shopping"
+  },
+  {
+    "id": 19,
+    "name": "Container",
+    "amount": "82.55",
+    "type": "income",
+    "timestamp": 1662662400000,  
+    "category": "Food"
+  },
+  {
+    "id": 20,
+    "name": "Pastry",
+    "amount": "34.46",
+    "type": "expenses",
+    "timestamp": 1663392000000,  
+    "category": "House"
+  }
+]
