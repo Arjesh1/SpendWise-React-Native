@@ -7,6 +7,7 @@ import { GlobalStyles } from '../../constants/styles'
 import { setTransactionData } from '../../reduxStore/transactionSlice'
 import TransactionInput from './TransactionInput'
 import DropdownComponent from './DropdownComponent'
+import TransactionIcon from './TransactionIcon'
 
 const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
@@ -17,9 +18,17 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       dispatch(setTransactionData(restItem))
       dispatch(setShowTransactionModal(false))
     }
+  const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
+
   const amountChangeHandler = (item) =>{
     console.log(item)
   }
+
+  const iconPressedHandler =(item) =>{
+     
+  }
+
+  
 
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
@@ -39,6 +48,18 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           <View style={styles.modalBody}>
           <TransactionInput label= 'Amount' textInputConfig={{placeholder: '$100', keyboardType:'numeric', onChangeText: amountChangeHandler}}/>
           <DropdownComponent label='Type'/>
+
+          <View style={styles.categoryWrapper}>
+            <Text style={styles.labelText}>Category:</Text>
+            <View style={styles.iconContainer}>
+              {ExpensesIconsCategory.map((item, i) =>
+                <Pressable key={i} onPress={() => iconPressedHandler(item)}>
+                  <TransactionIcon type='expenses'  category={item} />
+              </Pressable>
+               )}
+            </View>
+          </View>
+
           <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default' }} />
           {headerName === "Edit"? 
             <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={()=>handle0nDeleteTransaction(selectedValue)}/>
@@ -87,5 +108,15 @@ const styles = StyleSheet.create({
     gap: 15,
     marginTop: 8
   },
+  labelText: {
+    fontSize: 18,
+    color: GlobalStyles.colors.gray500,
+  },
+  iconContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    padding: 5,
+    borderRadius: 10,
+  }
  
 })

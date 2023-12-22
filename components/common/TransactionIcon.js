@@ -51,13 +51,15 @@ const styles = StyleSheet.create({
       padding: 10,
       borderRadius: 10,
       backgroundColor: GlobalStyles.colors.error100,
-      width: '100%'
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 50,
+      width: 50
     },
     incomeIconContainer:{
       paddingHorizontal: 7.5,
       paddingVertical: 10,
       borderRadius: 10,
       backgroundColor: GlobalStyles.colors.primary100,
-      width: '100%'
     },
 })
