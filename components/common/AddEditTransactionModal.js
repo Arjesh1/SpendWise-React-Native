@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { GlobalStyles } from '../../constants/styles'
 import { setTransactionData } from '../../reduxStore/transactionSlice'
+import TransactionInput from './TransactionInput'
+import DropdownComponent from './DropdownComponent'
 
 const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
@@ -15,6 +17,9 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       dispatch(setTransactionData(restItem))
       dispatch(setShowTransactionModal(false))
     }
+  const amountChangeHandler = (item) =>{
+    console.log(item)
+  }
 
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
@@ -25,20 +30,24 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             <View style={styles.headerTextWrapper}>
             <Text style={styles.headerText}>{headerName} Transactions</Text>
             </View>
-
           <View style={styles.closeModal}>
             <Pressable onPress={() => dispatch(setShowTransactionModal(!showTransactionModal))}>
               <AntDesign name='close' size={30} color='black' />
             </Pressable>
           </View>
           </View>
-          <View>
+          <View style={styles.modalBody}>
+          <TransactionInput label= 'Amount' textInputConfig={{placeholder: '$100', keyboardType:'numeric', onChangeText: amountChangeHandler}}/>
+          <DropdownComponent label='Type'/>
+          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default' }} />
           {headerName === "Edit"? 
             <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={()=>handle0nDeleteTransaction(selectedValue)}/>
           :null}
           </View>
-        <Text>{selectedValue ? new Date(selectedValue.timestamp).toDateString() :"kkk"}</Text>
+        <Text>{selectedValue ? new Date(selectedValue.timestamp).toDateString() :null}</Text>
         </View>
+
+      
       </Modal>
       
   )
@@ -72,6 +81,11 @@ const styles = StyleSheet.create({
   closeModal:{
     alignItems: 'flex-end',
     flex: 2
+  },
+  modalBody:{
+    paddingHorizontal: 10,
+    gap: 15,
+    marginTop: 8
   },
  
 })
