@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
@@ -20,6 +20,20 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     }
   const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
 
+  const [value, setValue] = useState();
+  const[showCategory, setShowCategory] = useState(false)
+  useEffect(()=>{
+    if(value === 'expenses'){
+      setShowCategory(true)
+    } else{
+      setShowCategory(false)
+    }
+  }, [value])
+
+  const handleOnTransactionTypeSelected =(type)=>{
+    setValue(type)
+  }
+
   const amountChangeHandler = (item) =>{
     console.log(item)
   }
@@ -27,6 +41,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   const iconPressedHandler =(item) =>{
      
   }
+  
 
   
 
@@ -47,18 +62,20 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
           <View style={styles.modalBody}>
           <TransactionInput label= 'Amount' textInputConfig={{placeholder: '$100', keyboardType:'numeric', onChangeText: amountChangeHandler}}/>
-          <DropdownComponent label='Type'/>
+          <DropdownComponent label='Type' selectedType={(type) => handleOnTransactionTypeSelected(type) }/>
 
-          <View style={styles.categoryWrapper}>
-            <Text style={styles.labelText}>Category:</Text>
-            <View style={styles.iconContainer}>
-              {ExpensesIconsCategory.map((item, i) =>
-                <Pressable key={i} onPress={() => iconPressedHandler(item)}>
-                  <TransactionIcon type='expenses'  category={item} />
-              </Pressable>
-               )}
+          {showCategory?
+            <View style={styles.categoryWrapper}>
+              <Text style={styles.labelText}>Category:</Text>
+              <View style={styles.iconContainer}>
+                {ExpensesIconsCategory.map((item, i) =>
+                  <Pressable key={i} onPress={() => iconPressedHandler(item)}>
+                    <TransactionIcon type='expenses' category={item} />
+                  </Pressable>
+                )}
+              </View>
             </View>
-          </View>
+          :null}
 
           <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default' }} />
           {headerName === "Edit"? 

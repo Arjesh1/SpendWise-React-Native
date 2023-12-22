@@ -9,9 +9,12 @@ const data = [
     { label: 'Expenses', value: 'expenses' },
 ];
 
-const DropdownComponent = ({label}) => {
+const DropdownComponent = ({ label, selectedType }) => {
     const [value, setValue] = useState();
     const [isFocus, setIsFocus] = useState(false);
+    const handleOnTypeSelected =(type) =>{
+        selectedType(type)
+    }
 
     return (
         <>
@@ -30,6 +33,7 @@ const DropdownComponent = ({label}) => {
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
+                    handleOnTypeSelected(item.value)
                     setValue(item.value);
                     setIsFocus(false);
                 }}
