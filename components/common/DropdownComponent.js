@@ -18,7 +18,6 @@ const DropdownComponent = ({ label, selectedType }) => {
 
     return (
         <>
-            <Text style={styles.labelText}>{label}:</Text>
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: GlobalStyles.colors.primary500 }]}
                 placeholderStyle={styles.placeholderStyle}

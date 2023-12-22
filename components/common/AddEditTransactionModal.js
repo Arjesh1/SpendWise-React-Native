@@ -8,6 +8,7 @@ import { setTransactionData } from '../../reduxStore/transactionSlice'
 import TransactionInput from './TransactionInput'
 import DropdownComponent from './DropdownComponent'
 import TransactionIcon from './TransactionIcon'
+import DatePickerComponent from './DatePickerComponent'
 
 const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
@@ -62,7 +63,12 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
           <View style={styles.modalBody}>
           <TransactionInput label= 'Amount' textInputConfig={{placeholder: '$100', keyboardType:'numeric', onChangeText: amountChangeHandler}}/>
-          <DropdownComponent label='Type' selectedType={(type) => handleOnTransactionTypeSelected(type) }/>
+
+          <View>
+            <Text style={styles.labelText}>Type:</Text>
+            <DropdownComponent label='Type' selectedType={(type) => handleOnTransactionTypeSelected(type)} />
+          </View>
+          
 
           {showCategory?
             <View style={styles.categoryWrapper}>
@@ -78,16 +84,23 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           :null}
 
           <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default' }} />
-          {headerName === "Edit"? 
-            <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={()=>handle0nDeleteTransaction(selectedValue)}/>
-          :null}
-          </View>
-        <Text>{selectedValue ? new Date(selectedValue.timestamp).toDateString() :null}</Text>
-        </View>
 
-      
+          <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default' }} />
+
+          <DatePickerComponent/>
+
+
+          <View style={styles.buttonWrapper}>
+            {headerName === "Edit" ?
+              <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={() => handle0nDeleteTransaction(selectedValue)} />
+              : null}
+
+            <Button title="Add" color={GlobalStyles.colors.primary600} accessibilityLabel="Add" onPress={() => handle0nDeleteTransaction(selectedValue)} />
+          </View>
+
+          </View>
+        </View>
       </Modal>
-      
   )
 }
 
@@ -122,8 +135,9 @@ const styles = StyleSheet.create({
   },
   modalBody:{
     paddingHorizontal: 10,
-    gap: 15,
-    marginTop: 8
+    justifyContent: 'space-around',
+    marginTop: 8,
+    flex:1,
   },
   labelText: {
     fontSize: 18,
@@ -134,6 +148,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     padding: 5,
     borderRadius: 10,
-  }
+  },
+  buttonWrapper:{
+    gap: 10,
+    justifyContent: 'flex-end',
+  },
  
 })
