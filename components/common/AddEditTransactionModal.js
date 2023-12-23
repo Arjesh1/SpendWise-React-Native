@@ -22,6 +22,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
 
   const [value, setValue] = useState();
+  const [selectedDate, setSelectedDate] = useState(); 
   const[showCategory, setShowCategory] = useState(false)
   useEffect(()=>{
     if(value === 'expenses'){
@@ -35,17 +36,18 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     setValue(type)
   }
 
-  const amountChangeHandler = (item) =>{
-    console.log(item)
+  const amountChangeHandler = (amount) =>{
+    
   }
 
-  const iconPressedHandler =(item) =>{
+  const iconPressedHandler =(icon) =>{
      
   }
-  
 
+  const dateSelectedHandeler = (date) =>{
+    setSelectedDate(new Date (date).getTime())
+  }
   
-
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
         dispatch(setShowTransactionModal(!showTransactionModal));
@@ -69,7 +71,6 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             <DropdownComponent label='Type' selectedType={(type) => handleOnTransactionTypeSelected(type)} />
           </View>
           
-
           {showCategory?
             <View style={styles.categoryWrapper}>
               <Text style={styles.labelText}>Category:</Text>
@@ -87,9 +88,9 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
           <View style={styles.dateWrapper}>
             <View style={styles.dateInputField}>
-              <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default' }}/>
+              <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default', editable: false, value: selectedDate ? new Date(selectedDate).toDateString(): ''}}/>
             </View>
-            <DatePickerComponent />
+            <DatePickerComponent onDateSelected={(date)=> dateSelectedHandeler(date)} />
           </View>
 
           <View style={styles.buttonWrapper}>
@@ -99,7 +100,6 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
             <Button title="Add" color={GlobalStyles.colors.primary600} accessibilityLabel="Add" onPress={() => handle0nDeleteTransaction(selectedValue)} />
           </View>
-
           </View>
         </View>
       </Modal>
