@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Button, Platform } from 'react-native';
+import { View, Button, Platform, Pressable } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const DatePickerComponent = () => {
     const [date, setDate] = useState(Date.now());
@@ -27,14 +28,21 @@ const DatePickerComponent = () => {
   return (
       <View>
           <View>
-              <Button onPress={showDatepicker} title="Date" />
+              {Platform.OS === 'ios' && !show ?
+                  <Pressable onPress={showDatepicker}>
+                      <AntDesign name='calendar' size={30} />
+                  </Pressable>: 
+                  Platform.OS === 'android'?
+                      <Pressable onPress={showDatepicker}>
+                          <AntDesign name='calendar' size={30} />
+                      </Pressable>:
+                  null}
           </View>
           {show && (
               <DateTimePicker
-                  testID="dateTimePicker"
+                  testID="datePicker"
                   value={new Date(date)}
                   mode={mode}
-                  is24Hour={true}
                   display="default"
                   onChange={onChange}
               />

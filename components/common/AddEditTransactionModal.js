@@ -85,10 +85,12 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
           <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default' }} />
 
-          <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default' }} />
-
-          <DatePickerComponent/>
-
+          <View style={styles.dateWrapper}>
+            <View style={styles.dateInputField}>
+              <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default' }}/>
+            </View>
+            <DatePickerComponent />
+          </View>
 
           <View style={styles.buttonWrapper}>
             {headerName === "Edit" ?
@@ -148,6 +150,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     padding: 5,
     borderRadius: 10,
+  },
+  dateWrapper:{
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between'
+  },
+  dateInputField:{
+    flex: 4,
   },
   buttonWrapper:{
     gap: 10,
