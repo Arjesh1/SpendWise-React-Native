@@ -37,10 +37,12 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   }
 
   const amountChangeHandler = (amount) =>{
+    console.log(amount)
     
   }
 
   const iconPressedHandler =(icon) =>{
+    console.log(icon)
      
   }
 
