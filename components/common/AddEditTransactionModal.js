@@ -110,7 +110,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
               <View style={styles.iconContainer}>
                 {ExpensesIconsCategory.map((item, i) =>
                   <Pressable key={i} onPress={() => categorySelectedHandler(item)}>
-                    <TransactionIcon type='expenses' category={item} />
+                    <TransactionIcon type='expenses' category={item} text={item} />
                   </Pressable>
                 )}
               </View>

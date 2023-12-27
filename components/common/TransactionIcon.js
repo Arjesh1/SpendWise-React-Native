@@ -1,10 +1,10 @@
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, Text } from "react-native"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles } from "../../constants/styles";
 import { useEffect, useState } from "react";
 
 
-const TransactionIcon = ({type, category}) => {
+const TransactionIcon = ({ type, category, text }) => {
   const [icon, setIcon] = useState()
 
   useEffect(()=>{
@@ -37,9 +37,14 @@ const TransactionIcon = ({type, category}) => {
     <>
       <View style={type === 'income' ?styles.incomeIconContainer :styles.expensesIconContainer}>
         {icon && icon.size && icon.name ?
-          <FontAwesome name={type === 'income' ? 'money' : icon.name} color={type === 'income' ? GlobalStyles.colors.primary500 : GlobalStyles.colors.error500} size={icon.size ? icon.size : 31} />
+            <FontAwesome name={type === 'income' ? 'money' : icon.name} color={type === 'income' ? GlobalStyles.colors.primary500 : GlobalStyles.colors.error500} size={icon.size ? icon.size : 31} />
         :null}
         </View>
+        {text?
+        <Text style={styles.iconDescription}>{text}</Text>
+        :null}
+
+      
     </>
   )
 }
@@ -62,4 +67,9 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       backgroundColor: GlobalStyles.colors.primary100,
     },
+  iconDescription:{
+    textAlign: 'center',
+    fontSize: 11,
+    fontWeight: 'bold'
+  }
 })
