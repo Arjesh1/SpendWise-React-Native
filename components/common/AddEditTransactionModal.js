@@ -29,6 +29,13 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       setShowCategory(true)
     } else{
       setShowCategory(false)
+      setTransactionInputValues((currentValues) => {
+        return {
+          ...currentValues,
+          ['category']: ''
+        }
+      })
+
     }
   }, [transactionInputValues.type])
 
@@ -106,7 +113,13 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           
           {showCategory?
             <View>
-              <Text style={styles.labelText}>Category:</Text>
+              <View style={styles.categoryHeader}> 
+               <Text style={styles.labelText}>Category:</Text>
+               {transactionInputValues.category.length != 0?
+                  <TransactionIcon type='expenses' category={transactionInputValues.category} />
+               :null}
+               
+              </View>
               <View style={styles.iconContainer}>
                 {ExpensesIconsCategory.map((item, i) =>
                   <Pressable key={i} onPress={() => categorySelectedHandler(item)}>
@@ -177,6 +190,12 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 18,
     color: GlobalStyles.colors.gray500,
+  },
+  categoryHeader:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 8
   },
   iconContainer:{
     flexDirection: 'row',
