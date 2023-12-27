@@ -28,6 +28,12 @@ const HomeTransactions = ({ name, transactionLimit }) => {
       setModalHeader('Edit')
       setEditValue(item)
     }
+    
+    const handleOnAddTransaction = ()=>{
+      dispatch(setShowTransactionModal(true)) 
+      setModalHeader('Add')  
+      setEditValue(undefined)
+    }
 
   return (
     <>
@@ -41,7 +47,7 @@ const HomeTransactions = ({ name, transactionLimit }) => {
             <TransactionDetailBanner key={item.id} item={item} onPress={()=> handleOnEditTransaction(item)}/>
           )): null}
         </ScrollView>
-        <Pressable style={styles.addContainer} onPress={() => dispatch(setShowTransactionModal(true)) && setModalHeader('Add')}>
+        <Pressable style={styles.addContainer} onPress={handleOnAddTransaction}>
         <View style={styles.addButton}>
           <Feather name='plus-circle' color='white' size= {31} />
         </View>

@@ -9,6 +9,7 @@ import TransactionInput from './TransactionInput'
 import DropdownComponent from './DropdownComponent'
 import TransactionIcon from './TransactionIcon'
 import DatePickerComponent from './DatePickerComponent'
+import ButtonComponent from './ButtonComponent'
 
 const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
@@ -24,7 +25,9 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   const[showCategory, setShowCategory] = useState(false)
   const initialTransactionForm = { amount: '', date: '', type: '', category: '', name: '' }
   const [transactionInputValues, setTransactionInputValues] = useState(initialTransactionForm)
+
   useEffect(()=>{
+    selectedValue ? setTransactionInputValues(selectedValue) : setTransactionInputValues(initialTransactionForm)
     if(transactionInputValues.type === 'expenses'){
       setShowCategory(true)
     } else{
@@ -35,9 +38,8 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           ['category']: ''
         }
       })
-
     }
-  }, [transactionInputValues.type])
+  }, [transactionInputValues.type, selectedValue])
 
   const handleOnTransactionTypeSelected =(type)=>{
     setTransactionInputValues((currentValues)=>{
@@ -92,7 +94,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
-        dispatch(setShowTransactionModal(!showTransactionModal));
+      dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues(initialTransactionForm));
       }}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
@@ -146,7 +148,10 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
               <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={() => handle0nDeleteTransaction(selectedValue)}   />
               : null}
 
-            <Button title="Add" color={GlobalStyles.colors.primary600} accessibilityLabel="Add" onPress={() => handle0nSubmitTransaction()} />
+            <ButtonComponent name={headerName} onPress={()=>handle0nSubmitTransaction()}/>
+
+
+            <Button title={headerName} color={GlobalStyles.colors.primary600} accessibilityLabel="Add" onPress={() => handle0nSubmitTransaction()} />
           </View>
           </View>
         </View>
@@ -216,6 +221,5 @@ const styles = StyleSheet.create({
   buttonWrapper:{
     gap: 10,
     justifyContent: 'flex-end',
-  },
- 
+  }
 })
