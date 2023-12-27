@@ -22,7 +22,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
 
   const[showCategory, setShowCategory] = useState(false)
-  const initialTransactionForm = { amount: '', date: '', type: '', category: '', date: '' }
+  const initialTransactionForm = { amount: '', date: '', type: '', category: '', name: '' }
   const [transactionInputValues, setTransactionInputValues] = useState(initialTransactionForm)
   useEffect(()=>{
     if(transactionInputValues.type === 'expenses'){

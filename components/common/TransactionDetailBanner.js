@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/styles"
 
 const TransactionDetailBanner = ({ item, onPress }) => {
-    const { type, category, amount, name, timestamp } = item
+    const { type, category, amount, name, date } = item
     const handleOnPress=(item) => {
        onPress(item)
     }
@@ -16,7 +16,7 @@ const TransactionDetailBanner = ({ item, onPress }) => {
          </View>
          <View style={styles.transactionDetailContainer}>
               <Text style={styles.description}> {name}</Text>
-              <Text style={styles.category}>{new Date(timestamp).toDateString()}</Text>
+              <Text style={styles.category}>{new Date(+date).toDateString()}</Text>
          </View>
          <View style={styles.amountDetailContainer}>
               <Text style={styles.amount}> ${amount}</Text>

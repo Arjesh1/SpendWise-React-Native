@@ -1,162 +1,82 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "name": "Lid",
     "amount": "16.29",
     "type": "income",
-    "timestamp": 1663756800000,  
+    "date": "1663756800000",  
     "category": "Other"
   },
   {
-    "id": 2,
+    "id": "2",
     "name": "Pasta",
     "amount": "60.77",
     "type": "income",
-    "timestamp": 1664092800000,  
+    "date": "1664092800000",  
     "category": "Travel"
   },
   {
-    "id": 3,
+    "id": "3",
     "name": "Pasta",
     "amount": "15.84",
     "type": "expenses",
-    "timestamp": 1665648000000,  
+    "date": "1665648000000",  
     "category": "Other"
   },
   {
-    "id": 4,
+    "id": "4",
     "name": "Pepper",
     "amount": "64.97",
     "type": "expenses",
-    "timestamp": 1662345600000,  
+    "date": "1662345600000",  
     "category": "Grocery"
   },
   {
-    "id": 5,
+    "id": "5",
     "name": "Sage",
     "amount": "80.96",
     "type": "expenses",
-    "timestamp": 1662259200000,  
+    "date": "1662259200000",  
     "category": "Shopping"
   },
   {
-    "id": 6,
+    "id": "6",
     "name": "Port",
     "amount": "53.37",
     "type": "income",
-    "timestamp": 1663756800000,  
+    "date": "1663756800000",  
     "category": "Food"
   },
   {
-    "id": 7,
+    "id": "7",
     "name": "Mace Ground",
     "amount": "67.08",
     "type": "expenses",
-    "timestamp": 1663401600000,  
+    "date": "1663401600000",  
     "category": "Other"
   },
   {
-    "id": 8,
+    "id": "8",
     "name": "Kiwi",
     "amount": "13.96",
     "type": "income",
-    "timestamp": 1662537600000,  
+    "date": "1662537600000",  
     "category": "Grocery"
   },
   {
-    "id": 9,
+    "id": "9",
     "name": "Beef",
     "amount": "16.21",
     "type": "expenses",
-    "timestamp": 1662268800000, 
+    "date": "1662268800000", 
     "category": "House"
   },
   {
-    "id": 10,
+    "id": "10",
     "name": "Syrup",
     "amount": "88.70",
     "type": "income",
-    "timestamp": 1665648000000,  
+    "date": "1665648000000",  
     "category": "Grocery"
-  },
-  {
-    "id": 11,
-    "name": "Nacho Chips",
-    "amount": "3.99",
-    "type": "income",
-    "timestamp": 1662259200000, 
-    "category": "Grocery"
-  },
-  {
-    "id": 12,
-    "name": "Basil",
-    "amount": "3.20",
-    "type": "income",
-    "timestamp": 1663564800000, 
-    "category": "Food"
-  },
-  {
-    "id": 13,
-    "name": "Peppercorns",
-    "amount": "33.28",
-    "type": "expenses",
-    "timestamp": 1662912000000,  
-    "category": "Grocery"
-  },
-  {
-    "id": 14,
-    "name": "Chocolate",
-    "amount": "22.73",
-    "type": "income",
-    "timestamp": 1663483200000,  
-    "category": "Grocery"
-  },
-  {
-    "id": 15,
-    "name": "Soho",
-    "amount": "62.12",
-    "type": "income",
-    "timestamp": 1663564800000,  
-    "category": "Food"
-  },
-  {
-    "id": 16,
-    "name": "Dikon",
-    "amount": "85.41",
-    "type": "income",
-    "timestamp": 1663833600000,  
-    "category": "House"
-  },
-  {
-    "id": 17,
-    "name": "Doilies",
-    "amount": "66.05",
-    "type": "expenses",
-    "timestamp": 1662144000000,  
-    "category": "Food"
-  },
-  {
-    "id": 18,
-    "name": "Wine",
-    "amount": "8.48",
-    "type": "income",
-    "timestamp": 1663392000000,  
-    "category": "Shopping"
-  },
-  {
-    "id": 19,
-    "name": "Container",
-    "amount": "82.55",
-    "type": "income",
-    "timestamp": 1662662400000,  
-    "category": "Food"
-  },
-  {
-    "id": 20,
-    "name": "Pastry",
-    "amount": "34.46",
-    "type": "expenses",
-    "timestamp": 1663392000000,  
-    "category": "House"
   }
 ]
