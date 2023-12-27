@@ -87,6 +87,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   const handle0nSubmitTransaction =()=>{
     console.log(transactionInputValues)
     setTransactionInputValues(initialTransactionForm)
+    dispatch(setShowTransactionModal(!showTransactionModal))
   }
   
   return (
