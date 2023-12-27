@@ -21,33 +21,64 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     }
   const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
 
-  const [value, setValue] = useState();
-  const [selectedDate, setSelectedDate] = useState(); 
   const[showCategory, setShowCategory] = useState(false)
+  const initialTransactionForm = { amount: '', date: '', type: '', category: '', date: '' }
+  const [transactionInputValues, setTransactionInputValues] = useState(initialTransactionForm)
   useEffect(()=>{
-    if(value === 'expenses'){
+    if(transactionInputValues.type === 'expenses'){
       setShowCategory(true)
     } else{
       setShowCategory(false)
     }
-  }, [value])
+  }, [transactionInputValues.type])
 
   const handleOnTransactionTypeSelected =(type)=>{
-    setValue(type)
+    setTransactionInputValues((currentValues)=>{
+      return {
+        ...currentValues,
+        ['type']: type
+      }
+    })
   }
 
   const amountChangeHandler = (amount) =>{
-    console.log(amount)
-    
+    setTransactionInputValues((currentValues) => {
+      return {
+        ...currentValues,
+        ['amount']: amount
+      }
+    })
   }
 
-  const iconPressedHandler =(icon) =>{
-    console.log(icon)
-     
+  const categorySelectedHandler =(icon) =>{
+    setTransactionInputValues((currentValues) => {
+      return {
+        ...currentValues,
+        ['category']: icon
+      }
+    })
+  }
+
+  const nameChangeHandeler = (name) =>{
+    setTransactionInputValues((currentValues) => {
+      return {
+        ...currentValues,
+        ['name']: name
+      }
+    })
   }
 
   const dateSelectedHandeler = (date) =>{
-    setSelectedDate(new Date (date).getTime())
+    setTransactionInputValues((currentValues) => {
+      return {
+        ...currentValues,
+        ['date']: new Date(date).getTime().toString()
+      }
+    })
+  }
+
+  const handle0nSubmitTransaction =()=>{
+    console.log(transactionInputValues)
   }
   
   return (
@@ -74,11 +105,11 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
           
           {showCategory?
-            <View style={styles.categoryWrapper}>
+            <View>
               <Text style={styles.labelText}>Category:</Text>
               <View style={styles.iconContainer}>
                 {ExpensesIconsCategory.map((item, i) =>
-                  <Pressable key={i} onPress={() => iconPressedHandler(item)}>
+                  <Pressable key={i} onPress={() => categorySelectedHandler(item)}>
                     <TransactionIcon type='expenses' category={item} />
                   </Pressable>
                 )}
@@ -86,21 +117,21 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             </View>
           :null}
 
-          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default' }} />
+          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default', onChangeText: nameChangeHandeler }} />
 
           <View style={styles.dateWrapper}>
             <View style={styles.dateInputField}>
-              <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default', editable: false, value: selectedDate ? new Date(selectedDate).toDateString(): ''}}/>
+              <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default', editable: false, value: transactionInputValues.date ? new Date(+transactionInputValues.date).toDateString(): ''}}/>
             </View>
             <DatePickerComponent onDateSelected={(date)=> dateSelectedHandeler(date)} />
           </View>
 
           <View style={styles.buttonWrapper}>
             {headerName === "Edit" ?
-              <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={() => handle0nDeleteTransaction(selectedValue)} />
+              <Button title="Delete" color={GlobalStyles.colors.error700} accessibilityLabel="Delete" onPress={() => handle0nDeleteTransaction(selectedValue)}   />
               : null}
 
-            <Button title="Add" color={GlobalStyles.colors.primary600} accessibilityLabel="Add" onPress={() => handle0nDeleteTransaction(selectedValue)} />
+            <Button title="Add" color={GlobalStyles.colors.primary600} accessibilityLabel="Add" onPress={() => handle0nSubmitTransaction()} />
           </View>
           </View>
         </View>
