@@ -86,6 +86,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
   const handle0nSubmitTransaction =()=>{
     console.log(transactionInputValues)
+    setTransactionInputValues(initialTransactionForm)
   }
   
   return (
@@ -98,17 +99,17 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             <Text style={styles.headerText}>{headerName} Transactions</Text>
             </View>
           <View style={styles.closeModal}>
-            <Pressable onPress={() => dispatch(setShowTransactionModal(!showTransactionModal))}>
+            <Pressable onPress={() => dispatch(setShowTransactionModal(!showTransactionModal)) && setTransactionInputValues(initialTransactionForm)}>
               <AntDesign name='close' size={30} color='black' />
             </Pressable>
           </View>
           </View>
           <View style={styles.modalBody}>
-          <TransactionInput label= 'Amount' textInputConfig={{placeholder: '$100', keyboardType:'numeric', onChangeText: amountChangeHandler}}/>
+          <TransactionInput label= 'Amount' textInputConfig={{placeholder: '$100', keyboardType:'numeric', value: transactionInputValues.amount, onChangeText: amountChangeHandler}}/>
 
           <View>
             <Text style={styles.labelText}>Type:</Text>
-            <DropdownComponent label='Type' selectedType={(type) => handleOnTransactionTypeSelected(type)} />
+            <DropdownComponent label='Type' selectedType={(type) => handleOnTransactionTypeSelected(type)} initialValue={transactionInputValues.type} />
           </View>
           
           {showCategory?
@@ -130,7 +131,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             </View>
           :null}
 
-          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default', onChangeText: nameChangeHandeler }} />
+          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default', onChangeText: nameChangeHandeler, value: transactionInputValues.name }} />
 
           <View style={styles.dateWrapper}>
             <View style={styles.dateInputField}>

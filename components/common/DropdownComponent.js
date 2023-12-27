@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -9,12 +9,15 @@ const data = [
     { label: 'Expenses', value: 'expenses' },
 ];
 
-const DropdownComponent = ({ label, selectedType }) => {
+const DropdownComponent = ({ label, selectedType, initialValue }) => {
     const [value, setValue] = useState();
     const [isFocus, setIsFocus] = useState(false);
     const handleOnTypeSelected =(type) =>{
         selectedType(type)
     }
+    useEffect(()=>{
+        setValue(initialValue)
+    }, [initialValue])
 
     return (
             <Dropdown
