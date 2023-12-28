@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import ManageExpenses from './screens/ManageExpenses';
 import AllExpenses from './screens/AllExpenses';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles } from './constants/styles';
@@ -9,6 +8,7 @@ import Dashboard from './screens/Dashboard';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider } from "react-redux";
 import store from './reduxStore/store';
+import Profile from './screens/Profile';
 
 const ButtomTab = createBottomTabNavigator();
 
@@ -30,7 +30,7 @@ export default function App() {
             tabBarLabel: 'Transactions',
             tabBarIcon: ({ focused }) => <FontAwesome name="list" color={focused ? GlobalStyles.colors.primary700 : 'white'} size={26} />,
           }} />
-          <ButtomTab.Screen name='Profile' component={AllExpenses} options={{
+          <ButtomTab.Screen name='Profile' component={Profile} options={{
             tabBarLabel: 'Profile',
             tabBarIcon: ({ focused }) => <FontAwesome name="user" color={focused ? GlobalStyles.colors.primary700 : 'white'} size={26} />,
           }} />
