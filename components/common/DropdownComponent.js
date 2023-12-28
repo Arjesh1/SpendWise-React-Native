@@ -9,12 +9,14 @@ const data = [
     { label: 'Expenses', value: 'expenses' },
 ];
 
-const DropdownComponent = ({ label, selectedType, initialValue }) => {
+const DropdownComponent = ({selectedType, initialValue }) => {
     const [value, setValue] = useState();
     const [isFocus, setIsFocus] = useState(false);
     const handleOnTypeSelected =(type) =>{
         selectedType(type)
+        setValue(type)
     }
+
     useEffect(()=>{
         setValue(initialValue)
     }, [initialValue])
@@ -29,7 +31,6 @@ const DropdownComponent = ({ label, selectedType, initialValue }) => {
                 labelField="label"
                 valueField="value"
                 placeholder={!isFocus ? 'Select type' : ''}
-                searchPlaceholder="Search..."
                 value={value}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}

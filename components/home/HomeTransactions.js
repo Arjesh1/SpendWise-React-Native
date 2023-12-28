@@ -43,7 +43,7 @@ const HomeTransactions = ({ name, transactionLimit }) => {
         <Text style={styles.headertext}>{name}</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
-          {displayTransaction !== undefined ? displayTransaction.map((item)=>(
+          {displayTransaction? displayTransaction.map((item)=>(
             <TransactionDetailBanner key={item.id} item={item} onPress={()=> handleOnEditTransaction(item)}/>
           )): null}
         </ScrollView>

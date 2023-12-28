@@ -23,11 +23,13 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
 
   const[showCategory, setShowCategory] = useState(false)
-  const initialTransactionForm = { amount: '', date: '', type: '', category: '', name: '' }
-  const [transactionInputValues, setTransactionInputValues] = useState(initialTransactionForm)
+  const [transactionInputValues, setTransactionInputValues] = useState({})
 
   useEffect(()=>{
-    selectedValue ? setTransactionInputValues(selectedValue) : setTransactionInputValues(initialTransactionForm)
+    selectedValue ? setTransactionInputValues(selectedValue) : null
+  }, [selectedValue])
+
+  useEffect(()=>{
     if(transactionInputValues.type === 'expenses'){
       setShowCategory(true)
     } else{
@@ -39,7 +41,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
         }
       })
     }
-  }, [transactionInputValues.type, selectedValue])
+  }, [transactionInputValues.type])
 
   const handleOnTransactionTypeSelected =(type)=>{
     setTransactionInputValues((currentValues)=>{
@@ -88,13 +90,14 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
   const handle0nSubmitTransaction =()=>{
     console.log(transactionInputValues)
-    setTransactionInputValues(initialTransactionForm)
+    setTransactionInputValues({})
     dispatch(setShowTransactionModal(!showTransactionModal))
   }
+
   
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
-      dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues(initialTransactionForm));
+      dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues({}));
       }}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
@@ -102,7 +105,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             <Text style={styles.headerText}>{headerName} Transactions</Text>
             </View>
           <View style={styles.closeModal}>
-            <Pressable onPress={() => dispatch(setShowTransactionModal(!showTransactionModal)) && setTransactionInputValues(initialTransactionForm)}>
+            <Pressable onPress={() => dispatch(setShowTransactionModal(!showTransactionModal)) && setTransactionInputValues({})}>
               <AntDesign name='close' size={30} color='black' />
             </Pressable>
           </View>
@@ -112,14 +115,14 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
           <View>
             <Text style={styles.labelText}>Type:</Text>
-            <DropdownComponent label='Type' selectedType={(type) => handleOnTransactionTypeSelected(type)} initialValue={transactionInputValues.type} />
+            <DropdownComponent selectedType={(type) => handleOnTransactionTypeSelected(type)} initialValue={transactionInputValues.type} />
           </View>
           
           {showCategory?
             <View>
               <View style={styles.categoryHeader}> 
                <Text style={styles.labelText}>Category:</Text>
-               {transactionInputValues.category.length != 0?
+                {transactionInputValues && transactionInputValues.category && transactionInputValues.category.length != 0?
                   <TransactionIcon type='expenses' category={transactionInputValues.category} />
                :null}
                
