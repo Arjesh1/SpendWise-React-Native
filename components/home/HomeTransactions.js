@@ -6,12 +6,11 @@ import Feather from 'react-native-vector-icons/Feather'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AddEditTransactionModal from '../common/AddEditTransactionModal'
-import Data from '../../constants/data.json'
 
 const HomeTransactions = ({ name, transactionLimit }) => {
   const [modalHeader, setModalHeader] = useState()
   const [editValue, setEditValue] = useState()
-  const [displayTransaction, setDisplayTransaction] = useState()
+  const [displayTransaction, setDisplayTransaction] = useState([])
   const { transactionData } = useSelector((state) => state.transaction)
   const dispatch = useDispatch()
   const sortedTransaction = [...transactionData].sort((a, b) => b.timestamp - a.timestamp )
@@ -43,6 +42,7 @@ const HomeTransactions = ({ name, transactionLimit }) => {
         <Text style={styles.headertext}>{name}</Text>
       </View>
         <ScrollView style={styles.transactionLists}>
+          {displayTransaction && displayTransaction.length === 0? <Text style={styles.msgText}>No transaction added yet!!</Text>:null}
           {displayTransaction? displayTransaction.map((item)=>(
             <TransactionDetailBanner key={item.id} item={item} onPress={()=> handleOnEditTransaction(item)}/>
           )): null}
@@ -79,6 +79,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "700",
     color: GlobalStyles.colors.gray700
+  },
+  msgText:{
+    textAlign: 'center',
+    fontSize: 18,
+    color: GlobalStyles.colors.gray400
   },
   transactionLists:{
     padding: 8,
