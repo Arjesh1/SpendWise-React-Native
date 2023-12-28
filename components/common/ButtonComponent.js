@@ -4,11 +4,11 @@ import { GlobalStyles } from '../../constants/styles'
 
 const ButtonComponent = ({ name, onPress }) => {
     const handleOnButtonPressed =()=>{
-
+        onPress()
     }
   return (
-      <Pressable>
-          <Text style={styles.buttonText}>{name}</Text>
+      <Pressable onPress={handleOnButtonPressed}>
+          <Text style={name === 'Delete' ? [styles.buttonText, styles.errorBackground] :[styles.buttonText, styles.positiveBackground]}>{name}</Text>
       </Pressable>
   )
 }
@@ -24,5 +24,12 @@ const styles = StyleSheet.create({
         color: GlobalStyles.colors.white,
         fontSize: 18,
         fontWeight: 'bold'
-    }
+    },
+
+    positiveBackground:{
+        backgroundColor: GlobalStyles.colors.primary600,
+    },
+    errorBackground:{
+        backgroundColor: GlobalStyles.colors.error700,
+    },
 })
