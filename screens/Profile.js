@@ -2,13 +2,20 @@ import React from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Image } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 import * as Progress from 'react-native-progress';
 import TransactionBanner from '../components/common/TransactionBanner';
 import ButtonComponent from '../components/common/ButtonComponent';
 
 
 const Profile = () => {
+
+    const handleOnEditProfile =()=>{
+        console.log('edit profile')
+    }
+
+    const handleOnLogOut =()=>{
+        console.log('log out')
+    }
   return (
     <View style={styles.profileWrapper}>
         <View style={styles.profileImgWrapper}>
@@ -49,13 +56,14 @@ const Profile = () => {
               <TransactionBanner name='Expenses' icon='shopping-bag' />
 
         </View>
-          <View style={styles.transactionsWrapper}>
+
+        <View style={styles.transactionsWrapper}>
               <TransactionBanner name='Current Balance' icon='coins' />
         </View>
 
         <View style={styles.buttonWrapper}>
-              <ButtonComponent name='Log Out' type='errorText' />
-              <ButtonComponent name='Edit Profile' type='positiveText' />
+              <ButtonComponent name='Log Out' type='errorText' onPress={handleOnLogOut}/>
+              <ButtonComponent name='Edit Profile' type='positiveText' onPress={handleOnEditProfile} />
         </View>
     </View>  
   )
@@ -67,7 +75,8 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 50,
         paddingHorizontal: 10,
-        backgroundColor: GlobalStyles.colors.primary700
+        backgroundColor: GlobalStyles.colors.primary700,
+        justifyContent: 'space-evenly'
     },
     profileImgWrapper:{
         marginTop: 15,
