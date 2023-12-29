@@ -2,8 +2,9 @@ import React from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Image } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import * as Progress from 'react-native-progress';
-import TransactionHeader from '../components/common/TransactionHeader';
+import TransactionBanner from '../components/common/TransactionBanner';
 
 
 const Profile = () => {
@@ -30,7 +31,7 @@ const Profile = () => {
                   <FontAwesome name='dollar' color={GlobalStyles.colors.primary700} size={30}/>
             </View>
             <View style={styles.savingDescriptionWrapper}>
-                <Text style={{fontSize: 17, fontWeight:'bold', paddingVertical: 5}}>Saving goals</Text>
+                <Text style={{fontSize: 20, fontWeight:'bold', paddingVertical: 5}}>Saving goals</Text>
                 <View>
                       <Progress.Bar progress={0.7} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
                       <View style={styles.savingAmountwrapper}>
@@ -43,17 +44,11 @@ const Profile = () => {
         </View>
         
           <View style={styles.transactionsWrapper}>
-            <View style={styles.incomeWrapper}>
-                <Text>Income</Text>
-            </View>
-
-              <View style={styles.expensesWrapper}>
-                  <Text>Income</Text>
-              </View>
+              <TransactionBanner name='Income' icon='money-bill-wave-alt'/>
+              <TransactionBanner name='Expenses' icon='shopping-bag' />
 
         </View>
     </View>  
-
   )
 }
 
@@ -61,7 +56,7 @@ export default Profile
 const styles = StyleSheet.create({
     profileWrapper:{
         flex: 1,
-        paddingTop: 18,
+        paddingTop: 20,
         paddingHorizontal: 10,
         backgroundColor: GlobalStyles.colors.primary700
     },
@@ -70,9 +65,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     profileImg:{
-        width: '40%',
+        width: '50%',
         aspectRatio:1,
-        backgroundColor:'red',
         borderRadius: 999,
         justifyContent:'center',
         alignItems:'center'
@@ -97,7 +91,7 @@ const styles = StyleSheet.create({
         backgroundColor:GlobalStyles.colors.white,
         flexDirection: 'row',
         margin: 7,
-        padding: 18,
+        padding: 20,
         borderRadius: 15,
         justifyContent: 'space-between',
         alignItems:'center',
@@ -126,16 +120,14 @@ const styles = StyleSheet.create({
         gap:10,
         alignItems: 'center',
     },
-    incomeWrapper:{
+    transaction:{
         backgroundColor: GlobalStyles.colors.white,
         flex:1,
+        alignItems:'center',
+        justifyContent: 'center',
         padding: 18,
         borderRadius: 15,
-    },
-    expensesWrapper:{
-        backgroundColor: GlobalStyles.colors.white,
-        flex: 1,
-        padding: 18,
-        borderRadius: 15,
+        flexDirection:'row',
+        gap: 20
     },
 })
