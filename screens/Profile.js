@@ -5,6 +5,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import * as Progress from 'react-native-progress';
 import TransactionBanner from '../components/common/TransactionBanner';
+import ButtonComponent from '../components/common/ButtonComponent';
 
 
 const Profile = () => {
@@ -48,6 +49,13 @@ const Profile = () => {
               <TransactionBanner name='Expenses' icon='shopping-bag' />
 
         </View>
+          <View style={styles.transactionsWrapper}>
+              <TransactionBanner name='Current Balance' icon='coins' />
+        </View>
+
+          
+
+          <ButtonComponent name='Log Out'/>
     </View>  
   )
 }
@@ -56,7 +64,7 @@ export default Profile
 const styles = StyleSheet.create({
     profileWrapper:{
         flex: 1,
-        paddingTop: 20,
+        paddingTop: 50,
         paddingHorizontal: 10,
         backgroundColor: GlobalStyles.colors.primary700
     },
