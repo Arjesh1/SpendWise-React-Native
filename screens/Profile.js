@@ -53,9 +53,10 @@ const Profile = () => {
               <TransactionBanner name='Current Balance' icon='coins' />
         </View>
 
-          
-
-          <ButtonComponent name='Log Out'/>
+        <View style={styles.buttonWrapper}>
+              <ButtonComponent name='Log Out' type='errorText' />
+              <ButtonComponent name='Edit Profile' type='positiveText' />
+        </View>
     </View>  
   )
 }
@@ -137,5 +138,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         flexDirection:'row',
         gap: 20
+    },
+    buttonWrapper:{
+        gap: 10,
     },
 })

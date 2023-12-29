@@ -147,9 +147,9 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
 
           <View style={styles.buttonWrapper}>
-            <ButtonComponent name={headerName} onPress={() => handle0nSubmitTransaction()} />
+            <ButtonComponent name={headerName} type='positiveBg' onPress={() => handle0nSubmitTransaction()} />
             {headerName === "Edit" ?
-            <ButtonComponent name={"Delete"} onPress={() => handle0nDeleteTransaction(selectedValue)} />
+              <ButtonComponent name={"Delete"} type='negativeBg' onPress={() => handle0nDeleteTransaction(selectedValue)} />
               : null}
           </View>
           </View>
