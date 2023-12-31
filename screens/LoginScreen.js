@@ -1,13 +1,20 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 
 const LoginScreen = () => {
   return (
+      
     <View style={styles.loginWrapper}>
         <View style={styles.loginTopBanner}>
-            <Text> hello</Text>
-
+            <View style={styles.logoWrapper}>
+                <SafeAreaView>
+                      <Image source={require('../assets/images/logo.png')} style={styles.logoImage} />
+                </SafeAreaView>
+            </View>
+            <View>
+                <Text> hello</Text>
+            </View>
         </View>
         <Text>Login Screen</Text>
       
@@ -22,10 +29,19 @@ const styles = StyleSheet.create({
     },
     loginTopBanner:{
         backgroundColor: GlobalStyles.colors.primary600,
-        height:'22%',
+        minHeight: '33%',
         borderBottomLeftRadius: 99,
         borderBottomRightRadius: 99,
-    }
+        justifyContent: 'flex-end',
+        alignItems:'center',
+        padding: 10
+    },
+    logoWrapper:{
+        flex: 1,
+    },
+    logoImage:{
+        resizeMode: 'contain'
+    },
 
 })
 
