@@ -4,7 +4,7 @@ import { GlobalStyles } from "../../constants/styles"
 const TransactionInput = ({label, textInputConfig}) => {
   return (
     <View>
-      <Text style={styles.labelText}>{label}:</Text>
+      {label ? <Text style={styles.labelText}>{label}:</Text> :null}
       <TextInput style={styles.input} {...textInputConfig}/>
     </View>
   )
