@@ -4,6 +4,7 @@ import { GlobalStyles } from '../constants/styles'
 import ButtonComponent from '../components/common/ButtonComponent'
 import TransactionInput from '../components/common/TransactionInput'
 import Foundation from 'react-native-vector-icons/Foundation';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const LoginScreen = () => {
     const [loginActive, setLoginActive] = useState(true)
@@ -34,10 +35,22 @@ const LoginScreen = () => {
         </View>
           <View style={styles.formWrapper}>
             <View style={styles.formComponentWrapper}>
-                <Foundation name='mail' size={30}/>
+             <View style={{flex:1}}>
+                <Foundation name='mail' size={30} />
+             </View>
+             <View style={{flex:5}}>
                 <TransactionInput textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailChangeHandler }} />
-
+             </View>
             </View>
+
+              <View style={styles.formComponentWrapper}>
+                  <View style={{ flex: 1 }}>
+                      <Foundation name='lock' size={30} />
+                  </View>
+                  <View style={{ flex: 5 }}>
+                      <TransactionInput textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: emailChangeHandler }} />
+                  </View>
+              </View>
 
           </View>
       
@@ -82,11 +95,18 @@ const styles = StyleSheet.create({
         borderBottomColor: GlobalStyles.colors.gray200,
     },
     formWrapper:{
-        paddingHorizontal: 18
+        paddingHorizontal: 18,
+        marginTop: 20,
+        gap: 15,
     },
     formComponentWrapper:{
         flexDirection:'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: GlobalStyles.colors.gray400,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        
     },
 
 })
