@@ -4,9 +4,8 @@ import { GlobalStyles } from '../constants/styles'
 import ButtonComponent from '../components/common/ButtonComponent'
 import TransactionInput from '../components/common/TransactionInput'
 import Foundation from 'react-native-vector-icons/Foundation';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
 
     function emailChangeHandler(){
@@ -14,7 +13,7 @@ const LoginScreen = () => {
     }
 
     const handleOnLogin=()=>{
-
+        navigation.navigate('Home')
     }
   return (
     <View style={styles.loginWrapper}>
@@ -52,7 +51,10 @@ const LoginScreen = () => {
                   </View>
               </View>
 
+              <ButtonComponent onPress={() => handleOnLogin()} name='Login' type='positiveBg'/>   
           </View>
+
+         
       
     </View>
   )
