@@ -32,6 +32,7 @@ const LoginScreen = ({navigation}) => {
                 </Pressable>
             </View>
         </View>
+          <Text style={styles.authHeaderText}>{loginActive ? 'Welcome back !' : 'Create An Account'}</Text>
           <View style={styles.formWrapper}>
             <View style={styles.formComponentWrapper}>
              <View style={{flex:1}}>
@@ -50,8 +51,15 @@ const LoginScreen = ({navigation}) => {
                       <TransactionInput textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: emailChangeHandler }} />
                   </View>
               </View>
+              <View style={styles.forgetPwWrapper}>
+                <Pressable><Text>Forget Password?</Text></Pressable>
+              </View>
 
               <ButtonComponent onPress={() => handleOnLogin()} name='Login' type='positiveBg'/>   
+          </View>
+
+          <View style={styles.footerWrapper}>
+
           </View>
 
          
@@ -67,7 +75,7 @@ const styles = StyleSheet.create({
     },
     loginTopBanner:{
         backgroundColor: GlobalStyles.colors.primary600,
-        minHeight: '33%',
+        minHeight: '35%',
         borderBottomLeftRadius: 50,
         borderBottomRightRadius: 50,
         justifyContent: 'flex-end',
@@ -99,7 +107,9 @@ const styles = StyleSheet.create({
     formWrapper:{
         paddingHorizontal: 18,
         marginTop: 20,
-        gap: 15,
+        gap: 20,
+        flex: 1,
+        justifyContent: 'center'
     },
     formComponentWrapper:{
         flexDirection:'row',
@@ -109,6 +119,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 10,
         
+    },
+    authHeaderText:{
+        color: GlobalStyles.colors.primary500,
+        fontSize: 25,
+        fontWeight: 'bold',
+        paddingVertical: 5,
+        textAlign:'center'
+    },
+    forgetPwWrapper:{
+        alignItems:'flex-end',
+        paddingBottom: 5
+    },
+
+    footerWrapper:{
+        marginTop: '20%',
+        backgroundColor: GlobalStyles.colors.primary700,
+        flex: 1,
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
     },
 
 })
