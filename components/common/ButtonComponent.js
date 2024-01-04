@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 
-const ButtonComponent = ({ name, onPress, type }) => {
+const ButtonComponent = ({ name, onPress, type}) => {
     const [buttonType, setButtonType] = useState()
     useEffect(()=>{
         if(type === 'positiveBg'){
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         paddingVertical: 6,
         borderRadius: 5,
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
 
     positiveBackground:{
@@ -50,10 +50,13 @@ const styles = StyleSheet.create({
     positiveText:{
         color: GlobalStyles.colors.primary700,
         backgroundColor: GlobalStyles.colors.gray100,
-
+        borderWidth: 2,
+        borderColor: GlobalStyles.colors.primary600
     }, 
     errorText:{
         color: GlobalStyles.colors.error700,
         backgroundColor: GlobalStyles.colors.white,
+        borderWidth: 2,
+        borderColor: GlobalStyles.colors.error600
     }
 })

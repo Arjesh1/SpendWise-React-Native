@@ -4,9 +4,51 @@ import { GlobalStyles } from '../constants/styles'
 import ButtonComponent from '../components/common/ButtonComponent'
 import TransactionInput from '../components/common/TransactionInput'
 import Foundation from 'react-native-vector-icons/Foundation';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
+
+    function loginForm(){
+        return(
+            <View style={styles.formWrapper}>
+                <Text style={styles.authHeaderText}>{loginActive ? 'Welcome back !' : 'Create An Account'}</Text>
+                <View style={styles.formComponentWrapper}>
+                    <View style={{ flex: 1 }}>
+                        <Foundation name='mail' size={30} />
+                    </View>
+                    <View style={{ flex: 5 }}>
+                        <TransactionInput textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailChangeHandler }} inputBorder={false} />
+                    </View>
+                </View>
+
+                <View style={styles.formComponentWrapper}>
+                    <View style={{ flex: 1 }}>
+                        <Foundation name='lock' size={30} />
+                    </View>
+                    <View style={{ flex: 5 }}>
+                        <TransactionInput textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: emailChangeHandler }} inputBorder={false} />
+                    </View>
+                </View>
+                <View style={styles.forgetPwWrapper}>
+                    <Pressable><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
+                </View>
+
+                <View style={styles.buttonWrapper}>
+                    <ButtonComponent onPress={() => handleOnLogin()} name='Login' type='positiveBg' />
+                </View>
+
+                <View >
+                    <Text style={styles.otherOptionText}>Or log in with</Text>
+                    <View>
+                        <ButtonComponent onPress={() => handleOnLogin()} name={
+                            <FontAwesome name="google" size={30} />} type='positiveText' />
+                    </View>
+                </View>
+            </View>
+
+        )
+    }
 
     function emailChangeHandler(){
 
@@ -32,38 +74,9 @@ const LoginScreen = ({navigation}) => {
                 </Pressable>
             </View>
         </View>
-          <Text style={styles.authHeaderText}>{loginActive ? 'Welcome back !' : 'Create An Account'}</Text>
-          <View style={styles.formWrapper}>
-            <View style={styles.formComponentWrapper}>
-             <View style={{flex:1}}>
-                <Foundation name='mail' size={30} />
-             </View>
-             <View style={{flex:5}}>
-                <TransactionInput textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailChangeHandler }} />
-             </View>
-            </View>
-
-              <View style={styles.formComponentWrapper}>
-                  <View style={{ flex: 1 }}>
-                      <Foundation name='lock' size={30} />
-                  </View>
-                  <View style={{ flex: 5 }}>
-                      <TransactionInput textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: emailChangeHandler }} />
-                  </View>
-              </View>
-              <View style={styles.forgetPwWrapper}>
-                <Pressable><Text>Forget Password?</Text></Pressable>
-              </View>
-
-              <ButtonComponent onPress={() => handleOnLogin()} name='Login' type='positiveBg'/>   
-          </View>
-
+          {loginActive ? loginForm(): <Text>hello</Text>}
           <View style={styles.footerWrapper}>
-
           </View>
-
-         
-      
     </View>
   )
 }
@@ -75,7 +88,7 @@ const styles = StyleSheet.create({
     },
     loginTopBanner:{
         backgroundColor: GlobalStyles.colors.primary600,
-        minHeight: '35%',
+        flex: 4,
         borderBottomLeftRadius: 50,
         borderBottomRightRadius: 50,
         justifyContent: 'flex-end',
@@ -84,6 +97,8 @@ const styles = StyleSheet.create({
     },
     logoWrapper:{
         flex: 1,
+        justifyContent:'center',
+        alignItems: 'center'
     },
     logoImage:{
         resizeMode: 'contain'
@@ -105,11 +120,12 @@ const styles = StyleSheet.create({
         borderBottomColor: GlobalStyles.colors.gray200,
     },
     formWrapper:{
+        padding:10,
         paddingHorizontal: 18,
         marginTop: 20,
-        gap: 20,
-        flex: 1,
-        justifyContent: 'center'
+        flex: 4,
+        justifyContent: 'space-between',
+
     },
     formComponentWrapper:{
         flexDirection:'row',
@@ -118,20 +134,34 @@ const styles = StyleSheet.create({
         borderColor: GlobalStyles.colors.gray400,
         paddingHorizontal: 10,
         borderRadius: 10,
-        
+        marginVertical: 10,
     },
     authHeaderText:{
         color: GlobalStyles.colors.primary500,
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: 'bold',
         paddingVertical: 5,
         textAlign:'center'
     },
     forgetPwWrapper:{
         alignItems:'flex-end',
-        paddingBottom: 5
+        paddingBottom: 5,
     },
+    forgetPwText: {
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.error600
+    },
+    buttonWrapper:{
+        marginVertical: 15,
+    },
+    otherOptionText:{
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.gray600,
+        textAlign:'center',
+        paddingVertical: 15
 
+    },
     footerWrapper:{
         marginTop: '20%',
         backgroundColor: GlobalStyles.colors.primary700,
@@ -139,6 +169,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
     },
+
 
 })
 
