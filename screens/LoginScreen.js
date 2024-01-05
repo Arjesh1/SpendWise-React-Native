@@ -95,7 +95,7 @@ const LoginScreen = ({navigation}) => {
                     <Pressable><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
                 </View>
 
-                {error && error.map((error, i) => <Text key={i} style={{ color: 'red', paddingLeft: 10 }}>{`${i+1}. ${error}`}</Text>)}
+                {error && error.map((error, i) => <Text key={error} style={{ color: 'red', paddingLeft: 10 }}>{`${i+1}. ${error}`}</Text>)}
 
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent onPress={() => handleOnLogin()} name="Login" type='positiveBg' />
@@ -123,7 +123,7 @@ const LoginScreen = ({navigation}) => {
 
                 <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: confirmPasswordHandler, secureTextEntry:true }} />
 
-                {error && error.map((error, i) => <Text key={i} style={{ color: 'red', paddingLeft: 10 }}>{`${i + 1}. ${error}`}</Text>)}
+                {error && error.map((error, i) => <Text key={error} style={{ color: 'red', paddingLeft: 10 }}>{`${i + 1}. ${error}`}</Text>)}
 
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent onPress={() => handleOnRegister()} name="Register" type='positiveBg' />
@@ -142,10 +142,10 @@ const LoginScreen = ({navigation}) => {
                 </SafeAreaView>
             </View>
             <View style={styles.authWrapper}>
-                <Pressable onPress={()=>setLoginActive(true) && setError(null)}>
+                <Pressable onPress={()=>{setLoginActive(true); setError(null)}}>
                       <Text style={loginActive ? [styles.activeAuth, styles.authText] : styles.authText}> Login </Text>
                 </Pressable>
-                  <Pressable onPress={() => setLoginActive(false) && setError(null)}>
+                  <Pressable onPress={() => { setLoginActive(false); setError(null) }}>
                       <Text style={!loginActive ? [styles.activeAuth, styles.authText] : styles.authText}> Register </Text>
                 </Pressable>
             </View>
