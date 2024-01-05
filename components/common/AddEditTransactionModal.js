@@ -20,6 +20,11 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       dispatch(setTransactionData(restItem))
       dispatch(setShowTransactionModal(false))
     }
+
+   const modalInputStyles = {
+    textAlign:'center',
+     borderBottomWidth: 1,
+   }
   const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
 
   const[showCategory, setShowCategory] = useState(false)
@@ -111,7 +116,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
           </View>
           <View style={styles.modalBody}>
-          <TransactionInput label= 'Amount' textInputConfig={{placeholder: '$100', keyboardType:'numeric', value: transactionInputValues.amount, onChangeText: amountChangeHandler}}/>
+          <TransactionInput label='Amount' textInputConfig={{ placeholder: '$100', keyboardType: 'numeric', value: transactionInputValues.amount, onChangeText: amountChangeHandler }} inputStyles={modalInputStyles}/>
 
           <View>
             <Text style={styles.labelText}>Type:</Text>
@@ -137,11 +142,12 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             </View>
           :null}
 
-          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default', onChangeText: nameChangeHandeler, value: transactionInputValues.name }} />
+          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default', onChangeText: nameChangeHandeler, value: transactionInputValues.name }} inputStyles={modalInputStyles}
+           />
 
           <View style={styles.dateWrapper}>
             <View style={styles.dateInputField}>
-              <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default', editable: false, value: transactionInputValues.date ? new Date(+transactionInputValues.date).toDateString(): ''}}/>
+              <TransactionInput label='Date' textInputConfig={{ placeholder: '22-12-2023', keyboardType: 'default', editable: false, value: transactionInputValues.date ? new Date(+transactionInputValues.date).toDateString() : '' }} inputStyles={modalInputStyles} />
             </View>
             <DatePickerComponent onDateSelected={(date)=> dateSelectedHandeler(date)} />
           </View>

@@ -5,54 +5,67 @@ import ButtonComponent from '../components/common/ButtonComponent'
 import TransactionInput from '../components/common/TransactionInput'
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AuthInputComponent from '../components/common/AuthInputComponent'
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
+    const [authData, setAuthData] = useState()
+
+    function emailHandler(email) {
+        console.log(email)
+
+    }
+
+    function passwordHandler(password){
+        console.log(password)
+
+    }
 
     function loginForm(){
         return(
-            <View style={styles.formWrapper}>
-                <Text style={styles.authHeaderText}>{loginActive ? 'Welcome back !' : 'Create An Account'}</Text>
-                <View style={styles.formComponentWrapper}>
-                    <View style={{ flex: 1 }}>
-                        <Foundation name='mail' size={30} />
-                    </View>
-                    <View style={{ flex: 5 }}>
-                        <TransactionInput textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailChangeHandler }} inputBorder={false} />
-                    </View>
-                </View>
+            <>
+                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailHandler }} />
 
-                <View style={styles.formComponentWrapper}>
-                    <View style={{ flex: 1 }}>
-                        <Foundation name='lock' size={30} />
-                    </View>
-                    <View style={{ flex: 5 }}>
-                        <TransactionInput textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: emailChangeHandler }} inputBorder={false} />
-                    </View>
-                </View>
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler }} />
+
                 <View style={styles.forgetPwWrapper}>
                     <Pressable><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
                 </View>
 
                 <View style={styles.buttonWrapper}>
-                    <ButtonComponent onPress={() => handleOnLogin()} name='Login' type='positiveBg' />
+                    <ButtonComponent onPress={() => handleOnLogin()} name="Login" type='positiveBg' />
                 </View>
 
-                <View >
+                <View>
                     <Text style={styles.otherOptionText}>Or log in with</Text>
                     <View>
                         <ButtonComponent onPress={() => handleOnLogin()} name={
                             <FontAwesome name="google" size={30} />} type='positiveText' />
                     </View>
                 </View>
-            </View>
-
+            </>
         )
     }
 
-    function emailChangeHandler(){
+    function registerForm() {
+        return (
+            <>
+                <AuthInputComponent icon={<FontAwesome name='user' size={30} />} textInputConfig={{ placeholder: 'Full Name', keyboardType: 'default', onChangeText: emailHandler }} />
 
+                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: passwordHandler }} />
+
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler }} />
+
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', keyboardType: 'default', onChangeText: passwordHandler }} />
+
+                <View style={styles.buttonWrapper}>
+                    <ButtonComponent onPress={() => handleOnLogin()} name="Register"  type='positiveBg' />
+                </View>
+            </>
+        )
     }
+
+    
 
     const handleOnLogin=()=>{
         navigation.navigate('Home')
@@ -74,9 +87,14 @@ const LoginScreen = ({navigation}) => {
                 </Pressable>
             </View>
         </View>
-          {loginActive ? loginForm(): <Text>hello</Text>}
-          <View style={styles.footerWrapper}>
-          </View>
+        
+        <View style={styles.formWrapper}>
+              <Text style={styles.authHeaderText}>{loginActive ? 'Welcome back !' : 'Create An Account'}</Text>
+              {loginActive ? loginForm() : registerForm() }
+        </View>
+
+        <View style={styles.footerWrapper}>
+        </View>
     </View>
   )
 }

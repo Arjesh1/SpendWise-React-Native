@@ -1,11 +1,11 @@
 import { View, Text, TextInput, StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/styles"
 
-const TransactionInput = ({label, textInputConfig, inputBorder}) => {
+const TransactionInput = ({ label, textInputConfig, inputStyles }) => {
   return (
     <View>
       {label ? <Text style={styles.labelText}>{label}:</Text> :null}
-      <TextInput style={!inputBorder ? styles.input : [styles.input, { borderBottomWidth: 1, }]} {...textInputConfig}/>
+      <TextInput style={ [styles.input, {...inputStyles}]} {...textInputConfig}/>
     </View>
   )
 }
@@ -17,12 +17,10 @@ const styles = StyleSheet.create({
     color: GlobalStyles.colors.gray500,
   },
   input:{
-    // borderBottomWidth: 1,
     padding: 5,
     fontSize: 20,
     borderRadius: 10,
     borderColor: GlobalStyles.colors.gray400,
-    textAlign: 'center',
     fontWeight: 'bold'
   }
 })
