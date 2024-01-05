@@ -9,7 +9,12 @@ import AuthInputComponent from '../components/common/AuthInputComponent'
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
-    const [authData, setAuthData] = useState()
+    const [authData, setAuthData] = useState({})
+    const [error, setError] = useState(null)
+
+    function isValidEmail(email) {
+        return /\S+@\S+\.\S+/.test(email);
+    }
 
     function emailHandler(email) {
         setAuthData((currentValues) => {
@@ -48,12 +53,35 @@ const LoginScreen = ({navigation}) => {
     }
 
     const handleOnLogin = () => {
-        console.log(authData)
+        if (!authData.email || !authData.password){
+            setError(['Email and Password are required']);
+        }else if (!isValidEmail(authData.email) && authData.password.length < 6) {
+            setError(['Email is invalid.','Password must be more than 6 characters long.']);
+        } else if (!isValidEmail(authData.email)){
+            setError(['Email is invalid!'])
+        } else if (authData.password.length < 6) {
+            setError(['Password must be more than 6 characters!'])
+        } else {
+            setError(null);
+            console.log(authData)
+        }
     }
 
     const handleOnRegister = () => {
-        console.log(authData)
-
+        if (!authData.name || !authData.email || !authData.password || !authData.confirmPassword){
+            setError(['Name, Email, Password and Confirm  Password are required.'])
+        } else if (!isValidEmail(authData.email) && authData.password.length < 6) {
+            setError(['Email is invalid.','Password must be more than 6 characters long.']);
+        } else if (!isValidEmail(authData.email)) {
+            setError(['Email is invalid.'])
+        } else if (authData.password.length < 6) {
+            setError(['Password must be more than 6 characters.'])
+        } else if (authData.password !== authData.confirmPassword) {
+            setError(['Password and confirm password do not match.'])
+        } else {
+            setError(null);
+            console.log(authData)
+        }
     }
 
     function loginForm() {
@@ -66,6 +94,8 @@ const LoginScreen = ({navigation}) => {
                 <View style={styles.forgetPwWrapper}>
                     <Pressable><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
                 </View>
+
+                {error && error.map((error, i) => <Text key={i} style={{ color: 'red', paddingLeft: 10 }}>{`${i+1}. ${error}`}</Text>)}
 
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent onPress={() => handleOnLogin()} name="Login" type='positiveBg' />
@@ -93,6 +123,8 @@ const LoginScreen = ({navigation}) => {
 
                 <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: confirmPasswordHandler, secureTextEntry:true }} />
 
+                {error && error.map((error, i) => <Text key={i} style={{ color: 'red', paddingLeft: 10 }}>{`${i + 1}. ${error}`}</Text>)}
+
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent onPress={() => handleOnRegister()} name="Register" type='positiveBg' />
                 </View>
@@ -110,10 +142,10 @@ const LoginScreen = ({navigation}) => {
                 </SafeAreaView>
             </View>
             <View style={styles.authWrapper}>
-                <Pressable onPress={()=>setLoginActive(true)}>
+                <Pressable onPress={()=>setLoginActive(true) && setError(null)}>
                       <Text style={loginActive ? [styles.activeAuth, styles.authText] : styles.authText}> Login </Text>
                 </Pressable>
-                  <Pressable onPress={() => setLoginActive(false)}>
+                  <Pressable onPress={() => setLoginActive(false) && setError(null)}>
                       <Text style={!loginActive ? [styles.activeAuth, styles.authText] : styles.authText}> Register </Text>
                 </Pressable>
             </View>
