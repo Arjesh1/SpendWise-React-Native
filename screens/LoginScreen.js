@@ -5,6 +5,7 @@ import ButtonComponent from '../components/common/ButtonComponent'
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AuthInputComponent from '../components/common/AuthInputComponent'
+import ModalComponent from '../components/common/ModalComponent';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -83,6 +84,11 @@ const LoginScreen = ({navigation}) => {
         }
     }
 
+
+    const handleOnforgetPw =()=>{
+        console.log('Thing harder')
+    }
+
     function loginForm() {
         return (
             <>
@@ -91,7 +97,7 @@ const LoginScreen = ({navigation}) => {
                 <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler, secureTextEntry: true }} />
 
                 <View style={styles.forgetPwWrapper}>
-                    <Pressable><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
+                    <Pressable onPress={handleOnforgetPw}><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
                 </View>
 
                 {error && error.map((error, i) => <Text key={error} style={{ color: 'red', paddingLeft: 10 }}>{`${i+1}. ${error}`}</Text>)}
@@ -133,6 +139,8 @@ const LoginScreen = ({navigation}) => {
 
 
   return (
+    <>
+    <ModalComponent/>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'flex'}>
      <View style={styles.loginWrapper}>
         <View style={styles.loginTopBanner}>
@@ -166,6 +174,7 @@ const LoginScreen = ({navigation}) => {
         </View>
      </View>
     </KeyboardAvoidingView>
+    </>
 
   )
 }
