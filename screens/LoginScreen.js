@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import ButtonComponent from '../components/common/ButtonComponent'
-import TransactionInput from '../components/common/TransactionInput'
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AuthInputComponent from '../components/common/AuthInputComponent'
@@ -134,19 +133,26 @@ const LoginScreen = ({navigation}) => {
 
 
   return (
-    <View style={styles.loginWrapper}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'flex'}>
+     <View style={styles.loginWrapper}>
         <View style={styles.loginTopBanner}>
-            <View style={styles.logoWrapper}>
+             <ScrollView contentContainerStyle={{ flex: 1 }}>
+               <View style={styles.logoWrapper}>
                 <SafeAreaView>
                       <Image source={require('../assets/images/logo.png')} style={styles.logoImage} />
                 </SafeAreaView>
-            </View>
+              </View>
+            </ScrollView>
             <View style={styles.authWrapper}>
                 <Pressable onPress={()=>{setLoginActive(true); setError(null)}}>
-                      <Text style={loginActive ? [styles.activeAuth, styles.authText] : styles.authText}> Login </Text>
+                    <View style={loginActive? styles.activeAuth: null }>
+                          <Text style={ styles.authText }> Login </Text>
+                    </View>  
                 </Pressable>
                   <Pressable onPress={() => { setLoginActive(false); setError(null) }}>
-                      <Text style={!loginActive ? [styles.activeAuth, styles.authText] : styles.authText}> Register </Text>
+                      <View style={!loginActive ? styles.activeAuth : null}>
+                          <Text style={styles.authText}> Register </Text>
+                      </View>
                 </Pressable>
             </View>
         </View>
@@ -158,7 +164,9 @@ const LoginScreen = ({navigation}) => {
 
         <View style={styles.footerWrapper}>
         </View>
-    </View>
+     </View>
+    </KeyboardAvoidingView>
+
   )
 }
 
@@ -182,7 +190,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     logoImage:{
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        height: '100%',
     },
     authWrapper:{
         marginTop: 10,
@@ -206,7 +215,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         flex: 4,
         justifyContent: 'space-between',
-
     },
     formComponentWrapper:{
         flexDirection:'row',
@@ -250,7 +258,5 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
     },
-
-
 })
 
