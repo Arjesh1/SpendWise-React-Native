@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { GlobalStyles } from '../../constants/styles';
+import ButtonComponent from './ButtonComponent';
+import TransactionInput from './TransactionInput';
 
 const ModalComponent = () => {
     const [modalVisible, setModalVisible] = useState(true);
+
+    const handleOnModalClose =()=>{
+        setModalVisible(!modalVisible)
+    }
   return (
             <Modal
                 animationType="slide"
@@ -14,17 +22,35 @@ const ModalComponent = () => {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
+                      <View style={styles.modalHeader}>
+                        <View style={{padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius:99}}>
+                          <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700} />
+                        </View>
+                          
+                      <Text style={styles.headerText}>Reset Password</Text>
+                      </View>
 
-                  <View style={styles.modalHeader}>
-                      <Text>Holle</Text>
+                      <View style={styles.modalBody}>
+                        
+                        <View style={styles.detailContainer}>
+                          <Text style={styles.detailText}>
+                              Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.
+                          </Text>
 
-                  </View>
-                        <Text style={styles.modalText}>Hello World!</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable>
+                          <Text style={[styles.detailText, {fontWeight: 'bold', textAlign: 'center'}]}>
+                              Email address
+                          </Text>
+
+                          <TransactionInput inputStyles={{borderWidth: 1}} pla/>
+                        </View>
+                      </View>
+
+                      <View style={styles.modalFooter}>
+
+                      <ButtonComponent name='Reset' onPress={() => handleOnModalClose()} type='positiveBg' />
+
+                      <ButtonComponent name='Close' onPress={() => handleOnModalClose()} type='errorText' />
+                     </View>
                     </View>
                 </View>
             </Modal>
@@ -38,10 +64,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalView: {
+        width: '95%',
+        height: '40%',
         backgroundColor: 'white',
         borderRadius: 20,
-        paddingHorizontal: 35,
-        paddingVertical: 20,
+        paddingTop: 20,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
@@ -51,29 +78,37 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
+        justifyContent: 'space-between'
     },
     modalHeader:{
+        width: '100%',
+        alignItems: 'center',
+        gap: 10,
+    },
+    headerText:{
+        fontSize: 20,
+        textAlign: 'center',
+        paddingBottom: 8,
+        fontWeight: 'bold'
+    },
 
+    modalBody:{
+        justifyContent: 'space-evenly',
+        paddingVertical: 15
     },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
+    detailContainer:{
+        paddingHorizontal: 8,
+        gap: 10
     },
-    buttonOpen: {
-        backgroundColor: '#F194FF',
+    detailText:{
+        fontSize: 15,
     },
-    buttonClose: {
-        backgroundColor: '#2196F3',
-    },
-    textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
+    modalFooter:{
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        width: '100%',
+        backgroundColor: GlobalStyles.colors.gray300,
+        gap: 10,
     },
 });
 
