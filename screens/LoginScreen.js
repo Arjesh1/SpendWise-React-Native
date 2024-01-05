@@ -12,21 +12,56 @@ const LoginScreen = ({navigation}) => {
     const [authData, setAuthData] = useState()
 
     function emailHandler(email) {
-        console.log(email)
+        setAuthData((currentValues) => {
+            return {
+                ...currentValues,
+                'email': email
+            }
+        })
+    }
+
+    function passwordHandler(password) {
+        setAuthData((currentValues) => {
+            return {
+                ...currentValues,
+                'password': password
+            }
+        })
+    }
+
+    function confirmPasswordHandler(confirmPassword) {
+        setAuthData((currentValues) => {
+            return {
+                ...currentValues,
+                'confirmPassword': confirmPassword
+            }
+        })
+    }
+
+    function nameHandler(name) {
+        setAuthData((currentValues) => {
+            return {
+                ...currentValues,
+                'name': name
+            }
+        })
+    }
+
+    const handleOnLogin = () => {
+        console.log(authData)
+    }
+
+    const handleOnRegister = () => {
+        console.log(authData)
 
     }
 
-    function passwordHandler(password){
-        console.log(password)
-
-    }
-
-    function loginForm(){
-        return(
+    function loginForm() {
+        return (
             <>
                 <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailHandler }} />
 
-                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler }} />
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler, secureTextEntry: true }} />
 
                 <View style={styles.forgetPwWrapper}>
                     <Pressable><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
@@ -50,26 +85,22 @@ const LoginScreen = ({navigation}) => {
     function registerForm() {
         return (
             <>
-                <AuthInputComponent icon={<FontAwesome name='user' size={30} />} textInputConfig={{ placeholder: 'Full Name', keyboardType: 'default', onChangeText: emailHandler }} />
+                <AuthInputComponent icon={<FontAwesome name='user' size={30} />} textInputConfig={{ placeholder: 'Full Name', onChangeText: nameHandler }} />
 
-                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: passwordHandler }} />
+                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', inputMode: 'email', onChangeText: emailHandler }} />
 
-                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler }} />
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', onChangeText: passwordHandler, secureTextEntry: true }} />
 
-                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', keyboardType: 'default', onChangeText: passwordHandler }} />
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: confirmPasswordHandler, secureTextEntry:true }} />
 
                 <View style={styles.buttonWrapper}>
-                    <ButtonComponent onPress={() => handleOnLogin()} name="Register"  type='positiveBg' />
+                    <ButtonComponent onPress={() => handleOnRegister()} name="Register" type='positiveBg' />
                 </View>
             </>
         )
     }
 
-    
 
-    const handleOnLogin=()=>{
-        navigation.navigate('Home')
-    }
   return (
     <View style={styles.loginWrapper}>
         <View style={styles.loginTopBanner}>
@@ -87,10 +118,10 @@ const LoginScreen = ({navigation}) => {
                 </Pressable>
             </View>
         </View>
-        
-        <View style={styles.formWrapper}>
+
+        <View style={styles.formWrapper} key={loginActive}>
               <Text style={styles.authHeaderText}>{loginActive ? 'Welcome back !' : 'Create An Account'}</Text>
-              {loginActive ? loginForm() : registerForm() }
+              {loginActive ? loginForm() : registerForm()}
         </View>
 
         <View style={styles.footerWrapper}>
