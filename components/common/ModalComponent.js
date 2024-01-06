@@ -7,13 +7,19 @@ import TransactionInput from './TransactionInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal } from '../../reduxStore/systemSlice';
 
-const ModalComponent = ({ icon, headerText, submitText, bodyDetailText, additionalBody }) => {
+const ModalComponent = ({ icon, onPress, headerText, submitText, bodyDetailText, additionalBody, errorMsg }) => {
     const { showCustomModal } = useSelector(state => state.system)
     const dispatch =  useDispatch()
 
     const handleOnModalClose =()=>{
         dispatch(setShowCustomModal(!showCustomModal))
     }
+
+    const handleOnSubmitPressed =()=>{
+        onPress()
+    }
+
+
   return (
             <Modal
                 animationType="slide"
@@ -35,12 +41,14 @@ const ModalComponent = ({ icon, headerText, submitText, bodyDetailText, addition
                           <Text style={styles.detailText}>
                               {bodyDetailText}
                           </Text>
-                          {additionalBody ? additionalBody: null}
+                            {additionalBody ? additionalBody: null}
+                            
+                            {errorMsg ? <Text style={[styles.detailText, { color: GlobalStyles.colors.error500, textAlign: 'center' }]}>{errorMsg}</Text> : null}
                         </View>
                       </View>
 
                       <View style={styles.modalFooter}>
-                      <ButtonComponent name={submitText} onPress={() => handleOnModalClose()} type='positiveBg' />
+                          <ButtonComponent name={submitText} onPress={() => handleOnSubmitPressed()} type='positiveBg' />
 
                       <ButtonComponent name='Close' onPress={() => handleOnModalClose()} type='errorText' />
                      </View>
@@ -59,7 +67,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: '95%',
-        height: '50%',
+        height: '54%',
         backgroundColor: 'white',
         borderRadius: 20,
         paddingTop: 20,
@@ -82,13 +90,12 @@ const styles = StyleSheet.create({
     headerText:{
         fontSize: 20,
         textAlign: 'center',
-        paddingBottom: 8,
         fontWeight: 'bold'
     },
 
     modalBody:{
         justifyContent: 'space-evenly',
-        paddingVertical: 15
+        paddingVertical: 10
     },
     detailContainer:{
         paddingHorizontal: 8,

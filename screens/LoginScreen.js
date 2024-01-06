@@ -12,8 +12,10 @@ import { setShowCustomModal } from '../reduxStore/systemSlice';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
+    const [resetPasswordEmail, setResetPasswordEmail] = useState('')
     const [authData, setAuthData] = useState({})
     const [error, setError] = useState(null)
+    const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
 
     function isValidEmail(email) {
@@ -89,9 +91,14 @@ const LoginScreen = ({navigation}) => {
     }
 
 
-    const handleOnforgetPw =(email)=>{
-        dispatch(setShowCustomModal(true))
-        console.log(email)
+    const handleOnforgetPw =()=>{
+        if(!resetPasswordEmail){
+            setResetError('Email address is required.')
+        } else if (!isValidEmail(resetPasswordEmail)){
+            setResetError('Email address is invalid.')
+        } else{
+            console.log(resetPasswordEmail)
+        }
     }
 
     function loginForm() {
@@ -102,7 +109,7 @@ const LoginScreen = ({navigation}) => {
                 <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler, secureTextEntry: true }} />
 
                 <View style={styles.forgetPwWrapper}>
-                    <Pressable onPress={handleOnforgetPw}><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
+                    <Pressable onPress={() => dispatch(setShowCustomModal(true))}><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
                 </View>
 
                 {error && error.map((error, i) => <Text key={error} style={{ color: 'red', paddingLeft: 10 }}>{`${i+1}. ${error}`}</Text>)}
@@ -144,9 +151,9 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <>
-          <ModalComponent headerText='Reset Password' icon={<View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
+          <ModalComponent headerText='Reset Password' onPress={()=> handleOnforgetPw()} errorMsg={resetError} icon={<View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
               <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700}/>
-          </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: 'johnsmith@gmail.com', onChangeText: handleOnforgetPw }} /></>}/>
+          </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: 'johnsmith@gmail.com', onChangeText: (email)=> setResetPasswordEmail(email) }} /></>}/>
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'flex'}>
      <View style={styles.loginWrapper}>
@@ -182,7 +189,6 @@ const LoginScreen = ({navigation}) => {
      </View>
     </KeyboardAvoidingView>
     </>
-
   )
 }
 
@@ -265,7 +271,6 @@ const styles = StyleSheet.create({
         color: GlobalStyles.colors.gray600,
         textAlign:'center',
         paddingVertical: 15
-
     },
     footerWrapper:{
         marginTop: '20%',
