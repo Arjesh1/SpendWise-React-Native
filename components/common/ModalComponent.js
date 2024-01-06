@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
+import { Alert, Modal, StyleSheet, Text, Pressable, View, KeyboardAvoidingView } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles } from '../../constants/styles';
 import ButtonComponent from './ButtonComponent';
@@ -19,6 +19,7 @@ const ModalComponent = ({ icon, headerText, submitText, bodyDetailText, addition
                 animationType="slide"
                 transparent={true}
                 visible={showCustomModal}>
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                       <View style={styles.modalHeader}>
@@ -45,6 +46,7 @@ const ModalComponent = ({ icon, headerText, submitText, bodyDetailText, addition
                      </View>
                     </View>
                 </View>
+          </KeyboardAvoidingView>
             </Modal>
     );
 };

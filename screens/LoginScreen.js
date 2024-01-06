@@ -89,8 +89,9 @@ const LoginScreen = ({navigation}) => {
     }
 
 
-    const handleOnforgetPw =()=>{
+    const handleOnforgetPw =(email)=>{
         dispatch(setShowCustomModal(true))
+        console.log(email)
     }
 
     function loginForm() {
@@ -145,7 +146,7 @@ const LoginScreen = ({navigation}) => {
     <>
           <ModalComponent headerText='Reset Password' icon={<View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
               <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700}/>
-          </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1 }} /></>}/>
+          </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: 'johnsmith@gmail.com', onChangeText: handleOnforgetPw }} /></>}/>
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'flex'}>
      <View style={styles.loginWrapper}>
