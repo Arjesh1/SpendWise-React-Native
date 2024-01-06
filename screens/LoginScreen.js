@@ -6,11 +6,15 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AuthInputComponent from '../components/common/AuthInputComponent'
 import ModalComponent from '../components/common/ModalComponent';
+import TransactionInput from '../components/common/TransactionInput';
+import { useDispatch } from 'react-redux';
+import { setShowCustomModal } from '../reduxStore/systemSlice';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
     const [authData, setAuthData] = useState({})
     const [error, setError] = useState(null)
+    const dispatch = useDispatch()
 
     function isValidEmail(email) {
         return /\S+@\S+\.\S+/.test(email);
@@ -86,7 +90,7 @@ const LoginScreen = ({navigation}) => {
 
 
     const handleOnforgetPw =()=>{
-        console.log('Thing harder')
+        dispatch(setShowCustomModal(true))
     }
 
     function loginForm() {
@@ -137,10 +141,12 @@ const LoginScreen = ({navigation}) => {
         )
     }
 
-
   return (
     <>
-    <ModalComponent/>
+          <ModalComponent headerText='Reset Password' icon={<View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
+              <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700}/>
+          </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1 }} /></>}/>
+
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'flex'}>
      <View style={styles.loginWrapper}>
         <View style={styles.loginTopBanner}>

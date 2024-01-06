@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     showTransactionModal: false,
+    showCustomModal: false,
 
 };
 const systemSlice = createSlice({
@@ -10,12 +11,15 @@ const systemSlice = createSlice({
         setShowTransactionModal: (state, { payload }) => {
             state.showTransactionModal = payload;
         },
+        setShowCustomModal: (state, { payload }) => {
+            state.showCustomModal = payload;
+        },
 
     },
 });
 
 const { reducer, actions } = systemSlice;
 
-export const { setShowTransactionModal } = actions;
+export const { setShowTransactionModal, setShowCustomModal } = actions;
 
 export default reducer;

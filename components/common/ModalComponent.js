@@ -4,50 +4,42 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles } from '../../constants/styles';
 import ButtonComponent from './ButtonComponent';
 import TransactionInput from './TransactionInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { setShowCustomModal } from '../../reduxStore/systemSlice';
 
-const ModalComponent = () => {
-    const [modalVisible, setModalVisible] = useState(true);
+const ModalComponent = ({ icon, headerText, submitText, bodyDetailText, additionalBody }) => {
+    const { showCustomModal } = useSelector(state => state.system)
+    const dispatch =  useDispatch()
 
     const handleOnModalClose =()=>{
-        setModalVisible(!modalVisible)
+        dispatch(setShowCustomModal(!showCustomModal))
     }
   return (
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setModalVisible(!modalVisible);
-                }}>
+                visible={showCustomModal}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                       <View style={styles.modalHeader}>
-                        <View style={{padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius:99}}>
-                          <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700} />
-                        </View>
+
+                        {icon? icon: null}
                           
-                      <Text style={styles.headerText}>Reset Password</Text>
+                      <Text style={styles.headerText}>{headerText}</Text>
                       </View>
 
                       <View style={styles.modalBody}>
                         
                         <View style={styles.detailContainer}>
                           <Text style={styles.detailText}>
-                              Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.
+                              {bodyDetailText}
                           </Text>
-
-                          <Text style={[styles.detailText, {fontWeight: 'bold', textAlign: 'center'}]}>
-                              Email address
-                          </Text>
-
-                          <TransactionInput inputStyles={{borderWidth: 1}} pla/>
+                          {additionalBody ? additionalBody: null}
                         </View>
                       </View>
 
                       <View style={styles.modalFooter}>
-
-                      <ButtonComponent name='Reset' onPress={() => handleOnModalClose()} type='positiveBg' />
+                      <ButtonComponent name={submitText} onPress={() => handleOnModalClose()} type='positiveBg' />
 
                       <ButtonComponent name='Close' onPress={() => handleOnModalClose()} type='errorText' />
                      </View>
@@ -65,7 +57,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: '95%',
-        height: '40%',
+        height: '50%',
         backgroundColor: 'white',
         borderRadius: 20,
         paddingTop: 20,
