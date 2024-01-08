@@ -5,67 +5,75 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as Progress from 'react-native-progress';
 import TransactionBanner from '../components/common/TransactionBanner';
 import ButtonComponent from '../components/common/ButtonComponent';
-
+import { useDispatch } from 'react-redux';
+import { setShowCustomModal } from '../reduxStore/systemSlice';
+import ModalComponent from '../components/common/ModalComponent';
 
 const Profile = () => {
+    const dispatch = useDispatch()
 
     const handleOnEditProfile =()=>{
         console.log('edit profile')
+        dispatch(setShowCustomModal(true))
     }
 
     const handleOnLogOut =()=>{
         console.log('log out')
     }
   return (
-    <View style={styles.profileWrapper}>
-        <View style={styles.profileImgWrapper}>
-            <View style={styles.profileImg}>
-                  <Image
-                      style={styles.profilePicture}
-                      source={{
-                          uri: 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
-                      }}
-                  />
-            </View>
+    <>
+          <ModalComponent headerText ='Edit Profile' submitText='Edit'/>
+          <View style={styles.profileWrapper}>
+              <View style={styles.profileImgWrapper}>
+                  <View style={styles.profileImg}>
+                      <Image
+                          style={styles.profilePicture}
+                          source={{
+                              uri: 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
+                          }}
+                      />
+                  </View>
 
-        </View>
+              </View>
 
-        <View style={styles.profileDetailsWrapper}>
-            <Text style={styles.profileName}>Arjesh Khadka</Text>
-        </View>
+              <View style={styles.profileDetailsWrapper}>
+                  <Text style={styles.profileName}>Arjesh Khadka</Text>
+              </View>
 
-        <View style={styles.savingsGoalWrapper}>
-            <View style={styles.iconWrapper}>
-                  <FontAwesome name='dollar' color={GlobalStyles.colors.primary700} size={30}/>
-            </View>
-            <View style={styles.savingDescriptionWrapper}>
-                <Text style={{fontSize: 20, fontWeight:'bold', paddingVertical: 5}}>Saving goals</Text>
-                <View>
-                      <Progress.Bar progress={0.7} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
-                      <View style={styles.savingAmountwrapper}>
-                        <Text>$ 50</Text>
-                        <Text>$ 500</Text>
+              <View style={styles.savingsGoalWrapper}>
+                  <View style={styles.iconWrapper}>
+                      <FontAwesome name='dollar' color={GlobalStyles.colors.primary700} size={30} />
+                  </View>
+                  <View style={styles.savingDescriptionWrapper}>
+                      <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 5 }}>Saving goals</Text>
+                      <View>
+                          <Progress.Bar progress={0.7} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
+                          <View style={styles.savingAmountwrapper}>
+                              <Text>$ 50</Text>
+                              <Text>$ 500</Text>
+                          </View>
                       </View>
-                </View>
 
-            </View>
-        </View>
-        
-          <View style={styles.transactionsWrapper}>
-              <TransactionBanner name='Income' icon='money-bill-wave-alt'/>
-              <TransactionBanner name='Expenses' icon='shopping-bag' />
+                  </View>
+              </View>
 
-        </View>
+              <View style={styles.transactionsWrapper}>
+                  <TransactionBanner name='Income' icon='money-bill-wave-alt' />
+                  <TransactionBanner name='Expenses' icon='shopping-bag' />
 
-        <View style={styles.transactionsWrapper}>
-              <TransactionBanner name='Current Balance' icon='coins' />
-        </View>
+              </View>
 
-        <View style={styles.buttonWrapper}>
-              <ButtonComponent name='Log Out' type='errorText' onPress={handleOnLogOut}/>
-              <ButtonComponent name='Edit Profile' type='positiveText' onPress={handleOnEditProfile} />
-        </View>
-    </View>  
+              <View style={styles.transactionsWrapper}>
+                  <TransactionBanner name='Current Balance' icon='coins' />
+              </View>
+
+              <View style={styles.buttonWrapper}>
+                  <ButtonComponent name='Edit Profile' type='positiveText' onPress={handleOnEditProfile} />
+                  <ButtonComponent name='Log Out' type='errorText' onPress={handleOnLogOut} />
+              </View>
+          </View> 
+    </>
+     
   )
 }
 

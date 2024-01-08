@@ -59,23 +59,24 @@ const LoginScreen = ({navigation}) => {
     }
 
     const handleOnLogin = () => {
-        if (!authData.email || !authData.password){
-            setError(['Email and Password are required']);
-        }else if (!isValidEmail(authData.email) && authData.password.length < 6) {
-            setError(['Email is invalid.','Password must be more than 6 characters long.']);
-        } else if (!isValidEmail(authData.email)){
-            setError(['Email is invalid!'])
-        } else if (authData.password.length < 6) {
-            setError(['Password must be more than 6 characters!'])
-        } else {
+        // if (!authData.email || !authData.password){
+        //     setError(['All fields are required']);
+        // }else if (!isValidEmail(authData.email) && authData.password.length < 6) {
+        //     setError(['Email is invalid.','Password must be more than 6 characters long.']);
+        // } else if (!isValidEmail(authData.email)){
+        //     setError(['Email is invalid!'])
+        // } else if (authData.password.length < 6) {
+        //     setError(['Password must be more than 6 characters!'])
+        // } else {
             setError(null);
             console.log(authData)
-        }
+            navigation.navigate('Home')
+        // }
     }
 
     const handleOnRegister = () => {
         if (!authData.name || !authData.email || !authData.password || !authData.confirmPassword){
-            setError(['Name, Email, Password and Confirm  Password are required.'])
+            setError(['All fields are required.'])
         } else if (!isValidEmail(authData.email) && authData.password.length < 6) {
             setError(['Email is invalid.','Password must be more than 6 characters long.']);
         } else if (!isValidEmail(authData.email)) {
