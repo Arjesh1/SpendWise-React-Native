@@ -23,7 +23,7 @@ const ModalComponent = ({ icon, onPress, headerText, submitText, bodyDetailText,
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showCustomModal}>
+                visible={showCustomModal} key={headerText}>
           <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
     modalView: {
         width: '95%',
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     modalBody:{
         width: '100%',
         justifyContent: 'space-evenly',
-        paddingVertical: 10,
+        paddingBottom: 10,
         paddingHorizontal: 8
     },
     detailContainer:{
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
     },
     detailText:{
         fontSize: 15,
+        textAlign:'center'
     },
     modalFooter:{
         paddingVertical: 10,
@@ -111,6 +113,8 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: GlobalStyles.colors.gray300,
         gap: 10,
+        borderBottomEndRadius: 20,
+        borderBottomStartRadius: 20,
     },
 });
 

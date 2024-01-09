@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Image } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Progress from 'react-native-progress';
 import TransactionBanner from '../components/common/TransactionBanner';
 import ButtonComponent from '../components/common/ButtonComponent';
@@ -14,6 +15,75 @@ import TransactionInput from '../components/common/TransactionInput';
 const Profile = () => {
     const dispatch = useDispatch()
     const [editProfileData, setEditProfileData] = useState({email: 'arjes.khadka.com', name:'Arjesh Khadka', goal: '50000' })
+    const [editProfileActive, setEditProfileActive] = useState(null)
+    const [modalData, setModalData] = useState({})
+
+    const editFormTextInputs = [
+        {
+            label: 'Full Name',
+            placeholder: 'John Smith',
+            keyboardType: 'default',
+            value: editProfileData.name,
+            changeHandler: setEditNameData,
+
+        },
+
+        {
+            label: 'Email Address',
+            placeholder: 'john@smith.com',
+            keyboardType: 'email-address',
+            value: editProfileData.email,
+            changeHandler: setEditEmailData
+        },
+
+        {
+            label: 'Saving Goals',
+            placeholder: '$5000',
+            keyboardType: 'numeric',
+            value: editProfileData.goal,
+            changeHandler: setEditSavingData
+        },
+
+    ]
+
+    function editProfileForm() {
+        return (
+            <View style={{ gap: 10 }}>
+                {editFormTextInputs.map((input, i) => (
+                    <View key={i}>
+                        <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>{input.label}</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: input.placeholder, value: input.value, editable: true, keyboardType: input.keyboardType, onChangeText: (changeText) => input.changeHandler(changeText) }} />
+                    </View>
+                ))}
+            </View>
+        )
+    }
+
+    const editProfileProps = {
+        headerText: 'Edit Profile',
+        submitText: 'Edit',
+        onPress: () => handleOnEditProfileSubmit(),
+        icon: 
+        <View style={{ padding: 15, justifyContent:'center', alignItems:'center', backgroundColor: GlobalStyles.colors.error100, borderRadius: 999 }}> 
+        <FontAwesome5 name="user-edit" size={35} color={GlobalStyles.colors.primary700} /> 
+         </View>  ,
+        additionalBody: editProfileForm(),
+    };
+
+    const changePasswordProps = {
+        headerText: 'Change Password',
+        submitText: 'Reset Password',
+        onPress: () => handleOnEditProfileSubmit(),
+        icon: <FontAwesome name="undo" size={35} color={GlobalStyles.colors.primary700} />,
+        additionalBody: changePasswordForm(),
+    };
+
+    useEffect(()=>{
+        if(editProfileActive){
+            setModalData(editProfileProps)
+        } else if(!editProfileActive){
+            setModalData(changePasswordProps)
+        }
+    }, [editProfileActive])
 
     function setEditEmailData(email) {
         setEditProfileData((currentValues) => {
@@ -41,6 +111,15 @@ const Profile = () => {
         })
     }
 
+    function changePasswordInput(goal) {
+        setEditProfileData((currentValues) => {
+            return {
+                ...currentValues,
+                'goal': goal
+            }
+        })
+    }
+
     const handleOnEditProfileSubmit = () => {
         console.log(editProfileData)
         
@@ -52,52 +131,24 @@ const Profile = () => {
 
     
 
-    const editFormTextInputs =[
-        {
-            label: 'Full Name',
-            placeholder: 'John Smith',
-            keyboardType: 'default',
-            value: editProfileData.name,
-            changeHandler: setEditNameData,
 
-        },
-        
-        {
-            label: 'Email Address',
-            placeholder: 'john@smith.com',
-            keyboardType: 'email-address',
-            value: editProfileData.email,
-            changeHandler: setEditEmailData
-        },
 
-        {
-            label: 'Saving Goals',
-            placeholder: '$5000',
-            keyboardType: 'numeric',
-            value: editProfileData.goal,
-            changeHandler: setEditSavingData
-        },
+    function changePasswordForm() {
+        return (
+            <View style={{ gap: 10 }}>
+                <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Old password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
 
-    ]
+                <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>New password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
 
-    function editProfileForm (){
-        return(
-            <View style={{gap: 10}}>
-                {editFormTextInputs.map((input)=>(
-                    <>
-                        <Text key={input} style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>{input.label}</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: input.placeholder, value:input.value, editable:true, keyboardType: input.keyboardType, onChangeText: (changeText) => input.changeHandler(changeText) }} />
-                    </>
-                ))}
-                
-            </View>
-            
-            
-            
-        ) 
+                <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Confirm new password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
+                </View>
+        )
     }
+
+
   return (
     <>
-          <ModalComponent headerText='Edit Profile' submitText='Edit' onPress={() => handleOnEditProfileSubmit()} icon={<FontAwesome5 name="user-edit" size={35} color={GlobalStyles.colors.primary700} />} additionalBody={editProfileForm()}/>
+          <ModalComponent {...modalData} />
           <View style={styles.profileWrapper}>
               <View style={styles.profileImgWrapper}>
                   <View style={styles.profileImg}>
@@ -143,8 +194,14 @@ const Profile = () => {
               </View>
 
               <View style={styles.buttonWrapper}>
-                  <ButtonComponent name='Edit Profile' type='positiveText' onPress={()=>dispatch(setShowCustomModal(true))} />
-                  <ButtonComponent name='Change Password' type='errorText' onPress={() => dispatch(setShowCustomModal(true))} />
+                  <ButtonComponent name='Edit Profile' type='positiveText' onPress={()=> {
+                      setEditProfileActive(true);
+                      dispatch(setShowCustomModal(true))
+                  }} />
+                  <ButtonComponent name='Change Password' type='errorText' onPress={() => {
+                      setEditProfileActive(false);
+                    dispatch(setShowCustomModal(true));
+                    }} />
                   <ButtonComponent name='Log Out' type='negativeBg' onPress={handleOnLogOut} />
               </View>
           </View> 

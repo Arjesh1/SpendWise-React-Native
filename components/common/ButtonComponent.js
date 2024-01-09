@@ -42,21 +42,25 @@ const styles = StyleSheet.create({
     positiveBackground:{
         backgroundColor: GlobalStyles.colors.primary600,
         color: GlobalStyles.colors.white,
+        borderRadius: 5,
     },
     errorBackground:{
         backgroundColor: GlobalStyles.colors.error700,
         color: GlobalStyles.colors.white,
+        borderRadius: 5,
     },
     positiveText:{
         color: GlobalStyles.colors.primary700,
-        backgroundColor: GlobalStyles.colors.gray100,
+        backgroundColor: GlobalStyles.colors.white,
         borderWidth: 2,
-        borderColor: GlobalStyles.colors.primary600
+        borderColor: GlobalStyles.colors.primary600,
+        // borderRadius: 5,
     }, 
     errorText:{
         color: GlobalStyles.colors.error700,
         backgroundColor: GlobalStyles.colors.white,
         borderWidth: 2,
-        borderColor: GlobalStyles.colors.error600
+        borderColor: GlobalStyles.colors.error600,
+        borderRadius: 5,
     }
 })
