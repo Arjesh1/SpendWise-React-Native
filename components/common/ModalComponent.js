@@ -3,7 +3,6 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View, KeyboardAvoidingView }
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles } from '../../constants/styles';
 import ButtonComponent from './ButtonComponent';
-import TransactionInput from './TransactionInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal } from '../../reduxStore/systemSlice';
 
@@ -94,12 +93,14 @@ const styles = StyleSheet.create({
     },
 
     modalBody:{
+        width: '100%',
         justifyContent: 'space-evenly',
-        paddingVertical: 10
+        paddingVertical: 10,
+        paddingHorizontal: 8
     },
     detailContainer:{
         paddingHorizontal: 8,
-        gap: 10
+        gap: 10,
     },
     detailText:{
         fontSize: 15,
