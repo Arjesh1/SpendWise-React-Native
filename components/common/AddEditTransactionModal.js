@@ -104,7 +104,8 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
       dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues({}));
       }}>
-        <View style={styles.modalContainer}>
+      <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
             <View style={styles.headerTextWrapper}>
             <Text style={styles.headerText}>{headerName} Transactions</Text>
@@ -159,7 +160,8 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
               : null}
           </View>
           </View>
-        </View>
+          </View>
+      </View>
       </Modal>
   )
 }
