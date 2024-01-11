@@ -7,7 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import * as Progress from 'react-native-progress';
 import TransactionBanner from '../components/common/TransactionBanner';
 import ButtonComponent from '../components/common/ButtonComponent';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal } from '../reduxStore/systemSlice';
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
@@ -17,6 +17,17 @@ const Profile = () => {
     const [editProfileData, setEditProfileData] = useState({email: 'arjes.khadka.com', name:'Arjesh Khadka', goal: '50000' })
     const [editProfileActive, setEditProfileActive] = useState(null)
     const [modalData, setModalData] = useState({})
+
+    const { transactionData } = useSelector(state => state.transaction)
+    const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
+        return total + +item.amount
+    }, 0))
+    const totalExpenses = Math.floor(transactionData?.filter((item) => item.type === 'expenses').reduce((total, item) => {
+        return total + +item.amount
+    }, 0))
+
+    const savingPercentage = (20-10)/100
+    
 
     const editFormTextInputs = [
         {
@@ -173,9 +184,9 @@ const Profile = () => {
                   <View style={styles.savingDescriptionWrapper}>
                       <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 5 }}>Saving goals</Text>
                       <View>
-                          <Progress.Bar progress={0.7} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
+                          <Progress.Bar progress={(totalIncome-totalExpenses)/500} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
                           <View style={styles.savingAmountwrapper}>
-                              <Text>$ 50</Text>
+                              <Text>$ {totalIncome - totalExpenses}</Text>
                               <Text>$ 500</Text>
                           </View>
                       </View>
@@ -184,13 +195,13 @@ const Profile = () => {
               </View>
 
               <View style={styles.transactionsWrapper}>
-                  <TransactionBanner name='Income' icon='money-bill-wave-alt' />
-                  <TransactionBanner name='Expenses' icon='shopping-bag' />
+                  <TransactionBanner name='Income' icon='money-bill-wave-alt' value={totalIncome}/>
+                  <TransactionBanner name='Expenses' icon='shopping-bag' value={totalExpenses} />
 
               </View>
 
               <View style={styles.transactionsWrapper}>
-                  <TransactionBanner name='Current Balance' icon='coins' />
+                  <TransactionBanner name='Current Balance' icon='coins' value={totalIncome-totalExpenses} />
               </View>
 
               <View style={styles.buttonWrapper}>
