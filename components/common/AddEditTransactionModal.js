@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Button, KeyboardAvoidingView, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setShowTransactionModal } from '../../reduxStore/systemSlice'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -79,7 +79,8 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     setTransactionInputValues((currentValues) => {
       return {
         ...currentValues,
-        ['name']: name
+        ['name']: name,
+        ['id']: selectedValue && selectedValue.id ? selectedValue.id : Date.now().toString()
       }
     })
   }
@@ -88,15 +89,21 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     setTransactionInputValues((currentValues) => {
       return {
         ...currentValues,
-        ['date']: new Date(date).getTime().toString()
+        ['date']: new Date(date).getTime().toString(),
       }
     })
   }
 
-  const handle0nSubmitTransaction =()=>{
-    console.log(transactionInputValues)
+  const handle0nAddTransaction =()=>{
     setTransactionInputValues({})
     dispatch(setShowTransactionModal(!showTransactionModal))
+    dispatch(setTransactionData([...transactionData,transactionInputValues]))
+  }
+
+  const handleOnEditTransaction =()=>{
+    const restItem = transactionData.filter((item) => item.id !== transactionInputValues.id)
+    dispatch(setTransactionData([...restItem, transactionInputValues]))
+    dispatch(setShowTransactionModal(false))
   }
 
   
@@ -104,7 +111,9 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
       dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues({}));
       }}>
-      <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+       <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
           <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
             <View style={styles.headerTextWrapper}>
@@ -154,15 +163,16 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
 
           <View style={styles.buttonWrapper}>
-            <ButtonComponent name={headerName} type='positiveBg' onPress={() => handle0nSubmitTransaction()} />
+                <ButtonComponent name={headerName} type='positiveBg' onPress={() => headerName === "Add" ?handle0nAddTransaction():handleOnEditTransaction()} />
             {headerName === "Edit" ?
               <ButtonComponent name={"Delete"} type='negativeBg' onPress={() => handle0nDeleteTransaction(selectedValue)} />
               : null}
           </View>
           </View>
           </View>
-      </View>
-      </Modal>
+       </View>
+      </KeyboardAvoidingView>
+    </Modal>
   )
 }
 
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
   modalContainer:{
     flex:1,
     backgroundColor: 'white',
-    marginTop: '30%',
+    marginTop: '15%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding: 15,

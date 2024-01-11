@@ -13,10 +13,11 @@ const HomeTransactions = ({ name, transactionLimit }) => {
   const [displayTransaction, setDisplayTransaction] = useState([])
   const { transactionData } = useSelector((state) => state.transaction)
   const dispatch = useDispatch()
-  const sortedTransaction = [...transactionData].sort((a, b) => b.timestamp - a.timestamp )
   useEffect(()=>{
+    const sortedTransaction = [...transactionData].sort((a, b) => b.date - a.date)
+    console.log(sortedTransaction)
     if (transactionLimit) {
-      setDisplayTransaction(sortedTransaction.slice(1, 11))
+      setDisplayTransaction(sortedTransaction.slice(0, 10))
     } else {
       setDisplayTransaction(sortedTransaction)
     }
