@@ -122,7 +122,7 @@ const LoginScreen = ({navigation}) => {
                 <View>
                     <Text style={styles.otherOptionText}>Or log in with</Text>
                     <View>
-                        <ButtonComponent onPress={() => handleOnLogin()} name={
+                        <ButtonComponent disabled={true} onPress={() => handleOnLogin()} name={
                             <FontAwesome name="google" size={30} />} type='positiveText' />
                     </View>
                 </View>

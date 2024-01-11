@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 
-const ButtonComponent = ({ name, onPress, type}) => {
+const ButtonComponent = ({ name, onPress, type, disabled}) => {
     const [buttonType, setButtonType] = useState()
     useEffect(()=>{
         if(type === 'positiveBg'){
@@ -20,9 +20,9 @@ const ButtonComponent = ({ name, onPress, type}) => {
         onPress()
     }
   return (
-      <Pressable onPress={handleOnButtonPressed}>
+      <Pressable onPress={handleOnButtonPressed} disabled={disabled? disabled: false}>
           {/* <Text style={name === 'Delete' ? [styles.buttonText, styles.errorBackground] :[styles.buttonText, styles.positiveBackground]}>{name}</Text> */}
-          <Text style={ [styles.buttonText, buttonType]}>{name}</Text>
+          <Text style={ [styles.buttonText, buttonType, disabled?{backgroundColor:GlobalStyles.colors.gray300}: null]}>{name}</Text>
       </Pressable>
   )
 }
