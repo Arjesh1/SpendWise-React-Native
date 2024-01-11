@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import ButtonComponent from '../components/common/ButtonComponent'
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -8,7 +8,8 @@ import AuthInputComponent from '../components/common/AuthInputComponent'
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
 import { useDispatch } from 'react-redux';
-import { setShowCustomModal } from '../reduxStore/systemSlice';
+import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
+import LoadingComponent from '../components/common/LoadingComponent';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -87,7 +88,14 @@ const LoginScreen = ({navigation}) => {
             setError(['Password and confirm password do not match.'])
         } else {
             setError(null);
-            console.log(authData)
+            const { confirmPassword, ...rest } = authData
+            dispatch(setShowLoader(true))
+            setTimeout(()=>{
+             dispatch(setShowLoader(false))
+            },3000)
+            setTimeout(() => {
+                dispatch(setAuthData(rest))
+            }, 3010)
         }
     }
 
@@ -152,6 +160,7 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <>
+          <LoadingComponent/>
           <ModalComponent headerText='Reset Password' onPress={()=> handleOnforgetPw()} errorMsg={resetError} icon={<View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
               <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700}/>
           </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: 'johnsmith@gmail.com', onChangeText: (email)=> setResetPasswordEmail(email) }} /></>}/>
