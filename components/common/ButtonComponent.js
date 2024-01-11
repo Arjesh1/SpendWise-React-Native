@@ -50,17 +50,17 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     positiveText:{
+        overflow:'hidden',
         color: GlobalStyles.colors.primary700,
         backgroundColor: GlobalStyles.colors.white,
         borderWidth: 2,
-        borderColor: GlobalStyles.colors.primary600,
-        // borderRadius: 5,
+        borderColor: GlobalStyles.colors.primary600,  
     }, 
     errorText:{
         color: GlobalStyles.colors.error700,
         backgroundColor: GlobalStyles.colors.white,
         borderWidth: 2,
         borderColor: GlobalStyles.colors.error600,
-        borderRadius: 5,
+        overflow: 'hidden',
     }
 })
