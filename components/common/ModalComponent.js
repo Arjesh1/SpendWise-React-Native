@@ -25,34 +25,31 @@ const ModalComponent = ({ icon, onPress, headerText, submitText, bodyDetailText,
                 transparent={true}
                 visible={showCustomModal} key={headerText}>
           <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+              <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
                       <View style={styles.modalHeader}>
-
-                        {icon? icon: null}
-                          
-                      <Text style={styles.headerText}>{headerText}</Text>
+                          {icon ? icon : null}
+                          <Text style={styles.headerText}>{headerText}</Text>
                       </View>
 
                       <View style={styles.modalBody}>
-                        
-                        <View style={styles.detailContainer}>
-                          <Text style={styles.detailText}>
-                              {bodyDetailText}
-                          </Text>
-                            {additionalBody ? additionalBody: null}
-                            
-                            {errorMsg ? <Text style={[styles.detailText, { color: GlobalStyles.colors.error500, textAlign: 'center' }]}>{errorMsg}</Text> : null}
-                        </View>
+                          <View style={styles.detailContainer}>
+                              <Text style={styles.detailText}>{bodyDetailText}</Text>
+                              {additionalBody ? additionalBody : null}
+                              {errorMsg ? (
+                                  <Text style={[styles.detailText, { color: GlobalStyles.colors.error500, textAlign: 'center' }]}>
+                                      {errorMsg}
+                                  </Text>
+                              ) : null}
+                          </View>
                       </View>
 
                       <View style={styles.modalFooter}>
                           <ButtonComponent name={submitText} onPress={() => handleOnSubmitPressed()} type='positiveBg' />
-
-                      <ButtonComponent name='Close' onPress={() => handleOnModalClose()} type='errorText' />
-                     </View>
-                    </View>
-                </View>
+                          <ButtonComponent name='Close' onPress={() => handleOnModalClose()} type='errorText' />
+                      </View>
+                  </View>
+              </View>
           </KeyboardAvoidingView>
             </Modal>
     );
@@ -61,7 +58,6 @@ const ModalComponent = ({ icon, onPress, headerText, submitText, bodyDetailText,
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
@@ -80,7 +76,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: '20%'
     },
     modalHeader:{
         width: '100%',
@@ -96,8 +93,9 @@ const styles = StyleSheet.create({
     modalBody:{
         width: '100%',
         justifyContent: 'space-evenly',
-        paddingBottom: 10,
-        paddingHorizontal: 8
+        paddingBottom: 15,
+        paddingHorizontal: 8,
+        backgroundColor: 'white',
     },
     detailContainer:{
         paddingHorizontal: 8,
