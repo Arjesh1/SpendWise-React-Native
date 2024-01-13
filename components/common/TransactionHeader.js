@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 
 const TransactionHeader = () => {
   const {transactionData} = useSelector(state => state.transaction)
+  const { userData } = useSelector(state => state.user)
   const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item)=> {
     return total + +item.amount
   }, 0))
@@ -13,7 +14,7 @@ const TransactionHeader = () => {
   return (<>
   <View style={styles.greetingContainer}>
         <Text style={styles.greetingText}>
-          Hello, <Text style={styles.userName}>Arjesh</Text>
+          Hello, <Text style={styles.userName}>{userData.name}</Text>
         </Text>
       </View>
     <View style={styles.transactionHeaderContainer}>
@@ -25,13 +26,8 @@ const TransactionHeader = () => {
         <Text style={styles.transactionType}>Expenses: </Text>
         <Text style={styles.transactionAmountExpenses}>${totalExpenses}</Text>
       </View>
-
     </View>
-  
-  
-  
   </>
-    
   )
 }
 

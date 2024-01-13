@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, SafeAreaView, Image } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Progress from 'react-native-progress';
 import TransactionBanner from '../components/common/TransactionBanner';
 import ButtonComponent from '../components/common/ButtonComponent';
@@ -11,39 +10,70 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal } from '../reduxStore/systemSlice';
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
+import { setUserData } from '../reduxStore/userAuthSlice';
 
 const Profile = () => {
     const dispatch = useDispatch()
-    const [editProfileData, setEditProfileData] = useState({email: 'arjes.khadka.com', name:'Arjesh Khadka', goal: '50000' })
+    const [profileData, setProfileData] = useState({})
     const [editProfileActive, setEditProfileActive] = useState(null)
     const [modalData, setModalData] = useState({})
-
+    const { userData } = useSelector(state => state.user)
     const { transactionData } = useSelector(state => state.transaction)
+
     const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
         return total + +item.amount
     }, 0))
+
     const totalExpenses = Math.floor(transactionData?.filter((item) => item.type === 'expenses').reduce((total, item) => {
         return total + +item.amount
     }, 0))
 
-    const savingPercentage = (20-10)/100
-    
+    useEffect(()=>{
+        setProfileData(userData)
+    }, [userData, profileData])
+
+    function setEditEmailData(email) {
+        setProfileData((currentValues) => {
+            return {
+                ...currentValues,
+                'email': email
+            }
+        })
+    }
+
+    function setEditNameData(name) {
+        setProfileData((currentValues) => {
+            return {
+                ...currentValues,
+                'name': name
+            }
+        })
+    }
+
+
+    function setEditSavingData(goal) {
+        setProfileData((currentValues) => {
+            return {
+                ...currentValues,
+                'goal': goal
+            }
+        })
+    }
 
     const editFormTextInputs = [
         {
             label: 'Full Name',
             placeholder: 'John Smith',
             keyboardType: 'default',
-            value: editProfileData.name,
+            value: profileData.name,
             changeHandler: setEditNameData,
-
         },
 
         {
             label: 'Email Address',
             placeholder: 'john@smith.com',
             keyboardType: 'email-address',
-            value: editProfileData.email,
+            value: profileData.email,
             changeHandler: setEditEmailData
         },
 
@@ -51,7 +81,7 @@ const Profile = () => {
             label: 'Saving Goals',
             placeholder: '$5000',
             keyboardType: 'numeric',
-            value: editProfileData.goal,
+            value: profileData.goal,
             changeHandler: setEditSavingData
         },
 
@@ -59,14 +89,29 @@ const Profile = () => {
 
     function editProfileForm() {
         return (
-            <View style={{ gap: 10 }}>
+            <View style={{ gap: 10 }} key={editFormTextInputs}>
                 {editFormTextInputs.map((input, i) => (
-                    <View key={i}>
-                        <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>{input.label}</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: input.placeholder, value: input.value, editable: true, keyboardType: input.keyboardType, onChangeText: (changeText) => input.changeHandler(changeText) }} />
+                    <View key={input.name}>
+                        <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>{input.label}</Text>
+                        <TransactionInput key={input.value}
+                            inputStyles={{ borderWidth: 1, textAlign: 'center' }}
+                            textInputConfig={{
+                                placeholder: input.placeholder,
+                                value: input.value,
+                                keyboardType: input.keyboardType,
+                                onChangeText: (changeText) => input.changeHandler(changeText),
+                            }}
+                        />
                     </View>
                 ))}
             </View>
-        )
+        );
+    }
+
+    const handleOnEditProfileSubmit = () => {
+        console.log(profileData, 'profileData on function')
+        dispatch(setUserData(profileData))
+        dispatch(setShowCustomModal(false))
     }
 
     const editProfileProps = {
@@ -74,11 +119,19 @@ const Profile = () => {
         submitText: 'Edit',
         onPress: () => handleOnEditProfileSubmit(),
         icon: 
-        <View style={{ padding: 15, justifyContent:'center', alignItems:'center', backgroundColor: GlobalStyles.colors.error100, borderRadius: 999 }}> 
         <FontAwesome5 name="user-edit" size={35} color={GlobalStyles.colors.primary700} /> 
-         </View>  ,
+          ,
         additionalBody: editProfileForm(),
     };
+
+    function changePasswordInput(goal) {
+        setProfileData((currentValues) => {
+            return {
+                ...currentValues,
+                'goal': goal
+            }
+        })
+    }
 
     const changePasswordProps = {
         headerText: 'Change Password',
@@ -88,61 +141,7 @@ const Profile = () => {
         additionalBody: changePasswordForm(),
     };
 
-    useEffect(()=>{
-        if(editProfileActive){
-            setModalData(editProfileProps)
-        } else if(!editProfileActive){
-            setModalData(changePasswordProps)
-        }
-    }, [editProfileActive])
-
-    function setEditEmailData(email) {
-        setEditProfileData((currentValues) => {
-            return {
-                ...currentValues,
-                'email': email
-            }
-        })
-    }
-
-    function setEditNameData(name) {
-        setEditProfileData((currentValues) => {
-            return {
-                ...currentValues,
-                'name': name
-            }
-        })
-    }
-    function setEditSavingData(goal) {
-        setEditProfileData((currentValues) => {
-            return {
-                ...currentValues,
-                'goal': goal
-            }
-        })
-    }
-
-    function changePasswordInput(goal) {
-        setEditProfileData((currentValues) => {
-            return {
-                ...currentValues,
-                'goal': goal
-            }
-        })
-    }
-
-    const handleOnEditProfileSubmit = () => {
-        console.log(editProfileData)
-        
-    }
-
-    const handleOnLogOut = () => {
-        console.log('Logout')
-    }
-
     
-
-
 
     function changePasswordForm() {
         return (
@@ -152,15 +151,36 @@ const Profile = () => {
                 <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>New password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
 
                 <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Confirm new password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
-                </View>
+            </View>
         )
     }
+
+    useEffect(()=>{
+        if(editProfileActive){
+            setModalData(editProfileProps)
+        } else if(!editProfileActive){
+            setModalData(changePasswordProps)
+        }
+    }, [editProfileActive])
+
+
+
+    
+
+    
+
+    const handleOnLogOut = () => {
+        console.log('Logout')
+    }
+
+
+    
 
 
   return (
     <>
           <ModalComponent {...modalData} />
-          <View style={styles.profileWrapper}>
+          <View style={styles.profileWrapper} key={userData}>
               <View style={styles.profileImgWrapper}>
                   <View style={styles.profileImg}>
                       <Image
@@ -174,7 +194,7 @@ const Profile = () => {
               </View>
 
               <View style={styles.profileDetailsWrapper}>
-                  <Text style={styles.profileName}>Arjesh Khadka</Text>
+                  <Text style={styles.profileName}>{userData.name}</Text>
               </View>
 
               <View style={styles.savingsGoalWrapper}>
@@ -183,14 +203,19 @@ const Profile = () => {
                   </View>
                   <View style={styles.savingDescriptionWrapper}>
                       <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 5 }}>Saving goals</Text>
-                      <View>
-                          <Progress.Bar progress={(totalIncome-totalExpenses)/500} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
-                          <View style={styles.savingAmountwrapper}>
-                              <Text>$ {totalIncome - totalExpenses}</Text>
-                              <Text>$ 500</Text>
-                          </View>
-                      </View>
-
+                      {userData && !userData.goal ?
+                          <ButtonComponent name='Add saving goal' type='positiveBg' onPress={() => {
+                              setEditProfileActive(true);
+                              dispatch(setShowCustomModal(true))
+                          }} />
+                      : <View>
+                              <Progress.Bar progress={(totalIncome - totalExpenses) / 510} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
+                              <View style={styles.savingAmountwrapper}>
+                                  <Text>$ {totalIncome - totalExpenses}</Text>
+                                  <Text>$ {userData.goal}</Text>
+                              </View>
+                          </View>}
+                      
                   </View>
               </View>
 

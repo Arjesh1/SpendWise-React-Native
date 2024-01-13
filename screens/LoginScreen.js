@@ -10,6 +10,7 @@ import TransactionInput from '../components/common/TransactionInput';
 import { useDispatch } from 'react-redux';
 import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import LoadingComponent from '../components/common/LoadingComponent';
+import { setUserData } from '../reduxStore/userAuthSlice';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -45,7 +46,8 @@ const LoginScreen = ({navigation}) => {
         setAuthData((currentValues) => {
             return {
                 ...currentValues,
-                'confirmPassword': confirmPassword
+                'confirmPassword': confirmPassword,
+                'goal':''
             }
         })
     }
@@ -94,7 +96,8 @@ const LoginScreen = ({navigation}) => {
              dispatch(setShowLoader(false))
             },3000)
             setTimeout(() => {
-                dispatch(setAuthData(rest))
+                dispatch(setUserData(rest))
+                navigation.navigate('Home')
             }, 3010)
         }
     }

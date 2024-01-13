@@ -5,7 +5,7 @@ import { GlobalStyles } from "../../constants/styles"
 const AuthInputComponent = ({ icon, textInputConfig }) => {
 
     const authInputStyles={
-        textAlign: 'start',
+        textAlign: 'left',
         borderWidth: 0
     }
 

@@ -15,6 +15,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
     const {transactionData} = useSelector(state=>state.transaction)
     const dispatch = useDispatch()
+    
     const handle0nDeleteTransaction = (selectedValue)=>{
       const restItem = transactionData.filter((item) => item.id !== selectedValue.id)
       dispatch(setTransactionData(restItem))
