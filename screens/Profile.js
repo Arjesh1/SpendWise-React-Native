@@ -7,10 +7,11 @@ import * as Progress from 'react-native-progress';
 import TransactionBanner from '../components/common/TransactionBanner';
 import ButtonComponent from '../components/common/ButtonComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShowCustomModal } from '../reduxStore/systemSlice';
+import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
 import { setUserData } from '../reduxStore/userAuthSlice';
+import { emailChecker } from '../validators/inputChecker';
 
 const Profile = () => {
     const dispatch = useDispatch()
@@ -19,6 +20,7 @@ const Profile = () => {
     const [modalData, setModalData] = useState({})
     const { userData } = useSelector(state => state.user)
     const { transactionData } = useSelector(state => state.transaction)
+    const [error, setError] = useState(null)
 
     const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
         return total + +item.amount
@@ -108,8 +110,24 @@ const Profile = () => {
     }
 
     const handleOnEditProfileSubmit = () => {
-        dispatch(setUserData(profileData))
-        dispatch(setShowCustomModal(false))
+        if (profileData.name.length < 1 || profileData.email.length < 1, profileData.goal.length < 1) {
+            setError(['All fields are required.'])
+        } else if (!emailChecker(profileData.email) && profileData.password.length < 6) {
+            setError(['Email is invalid.', 'Password must be more than 6 characters long.']);
+        } else if (!emailChecker(profileData.email)) {
+            setError(['Email is invalid.'])
+        } else {
+            setError(null);
+            dispatch(setShowLoader(true))
+            setTimeout(() => {
+                dispatch(setShowLoader(false))
+            }, 3000)
+            setTimeout(() => {
+                dispatch(setUserData(profileData))
+                dispatch(setShowCustomModal(false))
+            }, 3010)
+        }
+        
     }
 
     const editProfileProps = {
@@ -165,7 +183,7 @@ const Profile = () => {
 
   return (
     <>
-          <ModalComponent {...modalData}/>
+          <ModalComponent {...modalData} errorMsg={error}/>
           <View style={styles.profileWrapper}>
               <View style={styles.profileImgWrapper}>
                   <View style={styles.profileImg}>

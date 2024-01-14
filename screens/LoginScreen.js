@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import LoadingComponent from '../components/common/LoadingComponent';
 import { setUserData } from '../reduxStore/userAuthSlice';
+import { emailChecker } from '../validators/inputChecker';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -19,10 +20,6 @@ const LoginScreen = ({navigation}) => {
     const [error, setError] = useState(null)
     const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
-
-    function isValidEmail(email) {
-        return /\S+@\S+\.\S+/.test(email);
-    }
 
     function emailHandler(email) {
         setAuthData((currentValues) => {
@@ -62,27 +59,27 @@ const LoginScreen = ({navigation}) => {
     }
 
     const handleOnLogin = () => {
-        // if (!authData.email || !authData.password){
-        //     setError(['All fields are required']);
-        // }else if (!isValidEmail(authData.email) && authData.password.length < 6) {
-        //     setError(['Email is invalid.','Password must be more than 6 characters long.']);
-        // } else if (!isValidEmail(authData.email)){
-        //     setError(['Email is invalid!'])
-        // } else if (authData.password.length < 6) {
-        //     setError(['Password must be more than 6 characters!'])
-        // } else {
+        if (!authData.email || !authData.password){
+            setError(['All fields are required']);
+        }else if (!emailChecker(authData.email) && authData.password.length < 6) {
+            setError(['Email is invalid.','Password must be more than 6 characters long.']);
+        } else if (!emailChecker(authData.email)){
+            setError(['Email is invalid!'])
+        } else if (authData.password.length < 6) {
+            setError(['Password must be more than 6 characters!'])
+        } else {
             setError(null);
             console.log(authData)
             navigation.navigate('Home')
-        // }
+        }
     }
 
     const handleOnRegister = () => {
         if (!authData.name || !authData.email || !authData.password || !authData.confirmPassword){
             setError(['All fields are required.'])
-        } else if (!isValidEmail(authData.email) && authData.password.length < 6) {
+        } else if (!emailChecker(authData.email) && authData.password.length < 6) {
             setError(['Email is invalid.','Password must be more than 6 characters long.']);
-        } else if (!isValidEmail(authData.email)) {
+        } else if (!emailChecker(authData.email)) {
             setError(['Email is invalid.'])
         } else if (authData.password.length < 6) {
             setError(['Password must be more than 6 characters.'])
@@ -106,7 +103,7 @@ const LoginScreen = ({navigation}) => {
     const handleOnforgetPw =()=>{
         if(!resetPasswordEmail){
             setResetError('Email address is required.')
-        } else if (!isValidEmail(resetPasswordEmail)){
+        } else if (!emailChecker(resetPasswordEmail)){
             setResetError('Email address is invalid.')
         } else{
             console.log(resetPasswordEmail)
