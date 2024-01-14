@@ -5,7 +5,7 @@ const TransactionInput = ({ label, textInputConfig, inputStyles }) => {
   return (
     <View>
       {label ? <Text style={styles.labelText}>{label}:</Text> :null}
-      <TextInput style={ [styles.input, {...inputStyles}]} {...textInputConfig}/>
+      <TextInput style={ [styles.input, { ...inputStyles }]} {...textInputConfig}/>
     </View>
   )
 }

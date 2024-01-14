@@ -23,7 +23,7 @@ const ModalComponent = ({ icon, onPress, headerText, submitText, bodyDetailText,
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showCustomModal} key={headerText}>
+                visible={showCustomModal}>
           <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
               <View style={styles.centeredView}>
                   <View style={styles.modalView}>
