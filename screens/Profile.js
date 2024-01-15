@@ -12,7 +12,8 @@ import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
 import { setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
-import { Toast } from 'toastify-react-native'
+import { Toast } from 'toastify-react-native';
+import * as ImagePicker from 'expo-image-picker';
 
 const Profile = () => {
     const dispatch = useDispatch()
@@ -22,7 +23,7 @@ const Profile = () => {
     const { userData } = useSelector(state => state.user)
     const { transactionData } = useSelector(state => state.transaction)
     const [error, setError] = useState(null)
-    console.log(modalData)
+    const [image, setImage] = useState(null);
 
     const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
         return total + +item.amount
@@ -171,10 +172,47 @@ const Profile = () => {
         )
     }
 
+    const pickProfileImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        console.log(result);
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
+
     function editProfilePictureComponent(){
         return(
-            <View>
-                <Text>hellomknknk</Text>
+            <View >
+                <View style={{justifyContent:'center', alignItems:'center', gap:10}}>
+                    <View style={styles.profileImg}>
+                            <Image
+                                style={styles.profilePicture}
+                                source={{
+                                    uri: 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
+                                }}
+                            />
+                    </View>
+                    <View style={{width:'60%'}}>
+                        <ButtonComponent name={
+                            <View style={{flexDirection:'row', alignItems:'center',gap:20 }}>
+                                <View style={{}}>
+                                    <Text style={{fontSize: 18,fontWeight: 'bold',color:GlobalStyles.colors.white}}>Upload</Text>
+                                </View>
+                                
+                                <FontAwesome name="upload" size={30} color={GlobalStyles.colors.white} />
+
+
+                            </View>
+                        } type='positiveBg' onPress={pickProfileImage} />
+                    </View>
+                    
+                </View>
             </View>
 
         )
@@ -188,18 +226,17 @@ const Profile = () => {
         headerText: 'Edit Profile',
         submitText: 'Save',
         onPress: () => handleOnEditProfilePicture(),
-        icon: <FontAwesome name="undo" size={35} color={GlobalStyles.colors.primary700} />,
         additionalBody: editProfilePictureComponent(),
     };
 
     useEffect(()=>{
-        if(editProfileActive){
+        if (editProfileActive === null){
+            setModalData(editProfilePictureProps)
+        }else if(editProfileActive){
             setModalData(editProfileProps)
         } else if(!editProfileActive){
             setModalData(changePasswordProps)
-        } else{
-            setModalData(editProfilePictureProps)
-        }
+        } 
     }, [editProfileActive, profileData])
 
     const handleOnLogOut = () => {
