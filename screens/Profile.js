@@ -172,13 +172,24 @@ const Profile = () => {
         )
     }
 
-    const pickProfileImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1,1],
-            quality: 1,
-        });
+    const pickProfileImage = async (fromCamera = false) => {
+        let result;
+        if (fromCamera) {
+            result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+        } else {
+            result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                cameraType: 'front',
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+        }
         if (!result.canceled) {
             setImage(result.assets[0].uri);
         }
@@ -243,7 +254,6 @@ const Profile = () => {
 
     const handleOnLogOut = () => {
         Toast.error('Logou successfull');
-        console.log('Logout')
     }
 
     
