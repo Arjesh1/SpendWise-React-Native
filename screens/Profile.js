@@ -12,6 +12,7 @@ import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
 import { setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
+import { Toast } from 'toastify-react-native'
 
 const Profile = () => {
     const dispatch = useDispatch()
@@ -178,6 +179,7 @@ const Profile = () => {
     }, [editProfileActive, profileData])
 
     const handleOnLogOut = () => {
+        Toast.error('Logou successfull');
         console.log('Logout')
     }
 

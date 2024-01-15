@@ -11,6 +11,7 @@ import store from './reduxStore/store';
 import Profile from './screens/Profile';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
+import ToastManager from 'toastify-react-native'
 
 const ButtomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator()
@@ -42,16 +43,19 @@ export default function App() {
 
   
   return (
-    <Provider store={store}>
-      <StatusBar style="light" />
-      <NavigationContainer>
+    <>
+     <Provider store={store}>
+       <StatusBar style="light" />
+       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false}} initialRouteName='Login'>
           <Stack.Screen name='Home' component={ButtomTabNavigation}/>
           <Stack.Screen name='Login' component={LoginScreen} />
         </Stack.Navigator>
         
-      </NavigationContainer>
-    </Provider>
+       </NavigationContainer>
+      </Provider>
+      <ToastManager width={'100%'} height={'6%'} positionValue={20}/>
+    </>
   );
 }
 
