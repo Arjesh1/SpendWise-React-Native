@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, StyleSheet, SafeAreaView, Image } from 'react-native'
+import { Text, View, StyleSheet, SafeAreaView, Image, Pressable } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -173,14 +173,12 @@ const Profile = () => {
     }
 
     const pickProfileImage = async () => {
-        // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [1,1],
             quality: 1,
         });
-        console.log(result);
         if (!result.canceled) {
             setImage(result.assets[0].uri);
         }
@@ -194,22 +192,19 @@ const Profile = () => {
                             <Image
                                 style={styles.profilePicture}
                                 source={{
-                                    uri: 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
+                                    uri: image ? image:profileData.profileImg,
                                 }}
                             />
                     </View>
                     <View style={{width:'60%'}}>
-                        <ButtonComponent name={
-                            <View style={{flexDirection:'row', alignItems:'center',gap:20 }}>
-                                <View style={{}}>
-                                    <Text style={{fontSize: 18,fontWeight: 'bold',color:GlobalStyles.colors.white}}>Upload</Text>
+                        <Pressable onPress={pickProfileImage}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, backgroundColor: GlobalStyles.colors.primary600, paddingVertical: 6, borderRadius: 5, }}>
+                                <View>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: GlobalStyles.colors.white }}>Upload</Text>
                                 </View>
-                                
                                 <FontAwesome name="upload" size={30} color={GlobalStyles.colors.white} />
-
-
                             </View>
-                        } type='positiveBg' onPress={pickProfileImage} />
+                        </Pressable>
                     </View>
                     
                 </View>
@@ -218,14 +213,21 @@ const Profile = () => {
         )
     }
 
-    function handleOnEditProfilePicture() {
-        console.log('edit profile')
+    function handleOnEditProfileImgSave() {
+        setProfileData((currentValues) => {
+            return {
+                ...currentValues,
+                'profileImg': image
+            }
+        })
+        dispatch(setShowCustomModal(false))
+
     }
 
     const editProfilePictureProps = {
         headerText: 'Edit Profile',
         submitText: 'Save',
-        onPress: () => handleOnEditProfilePicture(),
+        onPress: () => handleOnEditProfileImgSave(),
         additionalBody: editProfilePictureComponent(),
     };
 
@@ -237,7 +239,7 @@ const Profile = () => {
         } else if(!editProfileActive){
             setModalData(changePasswordProps)
         } 
-    }, [editProfileActive, profileData])
+    }, [editProfileActive, profileData, image])
 
     const handleOnLogOut = () => {
         Toast.error('Logou successfull');
@@ -256,7 +258,7 @@ const Profile = () => {
                       <Image
                           style={styles.profilePicture}
                           source={{
-                              uri: 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
+                              uri: profileData.profileImg,
                           }}
                       />
                       <View style={{position: 'absolute', bottom: 0, width:'100%'}}>

@@ -44,7 +44,8 @@ const LoginScreen = ({navigation}) => {
             return {
                 ...currentValues,
                 'confirmPassword': confirmPassword,
-                'goal':''
+                'goal':'',
+                'profileImg':'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png'
             }
         })
     }
