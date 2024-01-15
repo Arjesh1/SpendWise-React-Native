@@ -22,6 +22,7 @@ const Profile = () => {
     const { userData } = useSelector(state => state.user)
     const { transactionData } = useSelector(state => state.transaction)
     const [error, setError] = useState(null)
+    console.log(modalData)
 
     const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
         return total + +item.amount
@@ -170,11 +171,34 @@ const Profile = () => {
         )
     }
 
+    function editProfilePictureComponent(){
+        return(
+            <View>
+                <Text>hellomknknk</Text>
+            </View>
+
+        )
+    }
+
+    function handleOnEditProfilePicture() {
+        console.log('edit profile')
+    }
+
+    const editProfilePictureProps = {
+        headerText: 'Edit Profile',
+        submitText: 'Save',
+        onPress: () => handleOnEditProfilePicture(),
+        icon: <FontAwesome name="undo" size={35} color={GlobalStyles.colors.primary700} />,
+        additionalBody: editProfilePictureComponent(),
+    };
+
     useEffect(()=>{
         if(editProfileActive){
             setModalData(editProfileProps)
         } else if(!editProfileActive){
             setModalData(changePasswordProps)
+        } else{
+            setModalData(editProfilePictureProps)
         }
     }, [editProfileActive, profileData])
 
@@ -183,20 +207,28 @@ const Profile = () => {
         console.log('Logout')
     }
 
+    
+
   return (
     <>
           <ModalComponent {...modalData} errorMsg={error}/>
           <View style={styles.profileWrapper}>
               <View style={styles.profileImgWrapper}>
                   <View style={styles.profileImg}>
+                      <View style={{ position: 'relative', width: '100%', borderRadius: 999,overflow:'hidden'  }}>
                       <Image
                           style={styles.profilePicture}
                           source={{
                               uri: 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
                           }}
                       />
+                      <View style={{position: 'absolute', bottom: 0, width:'100%'}}>
+                              <ButtonComponent name='Edit' onPress={() => {
+                                  setEditProfileActive(null);
+                                  dispatch(setShowCustomModal(true));}} />
+                      </View>
+                      </View>
                   </View>
-
               </View>
 
               <View style={styles.profileDetailsWrapper}>
@@ -270,14 +302,13 @@ const styles = StyleSheet.create({
         aspectRatio:1,
         borderRadius: 999,
         justifyContent:'center',
-        alignItems:'center'
-
+        alignItems:'center',
     },
     profilePicture: {
         width: '100%',
         height: '100%',
         borderRadius: 999,
-        resizeMode: 'cover'
+        resizeMode: 'cover',
     },
     profileDetailsWrapper:{
         marginTop: 5,

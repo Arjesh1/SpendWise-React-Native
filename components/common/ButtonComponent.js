@@ -13,6 +13,8 @@ const ButtonComponent = ({ name, onPress, type, disabled}) => {
             setButtonType(styles.errorText)
         } else if (type === 'positiveText') {
             setButtonType(styles.positiveText)
+        } else {
+            setButtonType(styles.normalText)
         }
     },[])
 
@@ -62,5 +64,11 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: GlobalStyles.colors.error600,
         overflow: 'hidden',
-    }
+    },
+    normalText:{
+        color: GlobalStyles.colors.white,
+        overflow: 'hidden',
+        backgroundColor:'rgba(0, 0, 0, 0.5)',
+    },
+
 })
