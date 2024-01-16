@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AllExpenses from './screens/AllExpenses';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -17,6 +17,8 @@ const ButtomTab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+
+  const {width} = useWindowDimensions();
 
   function ButtomTabNavigation(){
     return(
@@ -54,7 +56,7 @@ export default function App() {
         
        </NavigationContainer>
       </Provider>
-      <ToastManager width={'100%'} height={'6%'} positionValue={20}/>
+      <ToastManager width={width-20} height={'6.5%'} positionValue={20}/>
     </>
   );
 }

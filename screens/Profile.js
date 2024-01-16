@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, StyleSheet, SafeAreaView, Image, Pressable } from 'react-native'
+import { Text, View, StyleSheet, Image, Pressable } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -24,6 +24,7 @@ const Profile = () => {
     const { transactionData } = useSelector(state => state.transaction)
     const [error, setError] = useState(null)
     const [image, setImage] = useState(null);
+    const [passwordChangeData, setPasswordChangeData] = useState({})
 
     const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
         return total + +item.amount
@@ -33,7 +34,7 @@ const Profile = () => {
         return total + +item.amount
     }, 0))
 
-    useEffect(()=>{
+    useEffect(() => {
         setProfileData(userData)
     }, [userData])
 
@@ -121,53 +122,69 @@ const Profile = () => {
             setError(['Email is invalid.'])
         } else {
             setError(null);
-            dispatch(setShowLoader(true))
-            setTimeout(() => {
-                dispatch(setShowLoader(false))
-            }, 3000)
-            setTimeout(() => {
-                dispatch(setUserData(profileData))
-                dispatch(setShowCustomModal(false))
-            }, 3010)
+            dispatch(setUserData(profileData))
+            dispatch(setShowCustomModal(false))
+            Toast.success('Your profile has been edited.');
         }
-        
+
     }
 
-    const editProfileProps = {
-        headerText: 'Edit Profile',
-        submitText: 'Edit',
-        onPress: () => handleOnEditProfileSubmit(),
-        icon: 
-        <FontAwesome5 name="user-edit" size={35} color={GlobalStyles.colors.primary700} /> 
-          ,
-        additionalBody: editProfileForm(),
-    };
-
-    function changePasswordInput(goal) {
-        setProfileData((currentValues) => {
+    const oldPasswordInputHandler = (oldPassword) => {
+        setPasswordChangeData((passwordData) => {
             return {
-                ...currentValues,
-                'goal': goal
+                ...passwordData,
+                'oldPassword': oldPassword
             }
         })
     }
 
-    const changePasswordProps = {
-        headerText: 'Change Password',
-        submitText: 'Reset Password',
-        onPress: () => handleOnEditProfileSubmit(),
-        icon: <FontAwesome name="undo" size={35} color={GlobalStyles.colors.primary700} />,
-        additionalBody: changePasswordForm(),
-    };
+    const newPasswordInputHandler = (newPassword) => {
+        setPasswordChangeData((passwordData) => {
+            return {
+                ...passwordData,
+                'newPassword': newPassword
+            }
+        })
+
+    }
+
+    const confirmNewPasswordInputHandler = (confirmNewPassword) => {
+        setPasswordChangeData((passwordData) => {
+            return {
+                ...passwordData,
+                'confirmNewPassword': confirmNewPassword
+            }
+        })
+
+    }
+
+    const handleOnChangePassportSubmit = () => {
+        console.log(passwordChangeData)
+    }
+
+    const changePasswordFormData = [
+        {
+            label: 'Old Password',
+            changeHandeler: oldPasswordInputHandler
+        },
+        {
+            label: 'New Password',
+            changeHandeler: newPasswordInputHandler
+        },
+        {
+            label: 'Confirm new Password',
+            changeHandeler: confirmNewPasswordInputHandler
+        }
+    ]
 
     function changePasswordForm() {
         return (
             <View style={{ gap: 10 }}>
-                <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Old password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
-
-                <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>New password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
-
-                <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Confirm new password</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: (changeText) => changePasswordInput(changeText) }} />
+                {changePasswordFormData.map((passwordInput, i) => (
+                    <View key={i}>
+                        <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>{passwordInput.label}</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: '********', onChangeText: passwordInput.changeHandeler, secureTextEntry: true }} />
+                    </View>
+                ))}
             </View>
         )
     }
@@ -204,19 +221,19 @@ const Profile = () => {
         }
     };
 
-    function editProfilePictureComponent(){
-        return(
+    function editProfilePictureComponent() {
+        return (
             <View >
-                <View style={{justifyContent:'center', alignItems:'center', gap:10}}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                     <View style={styles.profileImg}>
-                            <Image
-                                style={styles.profilePicture}
-                                source={{
-                                    uri: image ? image:profileData.profileImg,
-                                }}
-                            />
+                        <Image
+                            style={styles.profilePicture}
+                            source={{
+                                uri: image ? image : profileData.profileImg,
+                            }}
+                        />
                     </View>
-                    <View style={{width:'60%', gap:10}}>
+                    <View style={{ width: '60%', gap: 10 }}>
                         <Pressable onPress={() => pickProfileImage()}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, backgroundColor: GlobalStyles.colors.primary600, paddingVertical: 6, borderRadius: 5, }}>
                                 <View>
@@ -230,7 +247,8 @@ const Profile = () => {
                             <View style={{
                                 flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, backgroundColor: GlobalStyles.colors.white, paddingVertical: 6, borderRadius: 5, borderWidth: 2,
                                 borderColor: GlobalStyles.colors.primary700,
-                                overflow: 'hidden', }}>
+                                overflow: 'hidden',
+                            }}>
                                 <View>
                                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: GlobalStyles.colors.primary700 }}>Take picture</Text>
                                 </View>
@@ -238,7 +256,7 @@ const Profile = () => {
                             </View>
                         </Pressable>
                     </View>
-                    
+
                 </View>
             </View>
 
@@ -256,6 +274,16 @@ const Profile = () => {
 
     }
 
+    const editProfileProps = {
+        headerText: 'Edit Profile',
+        submitText: 'Edit',
+        onPress: () => handleOnEditProfileSubmit(),
+        icon:
+            <FontAwesome5 name="user-edit" size={35} color={GlobalStyles.colors.primary700} />
+        ,
+        additionalBody: editProfileForm(),
+    };
+
     const editProfilePictureProps = {
         headerText: 'Edit Profile',
         submitText: 'Save',
@@ -263,116 +291,123 @@ const Profile = () => {
         additionalBody: editProfilePictureComponent(),
     };
 
-    useEffect(()=>{
-        if (editProfileActive === null){
+    const changePasswordProps = {
+        headerText: 'Change Password',
+        submitText: 'Reset Password',
+        onPress: () => handleOnChangePassportSubmit(),
+        icon: <FontAwesome name="undo" size={35} color={GlobalStyles.colors.primary700} />,
+        additionalBody: changePasswordForm(),
+    };
+
+    useEffect(() => {
+        if (editProfileActive === null) {
             setModalData(editProfilePictureProps)
-        }else if(editProfileActive){
+        } else if (editProfileActive) {
             setModalData(editProfileProps)
-        } else if(!editProfileActive){
+        } else if (!editProfileActive) {
             setModalData(changePasswordProps)
-        } 
-    }, [editProfileActive, profileData, image])
+        }
+    }, [editProfileActive, profileData, image, passwordChangeData])
 
     const handleOnLogOut = () => {
         Toast.error('Logou successfull');
     }
 
-    
+    return (
+        <>
+            <ModalComponent {...modalData} errorMsg={error} />
+            <View style={styles.profileWrapper}>
+                <View style={styles.profileImgWrapper}>
+                    <View style={styles.profileImg}>
+                        <View style={{ position: 'relative', width: '100%', borderRadius: 999, overflow: 'hidden' }} key={userData.profileImg}>
+                            <Image
+                                style={styles.profilePicture}
+                                source={{
+                                    uri: userData.profileImg,
+                                }}
+                            />
+                            <View style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+                                <ButtonComponent name='Edit' onPress={() => {
+                                    setEditProfileActive(null);
+                                    dispatch(setShowCustomModal(true));
+                                }} />
+                            </View>
+                        </View>
+                    </View>
+                </View>
 
-  return (
-    <>
-          <ModalComponent {...modalData} errorMsg={error}/>
-          <View style={styles.profileWrapper}>
-              <View style={styles.profileImgWrapper}>
-                  <View style={styles.profileImg}>
-                      <View style={{ position: 'relative', width: '100%', borderRadius: 999,overflow:'hidden'  }}>
-                      <Image
-                          style={styles.profilePicture}
-                          source={{
-                              uri: profileData.profileImg,
-                          }}
-                      />
-                      <View style={{position: 'absolute', bottom: 0, width:'100%'}}>
-                              <ButtonComponent name='Edit' onPress={() => {
-                                  setEditProfileActive(null);
-                                  dispatch(setShowCustomModal(true));}} />
-                      </View>
-                      </View>
-                  </View>
-              </View>
+                <View style={styles.profileDetailsWrapper}>
+                    <Text style={styles.profileName}>{userData.name}</Text>
+                </View>
 
-              <View style={styles.profileDetailsWrapper}>
-                  <Text style={styles.profileName}>{profileData.name}</Text>
-              </View>
+                <View style={styles.savingsGoalWrapper}>
+                    <View style={styles.iconWrapper}>
+                        <FontAwesome name='dollar' color={GlobalStyles.colors.primary700} size={30} />
+                    </View>
+                    <View style={styles.savingDescriptionWrapper}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 5 }}>Saving goals</Text>
+                        {profileData && !profileData.goal ?
+                            <ButtonComponent name='Add saving goal' type='positiveBg' onPress={() => {
+                                setEditProfileActive(true);
+                                dispatch(setShowCustomModal(true))
+                            }} />
+                            : <View>
+                                <Progress.Bar progress={(totalIncome - totalExpenses) / +profileData.goal} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
+                                <View style={styles.savingAmountwrapper}>
+                                    <Text>$ {totalIncome - totalExpenses}</Text>
+                                    <Text>$ {profileData.goal}</Text>
+                                </View>
+                            </View>}
 
-              <View style={styles.savingsGoalWrapper}>
-                  <View style={styles.iconWrapper}>
-                      <FontAwesome name='dollar' color={GlobalStyles.colors.primary700} size={30} />
-                  </View>
-                  <View style={styles.savingDescriptionWrapper}>
-                      <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 5 }}>Saving goals</Text>
-                      {profileData && !profileData.goal ?
-                          <ButtonComponent name='Add saving goal' type='positiveBg' onPress={() => {
-                              setEditProfileActive(true);
-                              dispatch(setShowCustomModal(true))
-                          }} />
-                      : <View>
-                              <Progress.Bar progress={(totalIncome - totalExpenses) / +profileData.goal} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
-                              <View style={styles.savingAmountwrapper}>
-                                  <Text>$ {totalIncome - totalExpenses}</Text>
-                                  <Text>$ {profileData.goal}</Text>
-                              </View>
-                          </View>}
-                      
-                  </View>
-              </View>
+                    </View>
+                </View>
 
-              <View style={styles.transactionsWrapper}>
-                  <TransactionBanner name='Income' icon='money-bill-wave-alt' value={totalIncome}/>
-                  <TransactionBanner name='Expenses' icon='shopping-bag' value={totalExpenses} />
+                <View style={styles.transactionsWrapper}>
+                    <TransactionBanner name='Income' icon='money-bill-wave-alt' value={totalIncome} />
+                    <TransactionBanner name='Expenses' icon='shopping-bag' value={totalExpenses} />
 
-              </View>
+                </View>
 
-              <View style={styles.transactionsWrapper}>
-                  <TransactionBanner name='Current Balance' icon='coins' value={totalIncome-totalExpenses} />
-              </View>
+                <View style={styles.transactionsWrapper}>
+                    <TransactionBanner name='Current Balance' icon='coins' value={totalIncome - totalExpenses} />
+                </View>
 
-              <View style={styles.buttonWrapper}>
-                  <ButtonComponent name='Edit Profile' type='positiveText' onPress={()=> {
-                      setEditProfileActive(true);
-                      dispatch(setShowCustomModal(true))
-                  }} />
-                  <ButtonComponent name='Change Password' type='errorText' onPress={() => {
-                      setEditProfileActive(false);
-                    dispatch(setShowCustomModal(true));
+                <View style={styles.buttonWrapper}>
+                    <ButtonComponent name='Edit Profile' type='positiveText' onPress={() => {
+                        setEditProfileActive(true);
+                        dispatch(setShowCustomModal(true))
                     }} />
-                  <ButtonComponent name='Log Out' type='negativeBg' onPress={handleOnLogOut} />
-              </View>
-          </View> 
-    </>
-     
-  )
+                    <ButtonComponent name='Change Password' type='errorText' onPress={() => {
+                        setEditProfileActive(false);
+                        dispatch(setShowCustomModal(true));
+                    }} />
+                    <ButtonComponent name='Log Out' type='negativeBg' onPress={handleOnLogOut} />
+                </View>
+            </View>
+        </>
+
+    )
 }
 
 export default Profile
 const styles = StyleSheet.create({
-    profileWrapper:{
+    profileWrapper: {
         flex: 1,
         paddingTop: 50,
         paddingHorizontal: 10,
         backgroundColor: GlobalStyles.colors.primary700,
         justifyContent: 'space-evenly'
     },
-    profileImgWrapper:{
+    profileImgWrapper: {
         marginTop: 15,
         alignItems: 'center'
     },
-    profileImg:{
+    profileImg: {
         width: '50%',
-        aspectRatio:1,
+        aspectRatio: 1,
         borderRadius: 999,
-        justifyContent:'center',
-        alignItems:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     profilePicture: {
         width: '100%',
@@ -380,26 +415,26 @@ const styles = StyleSheet.create({
         borderRadius: 999,
         resizeMode: 'cover',
     },
-    profileDetailsWrapper:{
+    profileDetailsWrapper: {
         marginTop: 5,
-        alignItems:'center'
+        alignItems: 'center'
     },
-    profileName:{
+    profileName: {
         fontSize: 30,
-        fontWeight:'bold',
-        color:GlobalStyles.colors.white
+        fontWeight: 'bold',
+        color: GlobalStyles.colors.white
     },
-    savingsGoalWrapper:{
-        backgroundColor:GlobalStyles.colors.white,
+    savingsGoalWrapper: {
+        backgroundColor: GlobalStyles.colors.white,
         flexDirection: 'row',
         margin: 7,
         padding: 20,
         borderRadius: 15,
         justifyContent: 'space-between',
-        alignItems:'center',
+        alignItems: 'center',
     },
-    iconWrapper:{
-        backgroundColor:GlobalStyles.colors.primary100,
+    iconWrapper: {
+        backgroundColor: GlobalStyles.colors.primary100,
         width: '15%',
         aspectRatio: 1,
         justifyContent: 'center',
@@ -408,31 +443,31 @@ const styles = StyleSheet.create({
         flex: 1
 
     },
-    savingDescriptionWrapper:{
+    savingDescriptionWrapper: {
         flex: 5,
         paddingLeft: 10,
     },
-    savingAmountwrapper:{
-        flexDirection:'row',
+    savingAmountwrapper: {
+        flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    transactionsWrapper:{
+    transactionsWrapper: {
         flexDirection: 'row',
         margin: 7,
-        gap:10,
+        gap: 10,
         alignItems: 'center',
     },
-    transaction:{
+    transaction: {
         backgroundColor: GlobalStyles.colors.white,
-        flex:1,
-        alignItems:'center',
+        flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
         padding: 18,
         borderRadius: 15,
-        flexDirection:'row',
+        flexDirection: 'row',
         gap: 20
     },
-    buttonWrapper:{
+    buttonWrapper: {
         gap: 10,
     },
 })
