@@ -15,7 +15,7 @@ import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-const Profile = () => {
+const Profile = ({navigation}) => {
     const dispatch = useDispatch()
     const [profileData, setProfileData] = useState({})
     const [editProfileActive, setEditProfileActive] = useState(null)
@@ -317,6 +317,7 @@ const Profile = () => {
     }, [editProfileActive, profileData, image, passwordChangeData])
 
     const handleOnLogOut = () => {
+        navigation.navigate('Login')
         Toast.error('Logou successfull');
     }
 

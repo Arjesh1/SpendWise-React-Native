@@ -41,7 +41,6 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
   const[showCategory, setShowCategory] = useState(false)
   const [transactionInputValues, setTransactionInputValues] = useState(initialTransactionData)
-  console.log(transactionInputValues)
 
   useEffect(()=>{
     selectedValue ? setTransactionInputValues(selectedValue) : null
@@ -118,7 +117,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     } else if(transactionInputValues.type === 'expenses' && !transactionInputValues.category){
       setErrorMsg(['Category of expense is required.'])
     } else{
-      setTransactionInputValues({})
+      setTransactionInputValues(initialTransactionData)
       dispatch(setShowTransactionModal(!showTransactionModal))
       dispatch(setTransactionData([...transactionData, transactionInputValues]))
       Toast.success('Transaction has been added.')
@@ -133,12 +132,12 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     } else {
           const restItem = transactionData.filter((item) => item.id !== transactionInputValues.id)
           dispatch(setTransactionData([...restItem, transactionInputValues]))
+          setTransactionInputValues(initialTransactionData)
           dispatch(setShowTransactionModal(false))
           Toast.success('Transaction has been edited.')
     }
   }
 
-  
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
       dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues({}));
