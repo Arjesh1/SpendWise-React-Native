@@ -12,6 +12,7 @@ import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import LoadingComponent from '../components/common/LoadingComponent';
 import { setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
+import { Toast } from 'toastify-react-native';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -28,6 +29,7 @@ const LoginScreen = ({navigation}) => {
                 'email': email
             }
         })
+        setError(null)
     }
 
     function passwordHandler(password) {
@@ -37,6 +39,7 @@ const LoginScreen = ({navigation}) => {
                 'password': password
             }
         })
+        setError(null)
     }
 
     function confirmPasswordHandler(confirmPassword) {
@@ -48,6 +51,7 @@ const LoginScreen = ({navigation}) => {
                 'profileImg':'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png'
             }
         })
+        setError(null)
     }
 
     function nameHandler(name) {
@@ -57,6 +61,7 @@ const LoginScreen = ({navigation}) => {
                 'name': name
             }
         })
+        setError(null)
     }
 
     const handleOnLogin = () => {
@@ -70,6 +75,7 @@ const LoginScreen = ({navigation}) => {
             setError(['Password must be more than 6 characters!'])
         } else {
             setError(null);
+            Toast.success('Login successfully');
             console.log(authData)
             navigation.navigate('Home')
         }
@@ -94,8 +100,10 @@ const LoginScreen = ({navigation}) => {
              dispatch(setShowLoader(false))
             },3000)
             setTimeout(() => {
+                Toast.success('Registered successfully');
                 dispatch(setUserData(rest))
                 navigation.navigate('Home')
+                
             }, 3010)
         }
     }
@@ -114,9 +122,9 @@ const LoginScreen = ({navigation}) => {
     function loginForm() {
         return (
             <>
-                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailHandler }} />
+                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailHandler, inputMode:'email', maxLength:20 }} />
 
-                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler, secureTextEntry: true }} />
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler, secureTextEntry: true, maxLength: 15 }} />
 
                 <View style={styles.forgetPwWrapper}>
                     <Pressable onPress={() => dispatch(setShowCustomModal(true))}><Text style={styles.forgetPwText}>Forget Password?</Text></Pressable>
@@ -142,13 +150,13 @@ const LoginScreen = ({navigation}) => {
     function registerForm() {
         return (
             <>
-                <AuthInputComponent icon={<FontAwesome name='user' size={30} />} textInputConfig={{ placeholder: 'Full Name', onChangeText: nameHandler }} />
+                <AuthInputComponent icon={<FontAwesome name='user' size={30} />} textInputConfig={{ placeholder: 'Full Name', onChangeText: nameHandler, maxLength: 20 }} />
 
-                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', inputMode: 'email', onChangeText: emailHandler }} />
+                <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', inputMode: 'email', onChangeText: emailHandler, maxLength: 20 }} />
 
-                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', onChangeText: passwordHandler, secureTextEntry: true }} />
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', onChangeText: passwordHandler, secureTextEntry: true, maxLength: 15 }} />
 
-                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: confirmPasswordHandler, secureTextEntry:true }} />
+                <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: confirmPasswordHandler, secureTextEntry: true, maxLength: 15 }} />
 
                 {error && error.map((error, i) => <Text key={error} style={{ color: 'red', paddingLeft: 10 }}>{`${i + 1}. ${error}`}</Text>)}
 
@@ -245,7 +253,6 @@ const styles = StyleSheet.create({
         padding:10,
         paddingTop:0,
         paddingHorizontal: 18,
-        // marginTop: 20,
         flex: 4,
         justifyContent: 'space-between',
     },

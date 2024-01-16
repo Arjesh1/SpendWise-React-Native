@@ -10,11 +10,21 @@ import DropdownComponent from './DropdownComponent'
 import TransactionIcon from './TransactionIcon'
 import DatePickerComponent from './DatePickerComponent'
 import ButtonComponent from './ButtonComponent'
+import { Toast } from 'toastify-react-native'
+
+const initialTransactionData={
+  amount: '',
+  type:'',
+  category:'',
+  name:'',
+  date:''
+}
 
 const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const { showTransactionModal } = useSelector(state => state.system)
     const {transactionData} = useSelector(state=>state.transaction)
     const dispatch = useDispatch()
+    const [errorMsg, setErrorMsg]= useState()
     
     const handle0nDeleteTransaction = (selectedValue)=>{
       setTransactionInputValues({})
@@ -30,7 +40,8 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
   const ExpensesIconsCategory = ["Travel", "Grocery", "Shopping", "House", "Food", 'Other']
 
   const[showCategory, setShowCategory] = useState(false)
-  const [transactionInputValues, setTransactionInputValues] = useState({})
+  const [transactionInputValues, setTransactionInputValues] = useState(initialTransactionData)
+  console.log(transactionInputValues)
 
   useEffect(()=>{
     selectedValue ? setTransactionInputValues(selectedValue) : null
@@ -57,6 +68,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
         ['type']: type
       }
     })
+    setErrorMsg()
   }
 
   const amountChangeHandler = (amount) =>{
@@ -66,6 +78,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
         ['amount']: amount
       }
     })
+    setErrorMsg()
   }
 
   const categorySelectedHandler =(icon) =>{
@@ -75,6 +88,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
         ['category']: icon
       }
     })
+    setErrorMsg()
   }
 
   const nameChangeHandeler = (name) =>{
@@ -85,6 +99,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
         ['id']: selectedValue && selectedValue.id ? selectedValue.id : Date.now().toString()
       }
     })
+    setErrorMsg()
   }
 
   const dateSelectedHandeler = (date) =>{
@@ -94,18 +109,33 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
         ['date']: new Date(date).getTime().toString(),
       }
     })
+    setErrorMsg()
   }
 
   const handle0nAddTransaction =()=>{
-    setTransactionInputValues({})
-    dispatch(setShowTransactionModal(!showTransactionModal))
-    dispatch(setTransactionData([...transactionData,transactionInputValues]))
+    if (!transactionInputValues.name || !transactionInputValues.type || !transactionInputValues.amount || !transactionInputValues.date){
+      setErrorMsg(['All fields are required'])
+    } else if(transactionInputValues.type === 'expenses' && !transactionInputValues.category){
+      setErrorMsg(['Category of expense is required.'])
+    } else{
+      setTransactionInputValues({})
+      dispatch(setShowTransactionModal(!showTransactionModal))
+      dispatch(setTransactionData([...transactionData, transactionInputValues]))
+      Toast.success('Transaction has been added.')
+    }
   }
 
   const handleOnEditTransaction =()=>{
-    const restItem = transactionData.filter((item) => item.id !== transactionInputValues.id)
-    dispatch(setTransactionData([...restItem, transactionInputValues]))
-    dispatch(setShowTransactionModal(false))
+    if (!transactionInputValues.name || !transactionInputValues.type || !transactionInputValues.amount || !transactionInputValues.date) {
+      setErrorMsg(['All fields are required'])
+    } else if (transactionInputValues.type === 'expenses' && !transactionInputValues.category) {
+      setErrorMsg(['Category of expense is required.'])
+    } else {
+          const restItem = transactionData.filter((item) => item.id !== transactionInputValues.id)
+          dispatch(setTransactionData([...restItem, transactionInputValues]))
+          dispatch(setShowTransactionModal(false))
+          Toast.success('Transaction has been edited.')
+    }
   }
 
   
@@ -128,7 +158,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
           </View>
           </View>
           <View style={styles.modalBody}>
-          <TransactionInput label='Amount' textInputConfig={{ placeholder: '$100', keyboardType: 'numeric', value: transactionInputValues.amount, onChangeText: amountChangeHandler }} inputStyles={modalInputStyles}/>
+              <TransactionInput label='Amount' textInputConfig={{ placeholder: '$100', keyboardType: 'numeric', value: transactionInputValues.amount, onChangeText: amountChangeHandler, maxLength: 10 }} inputStyles={modalInputStyles}/>
 
           <View>
             <Text style={styles.labelText}>Type:</Text>
@@ -154,7 +184,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             </View>
           :null}
 
-          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default', onChangeText: nameChangeHandeler, value: transactionInputValues.name }} inputStyles={modalInputStyles}
+          <TransactionInput label='Name' textInputConfig={{ placeholder: 'Salary / Grocery', keyboardType: 'default', onChangeText: nameChangeHandeler, value: transactionInputValues.name, maxLength:20 }} inputStyles={modalInputStyles}
            />
 
           <View style={styles.dateWrapper}>
@@ -163,6 +193,12 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             </View>
             <DatePickerComponent onDateSelected={(date)=> dateSelectedHandeler(date)} />
           </View>
+
+              {errorMsg ? <>
+                {errorMsg.map((error, i) => (
+                  <Text key={i} style={styles.errorText}>{`${i+1}. ${error}`}</Text>
+                ))}
+              </> :null}
 
           <View style={styles.buttonWrapper}>
                 <ButtonComponent name={headerName} type='positiveBg' onPress={() => headerName === "Add" ?handle0nAddTransaction():handleOnEditTransaction()} />
@@ -236,6 +272,10 @@ const styles = StyleSheet.create({
   },
   dateInputField:{
     flex: 4,
+  },
+  errorText:{
+    color:GlobalStyles.colors.error600,
+    fontSize:15
   },
   buttonWrapper:{
     gap: 10,

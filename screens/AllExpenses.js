@@ -8,7 +8,7 @@ const AllExpenses = () => {
     <View style={styles.transactionContainer}>
       <TransactionHeader/>
       
-      <HomeTransactions name='Transactions' transactionLimit={false} />
+      <HomeTransactions name='All Transactions' transactionLimit={false} />
       
       
 

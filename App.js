@@ -56,7 +56,7 @@ export default function App() {
         
        </NavigationContainer>
       </Provider>
-      <ToastManager width={width-20} height={'6.5%'} positionValue={20}/>
+      <ToastManager width={width - 20} height={'5.8%'} positionValue={20} textStyle={{ fontSize: 15, fontWeight: 'bold' }} animationStyle={'rightInOut'} duration={1800}/>
     </>
   );
 }
