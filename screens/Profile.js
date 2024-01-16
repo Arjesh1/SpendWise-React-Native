@@ -236,7 +236,7 @@ const Profile = ({navigation}) => {
                         <Image
                             style={styles.profilePicture}
                             source={{
-                                uri: image ? image : profileData.profileImg,
+                                uri: image ? image : profileData.profileImg ? profileData.profileImg  :'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
                             }}
                         />
                     </View>
@@ -331,7 +331,7 @@ const Profile = ({navigation}) => {
                             <Image
                                 style={styles.profilePicture}
                                 source={{
-                                    uri: profileData.profileImg,
+                                    uri: profileData.profileImg ? profileData.profileImg : 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
                                 }}
                             />
                             <View style={{ position: 'absolute', bottom: 0, width: '100%' }}>

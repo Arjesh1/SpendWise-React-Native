@@ -12,8 +12,8 @@ import Data from '../constants/data.json'
 const Dashboard = () => {
   const dispatch = useDispatch()
   useEffect(()=>{
-    dispatch(setTransactionData(Data))
-  }, [Data])
+    // dispatch(setTransactionData(Data))
+  }, [])
   return (
     <View style={styles.dashboardContainer}>
       <TransactionHeader/>

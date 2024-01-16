@@ -48,7 +48,6 @@ const LoginScreen = ({navigation}) => {
                 ...currentValues,
                 'confirmPassword': confirmPassword,
                 'goal':'',
-                'profileImg':'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png'
             }
         })
         setError(null)
