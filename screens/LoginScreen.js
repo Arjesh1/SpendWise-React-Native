@@ -166,7 +166,7 @@ const LoginScreen = ({navigation}) => {
               <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700}/>
           </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: 'johnsmith@gmail.com', onChangeText: (email)=> setResetPasswordEmail(email) }} /></>}/>
 
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'flex'}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
      <View style={styles.loginWrapper}>
         <View style={styles.loginTopBanner}>
              <ScrollView contentContainerStyle={{ flex: 1 }}>
@@ -190,12 +190,11 @@ const LoginScreen = ({navigation}) => {
             </View>
         </View>
 
-        <View style={styles.formWrapper} key={loginActive}>
+                  <View style={styles.formWrapper} key={loginActive}>
               <Text style={styles.authHeaderText}>{loginActive ? 'Welcome back !' : 'Create An Account'}</Text>
               {loginActive ? loginForm() : registerForm()}
         </View>
-
-        <View style={styles.footerWrapper}>
+                  <View style={{ ...styles.footerWrapper}}>
         </View>
      </View>
     </KeyboardAvoidingView>
@@ -244,8 +243,9 @@ const styles = StyleSheet.create({
     },
     formWrapper:{
         padding:10,
+        paddingTop:0,
         paddingHorizontal: 18,
-        marginTop: 20,
+        // marginTop: 20,
         flex: 4,
         justifyContent: 'space-between',
     },

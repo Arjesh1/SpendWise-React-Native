@@ -174,7 +174,15 @@ const Profile = () => {
 
     const pickProfileImage = async (fromCamera = false) => {
         let result;
+
         if (fromCamera) {
+            const cameraPermission = await ImagePicker.getCameraPermissionsAsync();
+            console.log(cameraPermission)
+
+            if (cameraPermission.status !== 'granted') {
+                return alert('Sorry, we need camera roll permissions to make this work!');
+            }
+
             result = await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
@@ -190,6 +198,7 @@ const Profile = () => {
                 quality: 1,
             });
         }
+
         if (!result.canceled) {
             setImage(result.assets[0].uri);
         }
@@ -207,13 +216,25 @@ const Profile = () => {
                                 }}
                             />
                     </View>
-                    <View style={{width:'60%'}}>
-                        <Pressable onPress={pickProfileImage}>
+                    <View style={{width:'60%', gap:10}}>
+                        <Pressable onPress={() => pickProfileImage()}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, backgroundColor: GlobalStyles.colors.primary600, paddingVertical: 6, borderRadius: 5, }}>
                                 <View>
                                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: GlobalStyles.colors.white }}>Upload</Text>
                                 </View>
                                 <FontAwesome name="upload" size={30} color={GlobalStyles.colors.white} />
+                            </View>
+                        </Pressable>
+
+                        <Pressable onPress={() => pickProfileImage(true)}>
+                            <View style={{
+                                flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20, backgroundColor: GlobalStyles.colors.white, paddingVertical: 6, borderRadius: 5, borderWidth: 2,
+                                borderColor: GlobalStyles.colors.primary700,
+                                overflow: 'hidden', }}>
+                                <View>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: GlobalStyles.colors.primary700 }}>Take picture</Text>
+                                </View>
+                                <FontAwesome name="camera" size={30} color={GlobalStyles.colors.primary700} />
                             </View>
                         </Pressable>
                     </View>
