@@ -25,6 +25,13 @@ const Profile = () => {
     const [error, setError] = useState(null)
     const [image, setImage] = useState(null);
     const [passwordChangeData, setPasswordChangeData] = useState({})
+    const { showCustomModal } = useSelector(state=>state.system)
+
+    useEffect(()=>{
+        if(!showCustomModal){
+            setImage(null)
+        }
+    },[showCustomModal])
 
     const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
         return total + +item.amount
@@ -319,11 +326,11 @@ const Profile = () => {
             <View style={styles.profileWrapper}>
                 <View style={styles.profileImgWrapper}>
                     <View style={styles.profileImg}>
-                        <View style={{ position: 'relative', width: '100%', borderRadius: 999, overflow: 'hidden' }} key={userData.profileImg}>
+                        <View style={{ position: 'relative', width: '100%', borderRadius: 999, overflow: 'hidden', borderWidth:2, borderColor:GlobalStyles.colors.primary100 }} key={userData.profileImg}>
                             <Image
                                 style={styles.profilePicture}
                                 source={{
-                                    uri: userData.profileImg,
+                                    uri: profileData.profileImg,
                                 }}
                             />
                             <View style={{ position: 'absolute', bottom: 0, width: '100%' }}>
