@@ -31,6 +31,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       const restItem = transactionData.filter((item) => item.id !== selectedValue.id)
       dispatch(setTransactionData(restItem))
       dispatch(setShowTransactionModal(false))
+      setErrorMsg()
     }
 
    const modalInputStyles = {
@@ -140,7 +141,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
 
   return (
       <Modal animationType="slide" transparent={true} visible={showTransactionModal} onRequestClose={() => {
-      dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues({}));
+      dispatch(setShowTransactionModal(!showTransactionModal) && setTransactionInputValues({})); setErrorMsg()
       }}>
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -151,7 +152,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
             <Text style={styles.headerText}>{headerName} Transactions</Text>
             </View>
           <View style={styles.closeModal}>
-            <Pressable onPress={() => dispatch(setShowTransactionModal(!showTransactionModal)) && setTransactionInputValues({})}>
+                <Pressable onPress={() => { dispatch(setShowTransactionModal(!showTransactionModal)) && setTransactionInputValues({}); setErrorMsg() }}>
               <AntDesign name='close' size={30} color='black' />
             </Pressable>
           </View>
