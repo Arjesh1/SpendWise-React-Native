@@ -201,10 +201,15 @@ const Profile = ({navigation}) => {
 
         if (fromCamera) {
             const cameraPermission = await ImagePicker.getCameraPermissionsAsync();
-            console.log(cameraPermission)
 
             if (cameraPermission.status !== 'granted') {
-                return alert('Sorry, we need camera roll permissions to make this work!');
+
+                const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                    return
+                }
             }
 
             result = await ImagePicker.launchCameraAsync({
@@ -354,7 +359,7 @@ const Profile = ({navigation}) => {
                     </View>
                     <View style={styles.savingDescriptionWrapper}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', paddingVertical: 5 }}>Saving goals</Text>
-                        {profileData && !profileData.goal ?
+                        {userData && !userData.goal ?
                             <ButtonComponent name='Add saving goal' type='positiveBg' onPress={() => {
                                 setEditProfileActive(true);
                                 dispatch(setShowCustomModal(true))

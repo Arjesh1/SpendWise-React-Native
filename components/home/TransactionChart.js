@@ -40,10 +40,10 @@ const TransactionChart = () => {
             <>
                     <PieChart data={data} textColor="white" focusOnPress showText textSize={15} fontWeight="bold" />
                     <View style={styles.legendWrapper}>
-                        {data.map((item) => (
+                        {data.map((item, i) => (
                             <>
                                 {item.value > 0 ?
-                                    <View key={item.name} style={styles.legend}>
+                                    <View key={i} style={styles.legend}>
                                         <View style={{ height: 12, aspectRatio: 1 / 1, backgroundColor: item.color }}></View>
                                         <Text style={{ color: 'white', fontSize: 15 }}>{item.name}</Text>
                                     </View>
