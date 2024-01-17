@@ -6,11 +6,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const TransactionBanner = ({icon, name, value}) => {
   return (
       <View style={styles.transaction}>
-          <FontAwesome5 name={icon} color={name === 'Expenses' ? GlobalStyles.colors.error600 : GlobalStyles.colors.primary700} size={30} />
+          <FontAwesome5 name={icon} color={name === 'Expenses' || value < 0 ? GlobalStyles.colors.error600 : GlobalStyles.colors.primary700} size={30} />
           <View>
               <Text style={{ fontSize: 18 }}>{name}</Text>
               <Text style={{
-                  fontWeight: 'bold', fontSize: 20, textAlign: 'center', ...(name === 'Expenses'
+                  fontWeight: 'bold', fontSize: 20, textAlign: 'center', ...(name === 'Expenses'|| value < 0
                       ? { color: GlobalStyles.colors.error600}
                       : { color: GlobalStyles.colors.primary700}), }}>$ {value}</Text>
           </View>
