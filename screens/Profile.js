@@ -14,6 +14,7 @@ import { setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { editProfile } from '../helper/axiosHelper';
 
 const Profile = ({navigation}) => {
     const dispatch = useDispatch()
@@ -275,15 +276,15 @@ const Profile = ({navigation}) => {
         )
     }
 
-    function handleOnEditProfileImgSave() {
-        setProfileData((currentValues) => {
+    async function handleOnEditProfileImgSave() {
+         setProfileData((currentValues) => {
             return {
                 ...currentValues,
                 'profileImg': image
             }
         })
+        await editProfile(profileData)
         dispatch(setShowCustomModal(false))
-
     }
 
     const editProfileProps = {

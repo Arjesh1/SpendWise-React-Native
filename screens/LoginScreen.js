@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import ButtonComponent from '../components/common/ButtonComponent'
@@ -10,9 +10,10 @@ import TransactionInput from '../components/common/TransactionInput';
 import { useDispatch } from 'react-redux';
 import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import LoadingComponent from '../components/common/LoadingComponent';
-import { setUserData } from '../reduxStore/userAuthSlice';
+import { setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
+import { registerUser } from '../helper/axiosHelper';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -80,7 +81,7 @@ const LoginScreen = ({navigation}) => {
         }
     }
 
-    const handleOnRegister = () => {
+    const handleOnRegister = async () => {
         if (!authData.name || !authData.email || !authData.password || !authData.confirmPassword){
             setError(['All fields are required.'])
         } else if (!emailChecker(authData.email) && authData.password.length < 6) {
@@ -95,15 +96,18 @@ const LoginScreen = ({navigation}) => {
             setError(null);
             const { confirmPassword, ...rest } = authData
             dispatch(setShowLoader(true))
-            setTimeout(()=>{
-             dispatch(setShowLoader(false))
-            },3000)
-            setTimeout(() => {
+            const registerResult = await registerUser(rest)
+            if(registerResult && registerResult.message){
+                dispatch(setShowLoader(false))
+                return Toast.error(registerResult.message);
+            }
+            if(registerResult && registerResult.resUserData ){
+                dispatch(setUserData(registerResult.resUserData))
+                dispatch(setToken(registerResult.token))
+                dispatch(setShowLoader(false))
                 Toast.success('Registered successfully');
-                dispatch(setUserData(rest))
                 navigation.navigate('Home')
-                
-            }, 3010)
+            }
         }
     }
 
