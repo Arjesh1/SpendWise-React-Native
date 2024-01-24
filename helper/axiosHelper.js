@@ -3,20 +3,39 @@ import axios from "axios";
 const serverUrl = process.env.EXPO_PUBLIC_SERVER_URL
 
 const registerUrl = serverUrl + 'auth/register'
+const loginUrl =  serverUrl + 'auth/login'
 
-export const registerUser = async (userData) => {
+export const registerUser = async (registerData) => {
     try {
       if(serverUrl){
-        const response = await axios.post(registerUrl, userData);
+        const response = await axios.post(registerUrl, registerData);
       return response.data
       }
     } catch (error) {
       if (error.response) {
         return (error.response.data);
       } else if (error.request) {
-        console.error({message:'Something went wrong. Please try again!'});
+        return ({message:'Something went wrong. Please try again!'});
       } else {
-        console.error({message:'Something went wrong. Please try again!'});
+        return ({message:'Something went wrong. Please try again!'});
+      }
+    }
+  };
+
+  export const loginUser = async (loginData) => {
+    try {
+      if(serverUrl){
+        const response = await axios.post(loginUrl, loginData);
+      return response.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return (error.response.data)
+        ;
+      } else if (error.request) {
+        return ({message:'Something went wrong. Please try again!'});
+      } else {
+        return ({message:'Something went wrong. Please try again!'});
       }
     }
   };

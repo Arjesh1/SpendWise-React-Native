@@ -13,7 +13,7 @@ import LoadingComponent from '../components/common/LoadingComponent';
 import { setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
-import { registerUser } from '../helper/axiosHelper';
+import { loginUser, registerUser } from '../helper/axiosHelper';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -64,7 +64,7 @@ const LoginScreen = ({navigation}) => {
         setError(null)
     }
 
-    const handleOnLogin = () => {
+    const handleOnLogin = async () => {
         if (!authData.email || !authData.password){
             setError(['All fields are required']);
         }else if (!emailChecker(authData.email) && authData.password.length < 6) {
@@ -75,9 +75,19 @@ const LoginScreen = ({navigation}) => {
             setError(['Password must be more than 6 characters!'])
         } else {
             setError(null);
-            Toast.success('Login successfully');
-            console.log(authData)
-            navigation.navigate('Home')
+            dispatch(setShowLoader(true))
+            const loginResult = await loginUser(authData)
+            if(loginResult && loginResult.message){
+                dispatch(setShowLoader(false))
+                return Toast.error(loginResult.message);
+            }
+            if(loginResult && loginResult.userData){
+                dispatch(setUserData(loginResult.userData))
+                dispatch(setToken(loginResult.token))
+                dispatch(setShowLoader(false))
+                Toast.success('Login successfully');
+                navigation.navigate('Home')
+            }
         }
     }
 
@@ -101,8 +111,8 @@ const LoginScreen = ({navigation}) => {
                 dispatch(setShowLoader(false))
                 return Toast.error(registerResult.message);
             }
-            if(registerResult && registerResult.resUserData ){
-                dispatch(setUserData(registerResult.resUserData))
+            if(registerResult && registerResult.userData ){
+                dispatch(setUserData(registerResult.userData))
                 dispatch(setToken(registerResult.token))
                 dispatch(setShowLoader(false))
                 Toast.success('Registered successfully');
