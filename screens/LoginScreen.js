@@ -7,13 +7,14 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AuthInputComponent from '../components/common/AuthInputComponent'
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import LoadingComponent from '../components/common/LoadingComponent';
 import { setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
 import { loginUser, registerUser } from '../helper/axiosHelper';
+import { useFocusEffect } from '@react-navigation/native';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -22,6 +23,18 @@ const LoginScreen = ({navigation}) => {
     const [error, setError] = useState(null)
     const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
+    const {token, userData} = useSelector(state=> state.user)
+    console.log(userData, token,'kkk')
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if(token){
+                navigation.navigate('Home')
+              } else{
+                navigation.navigate('Login')
+              }
+        }, [token, navigation])
+      );
 
     function emailHandler(email) {
         setAuthData((currentValues) => {
