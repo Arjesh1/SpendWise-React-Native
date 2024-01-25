@@ -10,11 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
-import { setUserData } from '../reduxStore/userAuthSlice';
+import { setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { editProfile } from '../helper/axiosHelper';
+import { editProfile, updateProfile } from '../helper/axiosHelper';
 import { PrivateRoute } from '../validators/PrivateRoute';
 
 const Profile = ({navigation}) => {
@@ -22,12 +22,13 @@ const Profile = ({navigation}) => {
     const [profileData, setProfileData] = useState({})
     const [editProfileActive, setEditProfileActive] = useState(null)
     const [modalData, setModalData] = useState({})
-    const { userData } = useSelector(state => state.user)
+    const { userData, token } = useSelector(state => state.user)
     const { transactionData } = useSelector(state => state.transaction)
     const [error, setError] = useState(null)
     const [image, setImage] = useState(null);
     const [passwordChangeData, setPasswordChangeData] = useState({})
     const { showCustomModal } = useSelector(state=>state.system)
+    const [progressBarValue, setProgressBarValue] = useState()
 
     useEffect(()=>{
         if(!showCustomModal){
@@ -42,6 +43,12 @@ const Profile = ({navigation}) => {
     const totalExpenses = Math.floor(transactionData?.filter((item) => item.type === 'expenses').reduce((total, item) => {
         return total + +item.amount
     }, 0))
+
+    useEffect(()=>{
+        const goal = +profileData.goal || 1;
+        setProgressBarValue((totalIncome- totalExpenses) / goal)
+    },[transactionData,profileData ])
+
 
     useEffect(() => {
         setProfileData(userData)
@@ -122,7 +129,7 @@ const Profile = ({navigation}) => {
         );
     }
 
-    const handleOnEditProfileSubmit = () => {
+    const handleOnEditProfileSubmit = async () => {
         if (profileData.name.length < 1 || profileData.email.length < 1, profileData.goal.length < 1) {
             setError(['All fields are required.'])
         } else if (!emailChecker(profileData.email) && profileData.password.length < 6) {
@@ -131,7 +138,9 @@ const Profile = ({navigation}) => {
             setError(['Email is invalid.'])
         } else {
             setError(null);
-            dispatch(setUserData(profileData))
+            const updateResult =  await updateProfile({userData:profileData, token})
+            dispatch(setUserData(updateResult.updatedUserData))
+            dispatch(setToken(updateResult.token))
             dispatch(setShowCustomModal(false))
             Toast.success('Your profile has been edited.');
         }
@@ -328,6 +337,7 @@ const Profile = ({navigation}) => {
         Toast.error('Logou successfull');
     }
 
+
     return (
         <PrivateRoute>
 
@@ -367,11 +377,11 @@ const Profile = ({navigation}) => {
                                 setEditProfileActive(true);
                                 dispatch(setShowCustomModal(true))
                             }} />
-                            : <View>
-                                <Progress.Bar progress={(totalIncome - totalExpenses) / +profileData.goal} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
+                            : <View key={progressBarValue}>
+                                <Progress.Bar progress={progressBarValue} width={null} color={GlobalStyles.colors.primary700} unfilledColor={GlobalStyles.colors.gray200} borderWidth={0} />
                                 <View style={styles.savingAmountwrapper}>
                                     <Text>$ {totalIncome - totalExpenses}</Text>
-                                    <Text>$ {profileData.goal}</Text>
+                                    <Text>$ {userData.goal}</Text>
                                 </View>
                             </View>}
 
