@@ -3,15 +3,18 @@ import { GlobalStyles } from "../constants/styles"
 import TransactionHeader from "../components/common/TransactionHeader"
 import TransactionChart from "../components/home/TransactionChart"
 import HomeTransactions from "../components/home/HomeTransactions"
+import { PrivateRoute } from "../validators/PrivateRoute"
 
 const Dashboard = () => {
-
+  
   return (
-    <View style={styles.dashboardContainer}>
-      <TransactionHeader/>
-      <TransactionChart/>
-      <HomeTransactions name="Recent Transactions" transactionLimit={true}/>
-    </View>
+    <PrivateRoute>
+      <View style={styles.dashboardContainer}>
+        <TransactionHeader/>
+        <TransactionChart/>
+        <HomeTransactions name="Recent Transactions" transactionLimit={true}/>
+      </View>
+      </PrivateRoute>
   )
 }
 

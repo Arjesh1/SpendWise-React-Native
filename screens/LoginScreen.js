@@ -23,8 +23,7 @@ const LoginScreen = ({navigation}) => {
     const [error, setError] = useState(null)
     const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
-    const {token, userData} = useSelector(state=> state.user)
-    console.log(userData, token,'kkk')
+    const {token} = useSelector(state=> state.user)
 
     useFocusEffect(
         React.useCallback(() => {

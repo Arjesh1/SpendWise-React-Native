@@ -15,6 +15,7 @@ import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { editProfile } from '../helper/axiosHelper';
+import { PrivateRoute } from '../validators/PrivateRoute';
 
 const Profile = ({navigation}) => {
     const dispatch = useDispatch()
@@ -328,7 +329,8 @@ const Profile = ({navigation}) => {
     }
 
     return (
-        <>
+        <PrivateRoute>
+
             <ModalComponent {...modalData} errorMsg={error} />
             <View style={styles.profileWrapper}>
                 <View style={styles.profileImgWrapper}>
@@ -398,7 +400,7 @@ const Profile = ({navigation}) => {
                     <ButtonComponent name='Log Out' type='negativeBg' onPress={handleOnLogOut} />
                 </View>
             </View>
-        </>
+        </PrivateRoute>
 
     )
 }
