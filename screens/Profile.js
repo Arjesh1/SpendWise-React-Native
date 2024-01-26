@@ -52,7 +52,7 @@ const Profile = ({navigation}) => {
 
     useEffect(() => {
         setProfileData(userData)
-    }, [userData])
+    }, [userData, showCustomModal ])
 
     function editEmailHandler(email) {
         setProfileData((currentValues) => {
@@ -139,12 +139,18 @@ const Profile = ({navigation}) => {
         } else {
             setError(null);
             const updateResult =  await updateProfile({userData:profileData, token})
-            dispatch(setUserData(updateResult.updatedUserData))
-            dispatch(setToken(updateResult.token))
-            dispatch(setShowCustomModal(false))
-            Toast.success('Your profile has been edited.');
-        }
 
+            if(updateResult && updateResult.message){
+                dispatch(setShowCustomModal(false))
+                return Toast.error(updateResult.message);
+            }
+            if(updateResult && updateResult.updatedUserData){
+                dispatch(setUserData(updateResult.updatedUserData))
+                dispatch(setToken(updateResult.token))
+                dispatch(setShowCustomModal(false))
+                Toast.success('Your profile has been edited.');
+            }
+        }
     }
 
     const oldPasswordInputHandler = (oldPassword) => {
