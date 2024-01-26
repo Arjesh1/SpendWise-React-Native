@@ -11,10 +11,10 @@ import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
 import { setToken, setUserData } from '../reduxStore/userAuthSlice';
-import { emailChecker } from '../validators/inputChecker';
+import { emailChecker, passwordChecker, whiteSpaceChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { editProfile, updateProfile } from '../helper/axiosHelper';
+import { changePassword, editProfile, updateProfile } from '../helper/axiosHelper';
 import { PrivateRoute } from '../validators/PrivateRoute';
 
 const Profile = ({navigation}) => {
@@ -34,6 +34,7 @@ const Profile = ({navigation}) => {
         if(!showCustomModal){
             setImage(null)
         }
+        setError(null)
     },[showCustomModal])
 
     const totalIncome = Math.floor(transactionData?.filter((item) => item.type === 'income').reduce((total, item) => {
@@ -58,7 +59,7 @@ const Profile = ({navigation}) => {
         setProfileData((currentValues) => {
             return {
                 ...currentValues,
-                'email': email
+                'email': email.toLowerCase()
             }
         })
     }
@@ -130,12 +131,10 @@ const Profile = ({navigation}) => {
     }
 
     const handleOnEditProfileSubmit = async () => {
-        if (profileData.name.length < 1 || profileData.email.length < 1, profileData.goal.length < 1) {
-            setError(['All fields are required.'])
-        } else if (!emailChecker(profileData.email) && profileData.password.length < 6) {
-            setError(['Email is invalid.', 'Password must be more than 6 characters long.']);
+        if (!whiteSpaceChecker(profileData.name) || !whiteSpaceChecker(profileData.email)){
+            return setError(['Name and email are required.'])
         } else if (!emailChecker(profileData.email)) {
-            setError(['Email is invalid.'])
+            return setError(['Email is invalid.'])
         } else {
             setError(null);
             const updateResult =  await updateProfile({userData:profileData, token})
@@ -144,12 +143,11 @@ const Profile = ({navigation}) => {
                 dispatch(setShowCustomModal(false))
                 return Toast.error(updateResult.message);
             }
-            if(updateResult && updateResult.updatedUserData){
-                dispatch(setUserData(updateResult.updatedUserData))
-                dispatch(setToken(updateResult.token))
-                dispatch(setShowCustomModal(false))
-                Toast.success('Your profile has been edited.');
-            }
+            dispatch(setUserData(updateResult.updatedUserData))
+            dispatch(setToken(updateResult.token))
+            dispatch(setShowCustomModal(false))
+            Toast.success('Your profile has been edited.');
+            
         }
     }
 
@@ -182,8 +180,22 @@ const Profile = ({navigation}) => {
 
     }
 
-    const handleOnChangePassportSubmit = () => {
-        console.log(passwordChangeData)
+    const handleOnChangePassportSubmit = async () => {
+        if(!passwordChecker(passwordChangeData.oldPassword) || !passwordChecker(passwordChangeData.newPassword) || !passwordChecker(passwordChangeData.confirmNewPassword)){
+            return setError(['Password must be 6 characters long.']) 
+        } else if (passwordChangeData.newPassword !== passwordChangeData.confirmNewPassword ){
+            return setError(['New password and confirm password do not match.'])
+        } else {
+            setError(null);
+            const changePwData = {passwordChangeData, token}
+             const changePasswordResponse = await changePassword(changePwData)
+             if(changePasswordResponse && changePasswordResponse.message ){
+                dispatch(setShowCustomModal(false))
+                return Toast.error(changePasswordResponse.message);
+             } 
+             dispatch(setShowCustomModal(false))
+             Toast.success(changePasswordResponse.success)
+        }
     }
 
     const changePasswordFormData = [
@@ -339,6 +351,8 @@ const Profile = ({navigation}) => {
     }, [editProfileActive, profileData, image, passwordChangeData])
 
     const handleOnLogOut = () => {
+        dispatch(setUserData())
+        dispatch(setToken())
         navigation.navigate('Login')
         Toast.error('Logou successfull');
     }

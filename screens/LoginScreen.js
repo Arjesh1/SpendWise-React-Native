@@ -39,7 +39,7 @@ const LoginScreen = ({navigation}) => {
         setAuthData((currentValues) => {
             return {
                 ...currentValues,
-                'email': email
+                'email': email.toLowerCase()
             }
         })
         setError(null)
@@ -87,35 +87,34 @@ const LoginScreen = ({navigation}) => {
             setError(['Password must be more than 6 characters!'])
         } else {
             setError(null);
+            setAuthData({})
             dispatch(setShowLoader(true))
             const loginResult = await loginUser(authData)
             if(loginResult && loginResult.message){
                 dispatch(setShowLoader(false))
                 return Toast.error(loginResult.message);
             }
-            if(loginResult && loginResult.userData){
-                dispatch(setUserData(loginResult.userData))
-                dispatch(setToken(loginResult.token))
-                dispatch(setShowLoader(false))
-                Toast.success('Login successfully');
-                navigation.navigate('Home')
-            }
+            dispatch(setUserData(loginResult.userData))
+            dispatch(setToken(loginResult.token))
+            dispatch(setShowLoader(false))
+            Toast.success('Login successfully');
+            navigation.navigate('Home')
+            
         }
     }
 
     const handleOnRegister = async () => {
         if (!authData.name || !authData.email || !authData.password || !authData.confirmPassword){
-            setError(['All fields are required.'])
-        } else if (!emailChecker(authData.email) && authData.password.length < 6) {
-            setError(['Email is invalid.','Password must be more than 6 characters long.']);
-        } else if (!emailChecker(authData.email)) {
-            setError(['Email is invalid.'])
+             return setError(['All fields are required.'])
+        }  else if (!emailChecker(authData.email)) {
+            return setError(['Email is invalid.'])
         } else if (authData.password.length < 6) {
-            setError(['Password must be more than 6 characters.'])
+            return setError(['Password must be more than 6 characters.'])
         } else if (authData.password !== authData.confirmPassword) {
-            setError(['Password and confirm password do not match.'])
+            return setError(['Password and confirm password do not match.'])
         } else {
             setError(null);
+            setAuthData({})
             const { confirmPassword, ...rest } = authData
             dispatch(setShowLoader(true))
             const registerResult = await registerUser(rest)
@@ -123,13 +122,11 @@ const LoginScreen = ({navigation}) => {
                 dispatch(setShowLoader(false))
                 return Toast.error(registerResult.message);
             }
-            if(registerResult && registerResult.userData ){
-                dispatch(setUserData(registerResult.userData))
-                dispatch(setToken(registerResult.token))
-                dispatch(setShowLoader(false))
-                Toast.success('Registered successfully');
-                navigation.navigate('Home')
-            }
+            dispatch(setUserData(registerResult.userData))
+            dispatch(setToken(registerResult.token))
+            dispatch(setShowLoader(false))
+            Toast.success('Registered successfully');
+            navigation.navigate('Home')
         }
     }
 

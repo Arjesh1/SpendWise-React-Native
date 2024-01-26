@@ -5,6 +5,7 @@ const serverUrl = process.env.EXPO_PUBLIC_SERVER_URL
 const registerUrl = serverUrl + 'auth/register'
 const loginUrl =  serverUrl + 'auth/login'
 const updateProfileUrl = serverUrl + 'auth/user'
+const changePasswordUrl = serverUrl + 'auth/user/changePassword'
 const addUpdateTransactionUrl = serverUrl + 'transaction'
 
 export const registerUser = async (registerData) => {
@@ -56,3 +57,19 @@ export const registerUser = async (registerData) => {
       }
     }
   }
+
+  export const changePassword = async (passwordData)=>{
+    try {
+      const updateProfileResponse = await axios.put(changePasswordUrl, passwordData)
+      return updateProfileResponse.data
+    } catch (error) {
+      if (error.response) {
+        return (error.response.data)
+      } else if (error.request) {
+        return ({message:'Something went wrong. Please try again!'});
+      } else {
+        return ({message:'Something went wrong. Please try again!'});
+      }
+    }
+  }
+
