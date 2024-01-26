@@ -13,8 +13,9 @@ import LoadingComponent from '../components/common/LoadingComponent';
 import { setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
-import { loginUser, registerUser } from '../helper/axiosHelper';
+import { getUserTransaction, loginUser, registerUser } from '../helper/axiosHelper';
 import { useFocusEffect } from '@react-navigation/native';
+import { setTransactionData } from '../reduxStore/transactionSlice';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -89,17 +90,14 @@ const LoginScreen = ({navigation}) => {
             setError(null);
             setAuthData({})
             dispatch(setShowLoader(true))
-            const loginResult = await loginUser(authData)
+            const loginResult =  dispatch(loginUser(authData))
             if(loginResult && loginResult.message){
                 dispatch(setShowLoader(false))
                 return Toast.error(loginResult.message);
             }
-            dispatch(setUserData(loginResult.userData))
-            dispatch(setToken(loginResult.token))
             dispatch(setShowLoader(false))
             Toast.success('Login successfully');
             navigation.navigate('Home')
-            
         }
     }
 

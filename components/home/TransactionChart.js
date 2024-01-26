@@ -26,7 +26,7 @@ const TransactionChart = () => {
 
     
     return (
-        <View style={styles.chartContainer}>
+        <View style={expensesData.length > 0 ? styles.chartContainer: {...styles.chartContainer, height: '20%'}}>
             <Text
                 style={{
                     color: 'white',
@@ -41,14 +41,14 @@ const TransactionChart = () => {
                     <PieChart data={data} textColor="white" focusOnPress showText textSize={15} fontWeight="bold" />
                     <View style={styles.legendWrapper}>
                         {data.map((item, i) => (
-                            <>
+                            <View key={i} style={{justifyContent: 'center', width:'100%'}}>
                                 {item.value > 0 ?
                                     <View key={i} style={styles.legend}>
                                         <View style={{ height: 12, aspectRatio: 1 / 1, backgroundColor: item.color }}></View>
                                         <Text style={{ color: 'white', fontSize: 15 }}>{item.name}</Text>
                                     </View>
                                     : null}
-                            </>
+                            </View>
                         ))}
                     </View>
             </>:

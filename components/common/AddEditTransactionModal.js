@@ -11,11 +11,12 @@ import TransactionIcon from './TransactionIcon'
 import DatePickerComponent from './DatePickerComponent'
 import ButtonComponent from './ButtonComponent'
 import { Toast } from 'toastify-react-native'
+import { whiteSpaceChecker } from '../../validators/inputChecker'
+import { addTransaction, getUserTransaction } from '../../helper/axiosHelper'
 
 const initialTransactionData={
   amount: '',
   type:'',
-  category:'',
   name:'',
   date:''
 }
@@ -25,6 +26,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const {transactionData} = useSelector(state=>state.transaction)
     const dispatch = useDispatch()
     const [errorMsg, setErrorMsg]= useState()
+    const { token } = useSelector(state => state.user)
     
     const handle0nDeleteTransaction = (selectedValue)=>{
       setTransactionInputValues({})
@@ -52,12 +54,6 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       setShowCategory(true)
     } else{
       setShowCategory(false)
-      setTransactionInputValues((currentValues) => {
-        return {
-          ...currentValues,
-          ['category']: ''
-        }
-      })
     }
   }, [transactionInputValues.type])
 
@@ -96,7 +92,6 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       return {
         ...currentValues,
         ['name']: name,
-        ['id']: selectedValue && selectedValue.id ? selectedValue.id : Date.now().toString()
       }
     })
     setErrorMsg()
@@ -112,15 +107,20 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     setErrorMsg()
   }
 
-  const handle0nAddTransaction =()=>{
-    if (!transactionInputValues.name || !transactionInputValues.type || !transactionInputValues.amount || !transactionInputValues.date){
+  const handle0nAddTransaction = async ()=>{
+    if (!whiteSpaceChecker(transactionInputValues.name) || !whiteSpaceChecker(transactionInputValues.type) || !whiteSpaceChecker(transactionInputValues.amount) || !whiteSpaceChecker(transactionInputValues.date)){
       setErrorMsg(['All fields are required'])
-    } else if(transactionInputValues.type === 'expenses' && !transactionInputValues.category){
-      setErrorMsg(['Category of expense is required.'])
+    } else if(transactionInputValues.type === 'expenses' && !whiteSpaceChecker(transactionInputValues.category)){
+      setErrorMsg(['Category is required.'])
     } else{
+      console.log(transactionInputValues)
+      const response = dispatch(addTransaction(transactionInputValues, token))
+      if(response.message){
+        dispatch(setShowTransactionModal(!showTransactionModal))
+        return Toast.error(response.message)
+      }
       setTransactionInputValues(initialTransactionData)
       dispatch(setShowTransactionModal(!showTransactionModal))
-      dispatch(setTransactionData([...transactionData, transactionInputValues]))
       Toast.success('Transaction has been added.')
     }
   }

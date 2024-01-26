@@ -43,8 +43,8 @@ const HomeTransactions = ({ name, transactionLimit }) => {
       </View>
         <ScrollView style={styles.transactionLists}>
           {displayTransaction && displayTransaction.length === 0? <Text style={styles.msgText}>No transaction added yet!!</Text>:null}
-          {displayTransaction? displayTransaction.map((item)=>(
-            <TransactionDetailBanner key={item.id} item={item} onPress={()=> handleOnEditTransaction(item)}/>
+          {displayTransaction? displayTransaction.map((item, i)=>(
+            <TransactionDetailBanner key={i} item={item} onPress={()=> handleOnEditTransaction(item)}/>
           )): null}
         </ScrollView>
         <Pressable style={styles.addContainer} onPress={handleOnAddTransaction}>

@@ -3,6 +3,9 @@ export function emailChecker(email){
 }
 
 export function whiteSpaceChecker(data){
+    if(!data){
+        return false
+    }
       return data.replace(/\s/g, '').length < 1 ? false: true
 }
 
