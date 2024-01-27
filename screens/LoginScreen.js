@@ -90,7 +90,7 @@ const LoginScreen = ({navigation}) => {
             setError(null);
             setAuthData({})
             dispatch(setShowLoader(true))
-            const loginResult =  dispatch(loginUser(authData))
+            const loginResult =  await dispatch(loginUser(authData))
             if(loginResult && loginResult.message){
                 dispatch(setShowLoader(false))
                 return Toast.error(loginResult.message);

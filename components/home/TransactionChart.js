@@ -41,14 +41,12 @@ const TransactionChart = () => {
                     <PieChart data={data} textColor="white" focusOnPress showText textSize={15} fontWeight="bold" />
                     <View style={styles.legendWrapper}>
                         {data.map((item, i) => (
-                            <View key={i} style={{justifyContent: 'center', width:'100%'}}>
-                                {item.value > 0 ?
+                                item.value > 0 ?
                                     <View key={i} style={styles.legend}>
                                         <View style={{ height: 12, aspectRatio: 1 / 1, backgroundColor: item.color }}></View>
                                         <Text style={{ color: 'white', fontSize: 15 }}>{item.name}</Text>
                                     </View>
-                                    : null}
-                            </View>
+                                    : null
                         ))}
                     </View>
             </>:
@@ -77,9 +75,8 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         flexDirection:'row',
         justifyContent:'center',
-        gap:40,
-        flexWrap:'wrap'
-
+        gap:25,
+        flexWrap:'wrap',
     },
     legend: {
         flexDirection: 'row',

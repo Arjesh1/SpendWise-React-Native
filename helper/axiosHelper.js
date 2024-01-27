@@ -39,7 +39,6 @@ export const registerUser = async (registerData) => {
     } catch (error) {
       if (error.response) {
         return (error.response.data)
-        ;
       } else if (error.request) {
         return ({message:'Something went wrong. Please try again!'});
       } else {
@@ -104,18 +103,16 @@ export const registerUser = async (registerData) => {
 
   export const addTransaction = (transactionInputValues, token) => async (dispatch)=>{
     try {
-      if(transactionInputValues && token){
         const addTransactionResponse = await axios.post(getAddUpdateTransactionUrl, transactionInputValues, {
           headers:{
             Authorization: token,
           },
         })
-        if(addTransactionResponse.data.message){
-          return addTransactionResponse.data
+        if(addTransactionResponse.data.success){
+          dispatch(getUserTransaction(token))
         }
-        dispatch(getUserTransaction(token))
-      }
-      
+        return  addTransactionResponse.data
+
     } catch (error) {
       if (error.response) {
         return (error.response.data)
@@ -127,3 +124,25 @@ export const registerUser = async (registerData) => {
     }
   }
 
+  export const updateTransaction = (transactionInputValues, token) => async (dispatch)=>{
+    try {
+        const addTransactionResponse = await axios.put(getAddUpdateTransactionUrl, transactionInputValues, {
+          headers:{
+            Authorization: token,
+          },
+        })
+        if(addTransactionResponse.data.success){
+          dispatch(getUserTransaction(token))
+        }
+        return  addTransactionResponse.data
+      
+    } catch (error) {
+      if (error.response) {
+        return (error.response.data)
+      } else if (error.request) {
+        return ({message:'Something went wrong. Please try again!'});
+      } else {
+        return ({message:'Something went wrong. Please try again!'});
+      }
+    }
+  }
