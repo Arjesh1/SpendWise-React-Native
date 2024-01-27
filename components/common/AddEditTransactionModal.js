@@ -12,7 +12,7 @@ import DatePickerComponent from './DatePickerComponent'
 import ButtonComponent from './ButtonComponent'
 import { Toast } from 'toastify-react-native'
 import { whiteSpaceChecker } from '../../validators/inputChecker'
-import { addTransaction, updateTransaction } from '../../helper/axiosHelper'
+import { addTransaction, deleteTransaction, updateTransaction } from '../../helper/axiosHelper'
 
 const initialTransactionData={
   amount: '',
@@ -28,14 +28,6 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     const [errorMsg, setErrorMsg]= useState()
     const { token } = useSelector(state => state.user)
     
-    const handle0nDeleteTransaction = (selectedValue)=>{
-      setTransactionInputValues({})
-      const restItem = transactionData.filter((item) => item.id !== selectedValue.id)
-      dispatch(setTransactionData(restItem))
-      dispatch(setShowTransactionModal(false))
-      setErrorMsg()
-    }
-
    const modalInputStyles = {
     textAlign:'center',
      borderBottomWidth: 1,
@@ -134,7 +126,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     } else if (transactionInputValues.type === 'expenses' && !transactionInputValues.category) {
       return setErrorMsg(['Category of expense is required.'])
     } else {
-      const updateResponse = await dispatch(updateTransaction(transactionInputValues, token))
+      const deleteResponse = await dispatch(updateTransaction(transactionInputValues, token))
 
       if(updateResponse.success){
         setTransactionInputValues(initialTransactionData)
@@ -143,8 +135,30 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
       }
       if(updateResponse.message){
         dispatch(setShowTransactionModal(!showTransactionModal))
-        return Toast.error(response.message)
+        return Toast.error(updateResponse.message)
       }
+    }
+  }
+
+  const handle0nDeleteTransaction = async (selectedValue)=>{
+    if(!selectedValue && !selectedValue._id){
+      return setErrorMsg(['Please slect a transaction'])
+    } else {
+      const {_id, ...rest} = selectedValue
+      const deleteResponse = await dispatch(deleteTransaction({_id}, token))
+
+      if(deleteResponse.success){
+        setTransactionInputValues(initialTransactionData)
+        dispatch(setShowTransactionModal(false))
+        setErrorMsg()
+        return Toast.success(deleteResponse.success)
+      }
+      if(deleteResponse.message){
+        dispatch(setShowTransactionModal(!showTransactionModal))
+        setErrorMsg()
+        return Toast.error(deleteResponse.message)
+      }
+
     }
   }
 

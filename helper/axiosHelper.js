@@ -9,6 +9,7 @@ const loginUrl =  serverUrl + 'auth/login'
 const updateProfileUrl = serverUrl + 'auth/user'
 const changePasswordUrl = serverUrl + 'auth/user/changePassword'
 const getAddUpdateTransactionUrl = serverUrl + 'transaction'
+const deleteTransactionUrl = serverUrl + 'transaction/delete'
 
 export const registerUser = async (registerData) => {
     try {
@@ -127,6 +128,29 @@ export const registerUser = async (registerData) => {
   export const updateTransaction = (transactionInputValues, token) => async (dispatch)=>{
     try {
         const addTransactionResponse = await axios.put(getAddUpdateTransactionUrl, transactionInputValues, {
+          headers:{
+            Authorization: token,
+          },
+        })
+        if(addTransactionResponse.data.success){
+          dispatch(getUserTransaction(token))
+        }
+        return  addTransactionResponse.data
+      
+    } catch (error) {
+      if (error.response) {
+        return (error.response.data)
+      } else if (error.request) {
+        return ({message:'Something went wrong. Please try again!'});
+      } else {
+        return ({message:'Something went wrong. Please try again!'});
+      }
+    }
+  }
+
+  export const deleteTransaction = (transactionId, token) => async (dispatch)=>{
+    try {
+        const addTransactionResponse = await axios.put(deleteTransactionUrl, transactionId, {
           headers:{
             Authorization: token,
           },
