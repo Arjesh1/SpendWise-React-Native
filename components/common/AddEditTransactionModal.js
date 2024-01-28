@@ -126,7 +126,7 @@ const AddEditTransactionModal = ({ headerName, selectedValue }) => {
     } else if (transactionInputValues.type === 'expenses' && !transactionInputValues.category) {
       return setErrorMsg(['Category of expense is required.'])
     } else {
-      const deleteResponse = await dispatch(updateTransaction(transactionInputValues, token))
+      const updateResponse = await dispatch(updateTransaction(transactionInputValues, token))
 
       if(updateResponse.success){
         setTransactionInputValues(initialTransactionData)
