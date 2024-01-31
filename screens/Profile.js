@@ -138,7 +138,7 @@ const Profile = ({navigation}) => {
             return setError(['Email is invalid.'])
         } else {
             setError(null);
-            const updateResult =  await updateProfile({userData:profileData, token})
+            const updateResult =  await updateProfile(profileData, token)
 
             if(updateResult && updateResult.message){
                 dispatch(setShowCustomModal(false))

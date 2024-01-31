@@ -49,9 +49,13 @@ export const registerUser = async (registerData) => {
     }
   };
 
-  export const updateProfile = async (updatedUserData)=>{
+  export const updateProfile = async (profileData, token)=>{
     try {
-      const updateProfileResponse = await axios.put(updateProfileUrl, updatedUserData)
+      const updateProfileResponse = await axios.put(updateProfileUrl, profileData, {
+        headers:{
+          Authorization: token,
+        }
+      })
       return updateProfileResponse.data
     } catch (error) {
       if (error.response) {
