@@ -231,15 +231,19 @@ const Profile = ({navigation}) => {
 
         if (fromCamera) {
             const cameraPermission = await ImagePicker.getCameraPermissionsAsync();
-
             if (cameraPermission.status !== 'granted') {
 
-                const { status } = await ImagePicker.requestCameraPermissionsAsync();
-
-                if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
-                    return
-                }
+                if (cameraPermission.canAskAgain) {
+                    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+                    
+                    if (status !== 'granted') {
+                      alert('Sorry, we need camera roll permissions to make this work!');
+                      return;
+                    }
+                  } else {
+                    alert('You need to enable camera permissions in your device settings to use this feature.');
+                    return;
+                  }
             }
 
             result = await ImagePicker.launchCameraAsync({
@@ -309,8 +313,8 @@ const Profile = ({navigation}) => {
         const formData =  new FormData()
         formData.append('image', {
             uri: image,
-            name: 'image/jpeg',
-            type: 'image.jpg',
+            type: 'image/jpeg',
+            name: 'image.jpg',
           });
 
         const uploadResponse = await dispatch(uploadImage(formData, token))

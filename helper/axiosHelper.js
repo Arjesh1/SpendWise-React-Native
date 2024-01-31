@@ -174,11 +174,10 @@ export const registerUser = async (registerData) => {
 
   export const uploadImage = (formData, token)=> async(dispatch)=>{
     try {
-
       const uploadConfig = await axios.post(signedUrlLink,formData, {
         headers:{
           Authorization: token,
-          'Content-Type': 'multipart/form-data',
+          'content-type': 'multipart/form-data',
         }
       })
       if(uploadConfig.data){
