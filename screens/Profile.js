@@ -14,7 +14,7 @@ import { setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker, passwordChecker, whiteSpaceChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { changePassword, editProfile, updateProfile } from '../helper/axiosHelper';
+import { changePassword, updateProfile, uploadImage } from '../helper/axiosHelper';
 import { PrivateRoute } from '../validators/PrivateRoute';
 
 const Profile = ({navigation}) => {
@@ -53,6 +53,7 @@ const Profile = ({navigation}) => {
 
     useEffect(() => {
         setProfileData(userData)
+        setImage(null);
     }, [userData, showCustomModal ])
 
     function editEmailHandler(email) {
@@ -305,13 +306,19 @@ const Profile = ({navigation}) => {
     }
 
     async function handleOnEditProfileImgSave() {
-         setProfileData((currentValues) => {
-            return {
-                ...currentValues,
-                'profileImg': image
-            }
-        })
-        await editProfile(profileData)
+        const formData =  new FormData()
+        formData.append('image', {
+            uri: image,
+            name: 'image/jpeg',
+            type: 'image.jpg',
+          });
+
+        const uploadResponse = await dispatch(uploadImage(formData, token))
+        if(uploadResponse.message){
+            Toast.error(uploadResponse.message)
+            return dispatch(setShowCustomModal(false))
+        } 
+        Toast.success(uploadResponse.success)
         dispatch(setShowCustomModal(false))
     }
 
@@ -360,12 +367,11 @@ const Profile = ({navigation}) => {
 
     return (
         <PrivateRoute>
-
             <ModalComponent {...modalData} errorMsg={error} />
             <View style={styles.profileWrapper}>
                 <View style={styles.profileImgWrapper}>
                     <View style={styles.profileImg}>
-                        <View style={{ position: 'relative', width: '100%', borderRadius: 999, overflow: 'hidden', borderWidth:2, borderColor:GlobalStyles.colors.primary100 }} key={userData.profileImg}>
+                        <View style={{ position: 'relative', width: '100%', borderRadius: 999, overflow: 'hidden', borderWidth:2, borderColor:GlobalStyles.colors.primary100 }} key={image}>
                             <Image
                                 style={styles.profilePicture}
                                 source={{

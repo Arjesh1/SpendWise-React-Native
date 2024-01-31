@@ -10,6 +10,7 @@ const updateProfileUrl = serverUrl + 'auth/user'
 const changePasswordUrl = serverUrl + 'auth/user/changePassword'
 const getAddUpdateTransactionUrl = serverUrl + 'transaction'
 const deleteTransactionUrl = serverUrl + 'transaction/delete'
+const signedUrlLink = serverUrl + 'upload'
 
 export const registerUser = async (registerData) => {
     try {
@@ -160,6 +161,30 @@ export const registerUser = async (registerData) => {
         }
         return  addTransactionResponse.data
       
+    } catch (error) {
+      if (error.response) {
+        return (error.response.data)
+      } else if (error.request) {
+        return ({message:'Something went wrong. Please try again!'});
+      } else {
+        return ({message:'Something went wrong. Please try again!'});
+      }
+    }
+  }
+
+  export const uploadImage = (formData, token)=> async(dispatch)=>{
+    try {
+
+      const uploadConfig = await axios.post(signedUrlLink,formData, {
+        headers:{
+          Authorization: token,
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      if(uploadConfig.data){
+        dispatch(setUserData(uploadConfig.data.updatedUserData))
+        return uploadConfig.data
+      }
     } catch (error) {
       if (error.response) {
         return (error.response.data)
