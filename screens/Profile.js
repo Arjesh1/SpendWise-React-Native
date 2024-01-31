@@ -188,8 +188,7 @@ const Profile = ({navigation}) => {
             return setError(['New password and confirm password do not match.'])
         } else {
             setError(null);
-            const changePwData = {passwordChangeData, token}
-             const changePasswordResponse = await changePassword(changePwData)
+             const changePasswordResponse = await changePassword(passwordChangeData, token)
              if(changePasswordResponse && changePasswordResponse.message ){
                 dispatch(setShowCustomModal(false))
                 return Toast.error(changePasswordResponse.message);

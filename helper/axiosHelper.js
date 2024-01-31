@@ -68,9 +68,13 @@ export const registerUser = async (registerData) => {
     }
   }
 
-  export const changePassword = async (passwordData)=>{
+  export const changePassword = async (passwordChangeData, token)=>{
     try {
-      const updateProfileResponse = await axios.put(changePasswordUrl, passwordData)
+      const updateProfileResponse = await axios.put(changePasswordUrl, passwordChangeData, {
+        headers:{
+          Authorization: token,
+        },
+      })
       return updateProfileResponse.data
     } catch (error) {
       if (error.response) {
