@@ -88,7 +88,7 @@ const LoginScreen = ({navigation}) => {
             setError(['Password must be more than 6 characters!'])
         } else {
             setError(null);
-            setAuthData({})
+            setAuthData()
             dispatch(setShowLoader(true))
             const loginResult =  await dispatch(loginUser(authData))
             if(loginResult && loginResult.message){
@@ -112,7 +112,7 @@ const LoginScreen = ({navigation}) => {
             return setError(['Password and confirm password do not match.'])
         } else {
             setError(null);
-            setAuthData({})
+            setAuthData()
             const { confirmPassword, ...rest } = authData
             dispatch(setShowLoader(true))
             const registerResult = await registerUser(rest)
@@ -141,7 +141,7 @@ const LoginScreen = ({navigation}) => {
 
     function loginForm() {
         return (
-            <>
+            <View key={authData}>
                 <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', keyboardType: 'default', onChangeText: emailHandler, inputMode:'email', maxLength:20 }} />
 
                 <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Password', keyboardType: 'default', onChangeText: passwordHandler, secureTextEntry: true, maxLength: 15 }} />
@@ -163,13 +163,13 @@ const LoginScreen = ({navigation}) => {
                             <FontAwesome name="google" size={30} />} type='positiveText' />
                     </View>
                 </View>
-            </>
+            </View>
         )
     }
 
     function registerForm() {
         return (
-            <>
+            <View key={authData}>
                 <AuthInputComponent icon={<FontAwesome name='user' size={30} />} textInputConfig={{ placeholder: 'Full Name', onChangeText: nameHandler, maxLength: 20 }} />
 
                 <AuthInputComponent icon={<Foundation name='mail' size={30} />} textInputConfig={{ placeholder: 'Email', inputMode: 'email', onChangeText: emailHandler, maxLength: 20 }} />
@@ -183,7 +183,7 @@ const LoginScreen = ({navigation}) => {
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent onPress={() => handleOnRegister()} name="Register" type='positiveBg' />
                 </View>
-            </>
+            </View>
         )
     }
 
