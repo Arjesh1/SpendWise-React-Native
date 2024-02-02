@@ -273,10 +273,10 @@ const Profile = ({navigation}) => {
                 <View style={{ justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                     <View style={{...styles.profileImg, borderWidth:2, borderColor: GlobalStyles.colors.primary700}}>
                         <Image
+                           key={image|| profileData.profileImg}
                             style={styles.profilePicture}
-                            source={{
-                                uri: profileData && profileData.profileImg ? (image ? image : profileData.profileImg) : require('../assets/images/defaultProfile.png')
-                            }}
+                            source={ image || profileData.profileImg ?
+                                { uri: image ? image : profileData.profileImg}: require('../assets/images/defaultProfile.png')}
                         />
                     </View>
                     <View style={{ width: '60%', gap: 10 }}>
@@ -381,9 +381,8 @@ const Profile = ({navigation}) => {
                             <Image
                                 style={styles.profilePicture}
                                 key={image || profileData.profileImg || !showLoader}
-                                source={{
-                                    uri: profileData.profileImg ? profileData.profileImg : 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
-                                }}
+                                source={profileData.profileImg ? {
+                                    uri: profileData.profileImg }: require('../assets/images/defaultProfile.png')}
                             />
                             <View style={{ position: 'absolute', bottom: 0, width: '100%' }}>
                                 <ButtonComponent name='Edit' onPress={() => {
