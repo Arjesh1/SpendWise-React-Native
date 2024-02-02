@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, StyleSheet, Image, Pressable } from 'react-native'
+import { Text, View, StyleSheet, Image, Pressable, ImageBackground } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -16,6 +16,7 @@ import { Toast } from 'toastify-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { changePassword, updateProfile, uploadImage } from '../helper/axiosHelper';
 import { PrivateRoute } from '../validators/PrivateRoute';
+import LoadingComponent from '../components/common/LoadingComponent';
 
 const Profile = ({navigation}) => {
     const dispatch = useDispatch()
@@ -27,7 +28,7 @@ const Profile = ({navigation}) => {
     const [error, setError] = useState(null)
     const [image, setImage] = useState(null);
     const [passwordChangeData, setPasswordChangeData] = useState({})
-    const { showCustomModal } = useSelector(state=>state.system)
+    const { showCustomModal, showLoader } = useSelector(state=>state.system)
     const [progressBarValue, setProgressBarValue] = useState()
 
     useEffect(()=>{
@@ -270,11 +271,11 @@ const Profile = ({navigation}) => {
         return (
             <View >
                 <View style={{ justifyContent: 'center', alignItems: 'center', gap: 10 }}>
-                    <View style={styles.profileImg}>
+                    <View style={{...styles.profileImg, borderWidth:2, borderColor: GlobalStyles.colors.primary700}}>
                         <Image
                             style={styles.profilePicture}
                             source={{
-                                uri: image ? image : profileData.profileImg ? profileData.profileImg  :'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
+                                uri: profileData && profileData.profileImg ? (image ? image : profileData.profileImg) : require('../assets/images/defaultProfile.png')
                             }}
                         />
                     </View>
@@ -309,6 +310,8 @@ const Profile = ({navigation}) => {
     }
 
     async function handleOnEditProfileImgSave() {
+        dispatch(setShowCustomModal(false))
+        dispatch(setShowLoader(true))
         const formData =  new FormData()
         formData.append('image', {
             uri: image,
@@ -318,11 +321,11 @@ const Profile = ({navigation}) => {
 
         const uploadResponse = await dispatch(uploadImage(formData, token))
         if(uploadResponse.message){
-            Toast.error(uploadResponse.message)
-            return dispatch(setShowCustomModal(false))
+            dispatch(setShowLoader(false))
+            return Toast.error(uploadResponse.message)
         } 
+        dispatch(setShowLoader(false))
         Toast.success(uploadResponse.success)
-        dispatch(setShowCustomModal(false))
     }
 
     const editProfileProps = {
@@ -367,16 +370,17 @@ const Profile = ({navigation}) => {
         Toast.error('Logou successfull');
     }
 
-
     return (
         <PrivateRoute>
+            <LoadingComponent/>
             <ModalComponent {...modalData} errorMsg={error} />
             <View style={styles.profileWrapper}>
                 <View style={styles.profileImgWrapper}>
                     <View style={styles.profileImg}>
-                        <View style={{ position: 'relative', width: '100%', borderRadius: 999, overflow: 'hidden', borderWidth:2, borderColor:GlobalStyles.colors.primary100 }} key={image}>
+                        <ImageBackground source ={require('../assets/images/preloaders.jpg')} style={{ position: 'relative', width: '100%', borderRadius: 999, overflow: 'hidden', borderWidth:2, borderColor:GlobalStyles.colors.primary100, resizeMode:'contain' }} >
                             <Image
                                 style={styles.profilePicture}
+                                key={image || profileData.profileImg || !showLoader}
                                 source={{
                                     uri: profileData.profileImg ? profileData.profileImg : 'https://www.pngarts.com/files/5/User-Avatar-PNG-Background-Image.png',
                                 }}
@@ -387,7 +391,7 @@ const Profile = ({navigation}) => {
                                     dispatch(setShowCustomModal(true));
                                 }} />
                             </View>
-                        </View>
+                        </ImageBackground>
                     </View>
                 </View>
 
