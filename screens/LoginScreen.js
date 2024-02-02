@@ -113,9 +113,8 @@ const LoginScreen = ({navigation}) => {
         } else {
             setError(null);
             setAuthData()
-            const { confirmPassword, ...rest } = authData
             dispatch(setShowLoader(true))
-            const registerResult = await registerUser(rest)
+            const registerResult = await registerUser(authData)
             if(registerResult && registerResult.message){
                 dispatch(setShowLoader(false))
                 return Toast.error(registerResult.message);
