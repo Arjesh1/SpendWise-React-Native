@@ -16,6 +16,7 @@ import { Toast } from 'toastify-react-native';
 import { getUserTransaction, loginUser, registerUser } from '../helper/axiosHelper';
 import { useFocusEffect } from '@react-navigation/native';
 import { setTransactionData } from '../reduxStore/transactionSlice';
+import { OTPInputField } from '../components/common/OTPInputField';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
@@ -25,6 +26,7 @@ const LoginScreen = ({navigation}) => {
     const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
     const {token} = useSelector(state=> state.user)
+    const { modalContents, setModalContents} = useState()
 
     useFocusEffect(
         React.useCallback(() => {
@@ -186,12 +188,56 @@ const LoginScreen = ({navigation}) => {
         )
     }
 
+    const resetEmailContents = {
+        headerText: 'Reset Password',
+        onPress: () => handleOnforgetPw(),
+        errorMsg: resetError,
+        icon: (
+          <View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
+            <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700} />
+          </View>
+        ),
+        submitText: 'Submit',
+        bodyDetailText: 'Are you sure you want to reset your account password? You will receive an OTP to reset your password on your nominated email.',
+        additionalBody: (
+          <>
+            <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text>
+            <TransactionInput
+              inputStyles={{ borderWidth: 1, textAlign: 'center' }}
+              textInputConfig={{
+                placeholder: 'johnsmith@gmail.com',
+                onChangeText: (email) => setResetPasswordEmail(email),
+              }}
+            />
+          </>
+        ),
+      };
+
+      const submitOTPContent = {
+        headerText: 'Verify OTP',
+        onPress: () => handleOnforgetPw(),
+        errorMsg: resetError,
+        submitText: 'Submit',
+        bodyDetailText: 'Please enter the 6 digit OTP.',
+        additionalBody: (
+          <>
+            <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>OTP</Text>
+            <OTPInputField/>
+            
+          </>
+        ),
+      };
+        
+
+    
+    
+
+
+
   return (
     <>
           <LoadingComponent/>
-          <ModalComponent headerText='Reset Password' onPress={()=> handleOnforgetPw()} errorMsg={resetError} icon={<View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
-              <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700}/>
-          </View>} submitText='Reset' bodyDetailText='Are you sure you want to reset your account password? You will receive an link to reset your password on your nominated email.' additionalBody={<><Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>Email address</Text><TransactionInput inputStyles={{ borderWidth: 1, textAlign: 'center' }} textInputConfig={{ placeholder: 'johnsmith@gmail.com', onChangeText: (email)=> setResetPasswordEmail(email) }} /></>}/>
+          <ModalComponent {...submitOTPContent} />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
      <View style={styles.loginWrapper}>
