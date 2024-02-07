@@ -4,6 +4,7 @@ import { GlobalStyles } from '../constants/styles'
 import ButtonComponent from '../components/common/ButtonComponent'
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AuthInputComponent from '../components/common/AuthInputComponent'
 import ModalComponent from '../components/common/ModalComponent';
 import TransactionInput from '../components/common/TransactionInput';
@@ -218,7 +219,7 @@ const LoginScreen = ({navigation}) => {
         onPress: () => handleOnforgetPw(),
         errorMsg: resetError,
         submitText: 'Submit',
-        bodyDetailText: 'Please enter the 6 digit OTP.',
+        bodyDetailText: `Please enter the 6-digit verification code that you've received in your email to proceed.`,
         additionalBody: (
           <>
             <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>OTP</Text>
@@ -226,6 +227,11 @@ const LoginScreen = ({navigation}) => {
             
           </>
         ),
+        icon: (
+            <View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
+              <MaterialCommunityIcons name="form-textbox-password" size={30} color={GlobalStyles.colors.error700} />
+            </View>
+          )
       };
         
 
