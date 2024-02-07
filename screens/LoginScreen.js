@@ -233,6 +233,27 @@ const LoginScreen = ({navigation}) => {
             </View>
           )
       };
+
+      const newPasswordInputContent = {
+        headerText: 'New Password',
+        onPress: () => handleOnforgetPw(),
+        errorMsg: resetError,
+        submitText: 'Submit',
+        bodyDetailText: `Please enter the new password that you wish to set up.`,
+        additionalBody: (
+          <>
+            <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'New Password', onChangeText: passwordHandler, secureTextEntry: true, maxLength: 15 }} />
+
+            <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: confirmPasswordHandler, secureTextEntry: true, maxLength: 15 }} />  
+          </>
+        ),
+        icon: (
+            <View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
+              <MaterialCommunityIcons name="form-textbox-password" size={30} color={GlobalStyles.colors.error700} />
+            </View>
+          )
+
+      } 
         
 
     
@@ -243,7 +264,7 @@ const LoginScreen = ({navigation}) => {
   return (
     <>
           <LoadingComponent/>
-          <ModalComponent {...submitOTPContent} />
+          <ModalComponent {...newPasswordInputContent} />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
      <View style={styles.loginWrapper}>
