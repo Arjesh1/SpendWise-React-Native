@@ -248,19 +248,13 @@ const LoginScreen = ({navigation}) => {
           </>
         ),
         icon: (
-            <View style={{ padding: 15, backgroundColor: GlobalStyles.colors.error100, borderRadius: 99 }}>
-              <MaterialCommunityIcons name="form-textbox-password" size={30} color={GlobalStyles.colors.error700} />
+            <View style={{ padding: 15, backgroundColor: GlobalStyles.colors.primary100, borderRadius: 99 }}>
+              <MaterialCommunityIcons name="form-textbox-password" size={30} color={GlobalStyles.colors.primary700} />
             </View>
           )
 
       } 
         
-
-    
-    
-
-
-
   return (
     <>
           <LoadingComponent/>
