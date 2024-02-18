@@ -27,7 +27,7 @@ const LoginScreen = ({navigation}) => {
     const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
     const {token} = useSelector(state=> state.user)
-    const { modalContents, setModalContents} = useState()
+    const [modalSwitch, setModalSwitch] = useState('')
 
     useFocusEffect(
         React.useCallback(() => {
@@ -137,8 +137,31 @@ const LoginScreen = ({navigation}) => {
         } else if (!emailChecker(resetPasswordEmail)){
             setResetError('Email address is invalid.')
         } else{
-            console.log(resetPasswordEmail)
+            console.log('reset next')
+            setModalSwitch('OTP')
         }
+    }
+
+    const handleOnSubmitOTP =()=>{
+        // if(!resetPasswordEmail){
+        //     setResetError('Email address is required.')
+        // } else if (!emailChecker(resetPasswordEmail)){
+        //     setResetError('Email address is invalid.')
+        // } else{
+            setModalSwitch('NewPassword')
+        // }
+    }
+
+    const handleOnResetNewPassword =()=>{
+        // if(!resetPasswordEmail){
+        //     setResetError('Email address is required.')
+        // } else if (!emailChecker(resetPasswordEmail)){
+        //     setResetError('Email address is invalid.')
+        // } else{
+            dispatch(setShowCustomModal(false))
+            setModalSwitch('')
+            setModalContents(resetEmailContents)
+        // }
     }
 
     function loginForm() {
@@ -198,7 +221,7 @@ const LoginScreen = ({navigation}) => {
             <FontAwesome name="warning" size={30} color={GlobalStyles.colors.error700} />
           </View>
         ),
-        submitText: 'Submit',
+        submitText: 'Next',
         bodyDetailText: 'Are you sure you want to reset your account password? You will receive an OTP to reset your password on your nominated email.',
         additionalBody: (
           <>
@@ -213,11 +236,12 @@ const LoginScreen = ({navigation}) => {
           </>
         ),
       };
+      const [ modalContents, setModalContents ] = useState({ ...resetEmailContents });
 
       const submitOTPContent = {
         headerText: 'Verify OTP',
-        onPress: () => handleOnforgetPw(),
-        errorMsg: resetError,
+        onPress: () => handleOnSubmitOTP(),
+        // errorMsg: resetError,
         submitText: 'Submit',
         bodyDetailText: `Please enter the 6-digit verification code that you've received in your email to proceed.`,
         additionalBody: (
@@ -236,8 +260,8 @@ const LoginScreen = ({navigation}) => {
 
       const newPasswordInputContent = {
         headerText: 'New Password',
-        onPress: () => handleOnforgetPw(),
-        errorMsg: resetError,
+        onPress: () => handleOnResetNewPassword(),
+        // errorMsg: resetError,
         submitText: 'Submit',
         bodyDetailText: `Please enter the new password that you wish to set up.`,
         additionalBody: (
@@ -254,11 +278,23 @@ const LoginScreen = ({navigation}) => {
           )
 
       } 
+
+      useEffect(()=>{
+        if(modalSwitch === 'OTP'){
+            setModalContents(submitOTPContent)
+        } else if(modalSwitch === 'NewPassword'){
+            setModalContents(newPasswordInputContent)
+        } else{
+            setModalContents(resetEmailContents)
+        }
+      },[modalSwitch])
+
+
         
   return (
     <>
           <LoadingComponent/>
-          <ModalComponent {...newPasswordInputContent} />
+          <ModalComponent {...modalContents} key={modalContents} />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
      <View style={styles.loginWrapper}>
