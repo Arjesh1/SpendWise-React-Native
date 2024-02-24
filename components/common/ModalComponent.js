@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, KeyboardAvoidingView } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles } from '../../constants/styles';
 import ButtonComponent from './ButtonComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal } from '../../reduxStore/systemSlice';
 
-const ModalComponent = ({ icon, onPress, headerText, submitText, bodyDetailText, additionalBody, errorMsg }) => {
+const ModalComponent = ({ icon, onPress, headerText, submitText, bodyDetailText, additionalBody, errorMsg, onCancel }) => {
     const { showCustomModal } = useSelector(state => state.system)
     const dispatch =  useDispatch()
 
     const handleOnModalClose =()=>{
+        onCancel()
         dispatch(setShowCustomModal(!showCustomModal))
     }
 

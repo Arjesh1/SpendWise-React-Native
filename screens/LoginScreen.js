@@ -310,12 +310,17 @@ const LoginScreen = ({navigation}) => {
         } else{
             setModalContents(resetEmailContents)
         }
-      },[modalSwitch, resetError, resetPasswordEmail, otpValue, resetPassword ])
+      },[modalSwitch, resetError, resetPasswordEmail, otpValue, resetPassword])
+
+      const handleModalCancel = ()=>{
+        setResetError(null)
+        setModalSwitch('')
+    }
  
   return (
     <>
           <LoadingComponent/>
-          <ModalComponent {...modalContents} key={modalContents || modalSwitch} />
+          <ModalComponent {...modalContents} key={modalContents || modalSwitch || error} onCancel={handleModalCancel}/>
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
      <View style={styles.loginWrapper}>
