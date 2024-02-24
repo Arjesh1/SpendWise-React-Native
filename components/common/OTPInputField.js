@@ -1,10 +1,12 @@
+import { useState } from "react"
 import { StyleSheet, TextInput, View } from "react-native"
 
 
-export const OTPInputField = ({ }) => {
+export const OTPInputField = ({onChangeText }) => {
+
   return (
     <View style={{justifyContent:'center', alignItems:'center'}}>
-        <TextInput placeholder="999088" style={styles.otpWrapper} keyboardType="numeric" maxLength={6} letterSpacing={15}/>
+        <TextInput placeholder="999088" style={styles.otpWrapper} keyboardType="numeric" maxLength={6} letterSpacing={15} onChangeText={onChangeText}/>
     </View>
   
   )

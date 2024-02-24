@@ -21,13 +21,15 @@ import { OTPInputField } from '../components/common/OTPInputField';
 
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
-    const [resetPasswordEmail, setResetPasswordEmail] = useState('')
+    const [resetPasswordEmail, setResetPasswordEmail] = useState()
+    const [otpValue, setOtpValue] = useState('')
     const [authData, setAuthData] = useState({})
     const [error, setError] = useState(null)
     const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
     const {token} = useSelector(state=> state.user)
     const [modalSwitch, setModalSwitch] = useState('')
+    const [resetPassword, setResetPassword] = useState({})
 
     useFocusEffect(
         React.useCallback(() => {
@@ -133,35 +135,37 @@ const LoginScreen = ({navigation}) => {
 
     const handleOnforgetPw =()=>{
         if(!resetPasswordEmail){
-            setResetError('Email address is required.')
+            return setResetError('Email address is required.')
         } else if (!emailChecker(resetPasswordEmail)){
-            setResetError('Email address is invalid.')
+            return setResetError('Email address is invalid.')
         } else{
-            console.log('reset next')
-            setModalSwitch('OTP')
+            setResetError(null)
+             return setModalSwitch('OTP')
         }
     }
 
     const handleOnSubmitOTP =()=>{
-        // if(!resetPasswordEmail){
-        //     setResetError('Email address is required.')
-        // } else if (!emailChecker(resetPasswordEmail)){
-        //     setResetError('Email address is invalid.')
-        // } else{
-            setModalSwitch('NewPassword')
-        // }
+        if(!otpValue || otpValue.length!== 6){
+            return setResetError('6 digit OTP is required.')
+        } else{
+            setResetError(null)
+            return setModalSwitch('NewPassword')
+        }
     }
 
     const handleOnResetNewPassword =()=>{
-        // if(!resetPasswordEmail){
-        //     setResetError('Email address is required.')
-        // } else if (!emailChecker(resetPasswordEmail)){
-        //     setResetError('Email address is invalid.')
-        // } else{
+        if(!resetPassword.password || !resetPassword.confirmPassword){
+            return setResetError('Password and confirm Password is required.')
+        } else if (resetPassword.password.length < 6){
+            return setError(['Password must be more than 6 characters.'])
+        } else if(resetPassword.password !== resetPassword.confirmPassword){
+            return setError(['Password and confirm password do not match.'])
+        } else {
+            setResetError(null)
             dispatch(setShowCustomModal(false))
             setModalSwitch('')
-            setModalContents(resetEmailContents)
-        // }
+            return setModalContents(resetEmailContents)
+        }
     }
 
     function loginForm() {
@@ -241,14 +245,13 @@ const LoginScreen = ({navigation}) => {
       const submitOTPContent = {
         headerText: 'Verify OTP',
         onPress: () => handleOnSubmitOTP(),
-        // errorMsg: resetError,
+        errorMsg: resetError,
         submitText: 'Submit',
         bodyDetailText: `Please enter the 6-digit verification code that you've received in your email to proceed.`,
         additionalBody: (
           <>
             <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>OTP</Text>
-            <OTPInputField/>
-            
+            <OTPInputField onChangeText={setOtpValue}/>
           </>
         ),
         icon: (
@@ -258,17 +261,37 @@ const LoginScreen = ({navigation}) => {
           )
       };
 
+      function resetPasswordHandler(password) {
+        setResetPassword((currentValues) => {
+            return {
+                ...currentValues,
+                'password': password
+            }
+        })
+        setError(null)
+    }
+
+    function resetConfirmPasswordHandler(confirmPassword) {
+        setResetPassword((currentValues) => {
+            return {
+                ...currentValues,
+                'confirmPassword': confirmPassword
+            }
+        })
+        setError(null)
+    }
+
       const newPasswordInputContent = {
         headerText: 'New Password',
         onPress: () => handleOnResetNewPassword(),
-        // errorMsg: resetError,
+        errorMsg: resetError,
         submitText: 'Submit',
         bodyDetailText: `Please enter the new password that you wish to set up.`,
         additionalBody: (
           <>
-            <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'New Password', onChangeText: passwordHandler, secureTextEntry: true, maxLength: 15 }} />
+            <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'New Password', onChangeText: resetPasswordHandler, secureTextEntry: true, maxLength: 15 }} />
 
-            <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: confirmPasswordHandler, secureTextEntry: true, maxLength: 15 }} />  
+            <AuthInputComponent icon={<Foundation name='lock' size={30} />} textInputConfig={{ placeholder: 'Confirm Password', onChangeText: resetConfirmPasswordHandler, secureTextEntry: true, maxLength: 15 }} />  
           </>
         ),
         icon: (
@@ -287,14 +310,12 @@ const LoginScreen = ({navigation}) => {
         } else{
             setModalContents(resetEmailContents)
         }
-      },[modalSwitch])
-
-
-        
+      },[modalSwitch, resetError, resetPasswordEmail, otpValue, resetPassword ])
+ 
   return (
     <>
           <LoadingComponent/>
-          <ModalComponent {...modalContents} key={modalContents} />
+          <ModalComponent {...modalContents} key={modalContents || modalSwitch} />
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
      <View style={styles.loginWrapper}>
