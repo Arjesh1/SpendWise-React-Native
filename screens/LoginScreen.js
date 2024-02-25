@@ -241,7 +241,7 @@ const LoginScreen = ({navigation}) => {
               inputStyles={{ borderWidth: 1, textAlign: 'center' }}
               textInputConfig={{
                 placeholder: 'johnsmith@gmail.com',
-                onChangeText: (email) => setResetPasswordEmail({"email": email}),
+                onChangeText: (email) => setResetPasswordEmail({"email": email.toLowerCase()}),
               }}
             />
           </>
