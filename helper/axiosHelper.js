@@ -9,6 +9,8 @@ const loginUrl =  serverUrl + 'auth/login'
 const updateProfileUrl = serverUrl + 'auth/user'
 const changePasswordUrl = serverUrl + 'auth/user/changePassword'
 const sendOTPUrl = serverUrl + 'auth/sendOTP'
+const verifyOTPUrl = serverUrl + 'auth/verifyCode'
+const resetPasswordUrl = serverUrl + 'auth/resetPassword'
 const getAddUpdateTransactionUrl = serverUrl + 'transaction'
 const deleteTransactionUrl = serverUrl + 'transaction/delete'
 const signedUrlLink = serverUrl + 'upload'
@@ -209,6 +211,23 @@ export const registerUser = async (registerData) => {
       const sendOTPResponse = await axios.post(sendOTPUrl, email)
       if(sendOTPResponse.data){
         return sendOTPResponse.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return (error.response.data)
+      } else if (error.request) {
+        return ({message:'Something went wrong. Please try again!'});
+      } else {
+        return ({message:'Something went wrong. Please try again!'});
+      }
+    }
+  }
+
+  export const verifyOTP = async(data)=>{
+    try {
+      const verifyOTPResponse = await axios.post(verifyOTPUrl, data)
+      if(verifyOTPResponse.data){
+        return verifyOTPResponse.data
       }
     } catch (error) {
       if (error.response) {

@@ -11,10 +11,10 @@ import TransactionInput from '../components/common/TransactionInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowCustomModal, setShowLoader } from '../reduxStore/systemSlice';
 import LoadingComponent from '../components/common/LoadingComponent';
-import { setToken, setUserData } from '../reduxStore/userAuthSlice';
+import { setResetData, setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
-import { getUserTransaction, loginUser, registerUser, sendOTP } from '../helper/axiosHelper';
+import { getUserTransaction, loginUser, registerUser, sendOTP, verifyOTP } from '../helper/axiosHelper';
 import { useFocusEffect } from '@react-navigation/native';
 import { setTransactionData } from '../reduxStore/transactionSlice';
 import { OTPInputField } from '../components/common/OTPInputField';
@@ -22,12 +22,12 @@ import { OTPInputField } from '../components/common/OTPInputField';
 const LoginScreen = ({navigation}) => {
     const [loginActive, setLoginActive] = useState(true)
     const [resetPasswordEmail, setResetPasswordEmail] = useState()
-    const [otpValue, setOtpValue] = useState('')
+    const [otpValue, setOtpValue] = useState({})
     const [authData, setAuthData] = useState({})
     const [error, setError] = useState(null)
     const [resetError, setResetError]= useState(null)
     const dispatch = useDispatch()
-    const {token} = useSelector(state=> state.user)
+    const {token, resetData} = useSelector(state=> state.user)
     const [modalSwitch, setModalSwitch] = useState('')
     const [resetPassword, setResetPassword] = useState({})
 
@@ -142,21 +142,33 @@ const LoginScreen = ({navigation}) => {
             const emailResetResponse = await sendOTP(resetPasswordEmail)
             setResetError(null)
             if(emailResetResponse.success){
+                dispatch(setResetData(resetPasswordEmail))
                 Toast.success(emailResetResponse.success);
                 return setModalSwitch('OTP')
             } else {
                 dispatch(setShowCustomModal(false))
+                dispatch(setResetData({}))
                 Toast.error(emailResetResponse.message);
             }
         }
     }
 
-    const handleOnSubmitOTP =()=>{
-        if(!otpValue || otpValue.length!== 6){
+    const handleOnSubmitOTP = async ()=>{
+        if(!otpValue.code || otpValue.code.length!== 6){
             return setResetError('6 digit OTP is required.')
         } else{
             setResetError(null)
-            return setModalSwitch('NewPassword')
+            const toSendData = {...resetData, ...otpValue}
+            
+            const otpVerificationResponse = await verifyOTP(toSendData)
+            if(otpVerificationResponse.success){
+                dispatch(setResetData(toSendData))
+                Toast.success(otpVerificationResponse.success);
+                return setModalSwitch('NewPassword')
+            }
+            dispatch(setShowCustomModal(false))
+            dispatch(setResetData({}))
+            Toast.error(otpVerificationResponse.message);
         }
     }
 
@@ -258,7 +270,7 @@ const LoginScreen = ({navigation}) => {
         additionalBody: (
           <>
             <Text style={[styles.detailText, { fontWeight: 'bold', textAlign: 'center' }]}>OTP</Text>
-            <OTPInputField onChangeText={setOtpValue}/>
+            <OTPInputField onChangeText={(otp)=>setOtpValue({'code':otp})}/>
           </>
         ),
         icon: (
@@ -322,6 +334,7 @@ const LoginScreen = ({navigation}) => {
       const handleModalCancel = ()=>{
         setResetError(null)
         setModalSwitch('')
+        dispatch(setResetData({}))
     }
  
   return (
