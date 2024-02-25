@@ -14,7 +14,7 @@ import LoadingComponent from '../components/common/LoadingComponent';
 import { setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
-import { getUserTransaction, loginUser, registerUser } from '../helper/axiosHelper';
+import { getUserTransaction, loginUser, registerUser, sendOTP } from '../helper/axiosHelper';
 import { useFocusEffect } from '@react-navigation/native';
 import { setTransactionData } from '../reduxStore/transactionSlice';
 import { OTPInputField } from '../components/common/OTPInputField';
@@ -133,14 +133,21 @@ const LoginScreen = ({navigation}) => {
     }
 
 
-    const handleOnforgetPw =()=>{
-        if(!resetPasswordEmail){
+    const handleOnforgetPw = async()=>{
+        if(!resetPasswordEmail.email){
             return setResetError('Email address is required.')
-        } else if (!emailChecker(resetPasswordEmail)){
+        } else if (!emailChecker(resetPasswordEmail.email)){
             return setResetError('Email address is invalid.')
         } else{
+            const emailResetResponse = await sendOTP(resetPasswordEmail)
             setResetError(null)
-             return setModalSwitch('OTP')
+            if(emailResetResponse.success){
+                Toast.success(emailResetResponse.success);
+                return setModalSwitch('OTP')
+            } else {
+                dispatch(setShowCustomModal(false))
+                Toast.error(emailResetResponse.message);
+            }
         }
     }
 
@@ -234,7 +241,7 @@ const LoginScreen = ({navigation}) => {
               inputStyles={{ borderWidth: 1, textAlign: 'center' }}
               textInputConfig={{
                 placeholder: 'johnsmith@gmail.com',
-                onChangeText: (email) => setResetPasswordEmail(email),
+                onChangeText: (email) => setResetPasswordEmail({"email": email}),
               }}
             />
           </>
