@@ -14,7 +14,7 @@ import LoadingComponent from '../components/common/LoadingComponent';
 import { setResetData, setToken, setUserData } from '../reduxStore/userAuthSlice';
 import { emailChecker } from '../validators/inputChecker';
 import { Toast } from 'toastify-react-native';
-import { getUserTransaction, loginUser, registerUser, sendOTP, verifyOTP } from '../helper/axiosHelper';
+import { getUserTransaction, loginUser, registerUser, resetNewPassword, sendOTP, verifyOTP } from '../helper/axiosHelper';
 import { useFocusEffect } from '@react-navigation/native';
 import { setTransactionData } from '../reduxStore/transactionSlice';
 import { OTPInputField } from '../components/common/OTPInputField';
@@ -166,13 +166,14 @@ const LoginScreen = ({navigation}) => {
                 Toast.success(otpVerificationResponse.success);
                 return setModalSwitch('NewPassword')
             }
+            setModalSwitch('')
             dispatch(setShowCustomModal(false))
             dispatch(setResetData({}))
             Toast.error(otpVerificationResponse.message);
         }
     }
 
-    const handleOnResetNewPassword =()=>{
+    const handleOnResetNewPassword = async ()=>{
         if(!resetPassword.password || !resetPassword.confirmPassword){
             return setResetError('Password and confirm Password is required.')
         } else if (resetPassword.password.length < 6){
@@ -181,6 +182,13 @@ const LoginScreen = ({navigation}) => {
             return setError(['Password and confirm password do not match.'])
         } else {
             setResetError(null)
+            const toSendPasswordData = {...resetData, ...resetPassword}
+            const resetPasswordResponse = await resetNewPassword(toSendPasswordData) 
+            if(resetPasswordResponse.success){
+                Toast.success(resetPasswordResponse.success);
+            } else{
+                Toast.error(resetPasswordResponse.message);
+            }
             dispatch(setShowCustomModal(false))
             setModalSwitch('')
             return setModalContents(resetEmailContents)

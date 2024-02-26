@@ -240,3 +240,20 @@ export const registerUser = async (registerData) => {
     }
   }
 
+  export const resetNewPassword = async(data)=>{
+    try {
+      const verifyOTPResponse = await axios.post(resetPasswordUrl, data)
+      if(verifyOTPResponse.data){
+        return verifyOTPResponse.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return (error.response.data)
+      } else if (error.request) {
+        return ({message:'Something went wrong. Please try again!'});
+      } else {
+        return ({message:'Something went wrong. Please try again!'});
+      }
+    }
+  }
+
