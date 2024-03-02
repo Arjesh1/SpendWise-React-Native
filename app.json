@@ -9,12 +9,14 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "width": 20,
+      "backgroundColor": "#15803d"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "Your camera permission description"
@@ -22,8 +24,9 @@
     },
     "android": {
       "adaptiveIcon": {
+        "versionCode": 1,
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#15803d"
       }
     },
     "web": {

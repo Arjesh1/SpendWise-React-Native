@@ -18,7 +18,6 @@ const Stack = createNativeStackNavigator()
 
 export const Index = () => {
     const [isConnected, setIsConnected] = useState(true)
-    console.log(isConnected)
     const alertMsg = 'Sorry, no internet connectivity detected. Please reconnect and try again'
 
     const noInternetAlert = () =>
