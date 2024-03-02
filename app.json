@@ -27,7 +27,11 @@
         "versionCode": 1,
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#15803d"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.arjeshkhadka.spendwise"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,8 +43,11 @@
           "cameraPermission": "The app accesses your camera."
         }
       ]
-    ]
-
-
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "066e74a6-53fc-4a99-b89e-0e0f6a1090cc"
+      }
+    }
   }
 }
