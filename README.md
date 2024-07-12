@@ -4,6 +4,38 @@
 
 ShoeTrek is a finance management mobile application. This project shows all my kill in mobile application development and my ability to build a strong and responsive user interfaces.
 
+<div align="center">
+   <b>SpendWise Login</b>
+<img  src="./assets/images/LoginPage.jpg" alt="Spendwise Login" />
+</div>
+<br/>
+
+<div align="center">
+   <b>SpendWise Register</b>
+<img  src="./assets/images/RegisterPage.jpg" alt="Spendwise Register" />
+</div>
+<br/>
+
+<div align="center">
+   <b>SpendWise Dashboard</b>
+<img  src="./assets/images/DashboardPage.jpg" alt="Spendwise Dashboard" />
+</div>
+<br/>
+
+<div align="center">
+   <b>SpendWise Add Transaction</b>
+   <img  src="./assets/images/AddTransactionPage.jpg" alt="Spendwise Add Transaction" />
+   <img  src="./assets/images/ExpensesFormPage.jpg" alt="Spendwise Add Expenses Transaction" />
+   <img  src="./assets/images/DatePage.jpg" alt="Spendwise Add Date" />
+</div>
+<br/>
+
+<div align="center">
+   <b>SpendWise Profile</b>
+<img  src="./assets/images/ProfilePage.jpg" alt="Spendwise Profile" />
+</div>
+
+
 ## Technologies Used
 
 I have employed a range of modern technologies to build this project:
