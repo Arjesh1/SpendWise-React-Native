@@ -3,36 +3,31 @@
 ## Overview
 
 ShoeTrek is a finance management mobile application. This project shows all my kill in mobile application development and my ability to build a strong and responsive user interfaces.
-
+   
+<b>SpendWise Login and Register</b>
 <div align="center">
-   <b>SpendWise Login</b>
-<img  src="./assets/images/LoginPage.jpg" alt="Spendwise Login" />
+<img  width = "49%" src="./assets/images/LoginPage.jpg" alt="Spendwise Login" />
+<img  width = "49%" src="./assets/images/RegisterPage.jpg" alt="Spendwise Register" />
 </div>
 <br/>
 
+<b>SpendWise Dashboard</b>
 <div align="center">
-   <b>SpendWise Register</b>
-<img  src="./assets/images/RegisterPage.jpg" alt="Spendwise Register" />
+<img  width = "60%" src="./assets/images/DashboardPage.jpg" alt="Spendwise Dashboard" />
 </div>
 <br/>
 
+<b>SpendWise Add Transaction</b>
 <div align="center">
-   <b>SpendWise Dashboard</b>
-<img  src="./assets/images/DashboardPage.jpg" alt="Spendwise Dashboard" />
+   <img width = "49%"  src="./assets/images/AddTransactionPage.jpg" alt="Spendwise Add Transaction" />
+   <img width = "49%"  src="./assets/images/ExpensesFormPage.jpg" alt="Spendwise Add Expenses Transaction" />
+   <img width = "49%"  src="./assets/images/DatePage.jpg" alt="Spendwise Add Date" />
 </div>
 <br/>
 
+<b>SpendWise Profile</b>
 <div align="center">
-   <b>SpendWise Add Transaction</b>
-   <img  src="./assets/images/AddTransactionPage.jpg" alt="Spendwise Add Transaction" />
-   <img  src="./assets/images/ExpensesFormPage.jpg" alt="Spendwise Add Expenses Transaction" />
-   <img  src="./assets/images/DatePage.jpg" alt="Spendwise Add Date" />
-</div>
-<br/>
-
-<div align="center">
-   <b>SpendWise Profile</b>
-<img  src="./assets/images/ProfilePage.jpg" alt="Spendwise Profile" />
+<img width = "60%" src="./assets/images/ProfilePage.jpg" alt="Spendwise Profile" />
 </div>
 
 
