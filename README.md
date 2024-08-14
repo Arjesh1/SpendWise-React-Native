@@ -2,7 +2,7 @@
 
 ## Overview
 
-ShoeTrek is a finance management mobile application. This project shows all my kill in mobile application development and my ability to build a strong and responsive user interfaces.
+SpendWise is a finance management mobile application. This project shows all my kill in mobile application development and my ability to build a strong and responsive user interfaces.
    
 <b>SpendWise Login and Register</b>
 <div align="center">
